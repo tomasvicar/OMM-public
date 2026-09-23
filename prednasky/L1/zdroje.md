@@ -21,3 +21,27 @@ o datové heatmapy.
 gradientního sestupu z různých startů se počítají skutečně, ne kreslí od oka.
 Jeho první snímek je výsledný stav, aby v PDF nebo v tisku dával smysl i bez
 přehrávání.
+
+## Revize 23. 9. 2026
+
+- Příběh pokus → model → řešení, limit kohoutku a auta a rozsah matematického
+  dodatku vycházejí z místních materiálů autora:
+  `../../MLR/MLR/lectures/L1/index.qmd` a
+  `../../AUI/lectures/bayesian-optimization/index.qmd`
+  (cesty vztažené ke kořeni tohoto repozitáře). Text je adaptovaný pro toto publikum.
+- Mapa předmětu vychází z aktuálního dokumentu
+  `osnova/Harmonogram MPC-EAL 2026_27 2.docx`; čitelný přepis a vyznačení
+  odlišnosti kódu předmětu jsou v `osnova/HARMONOGRAM-2026-27.md`.
+- Nové diagramy `revize-*.svg` počítá a kreslí
+  [`kod/revize_priklady.py`](kod/revize_priklady.py), včetně numerického
+  ověření omezeného optima kohoutku. Matematický dodatek `zaklady-*.svg`
+  generuje [`kod/revize_matematika.py`](kod/revize_matematika.py).
+  Oba moduly spouští hlavní generátor; nejde o převzaté bitmapy.
+- Revize prošla nezávislou oponenturou: byly opraveny záměna neznámého
+  předpisu s neexistencí funkce, podmínky tvrzení o vrcholu LP a značení
+  skalárů a vektorů. Následoval přepočet příkladů a vizuální kontrola renderu.
+
+Druhá nezávislá kontrola na výslovnou žádost autora doplnila opravy
+orientace údolí v poznámkách, vektorů v původních SVG a hranic prázdné
+přípustné množiny. Zavádějící úplné pořadí obtížnosti tříd bylo nahrazeno
+vysvětlením vlivu konvexity, celočíselnosti a ceny vyhodnocení.

@@ -10,4 +10,7 @@ kód odkazovaný ze slidů a z notebooků a v `docs/` web. Materiály přibývaj
 v průběhu semestru — zatím přednášky 1,
 cvičení 1.
 
+Studentské podcasty jsou na stránkách výukových týdnů v `docs/podcasts/`,
+včetně přehrávače a stažení. Nenahrazují přednášku ani cvičení.
+
 Našli jste chybu? Založte issue.

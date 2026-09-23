@@ -118,7 +118,7 @@ def kohoutek_anatomie() -> None:
     ))
     schema.text(6.15, 3.35, "kohoutek", ha="center", va="center", fontsize=12.5,
                 weight="bold", color=MODRA)
-    schema.text(6.15, 2.65, "$x=(q_\\mathrm{t},q_\\mathrm{s})$", ha="center", va="center",
+    schema.text(6.15, 2.65, "$\\mathbf{x}=(q_\\mathrm{t},q_\\mathrm{s})$", ha="center", va="center",
                 fontsize=13, color=TYRKYSOVA)
     schema.add_patch(FancyArrowPatch(
         (7.6, 3.0), (9.0, 3.0), arrowstyle="-|>", mutation_scale=18, linewidth=4,
@@ -149,7 +149,7 @@ def kohoutek_anatomie() -> None:
                  label="$Q(x)=12$ l/min")
     optimum = np.array([12 / (1 + 1 / podil), 12 / (1 + podil)])
     krajina.scatter(*optimum, s=150, marker="*", color=ORANZOVA, edgecolor=MODRA,
-                    linewidth=1.2, zorder=5, label="optimum $x^\\star$")
+                    linewidth=1.2, zorder=5, label="optimum $\\mathbf{x}^\\star$")
     krajina.set(
         xlabel="teplá voda $q_\\mathrm{t}$ [l/min]",
         ylabel="studená voda $q_\\mathrm{s}$ [l/min]",
@@ -190,10 +190,10 @@ def gradient_krajina() -> None:
     prostor.plot(cesta[:, 0], cesta[:, 1], hodnota(cesta[:, 0], cesta[:, 1]) + 0.12,
                  "o-", color=CERVENA, markersize=3.5, linewidth=2, zorder=10)
     prostor.scatter([0], [0], [-3.0], color=ORANZOVA, marker="*", s=150, depthshade=False)
-    prostor.text(-2.5, 2.2, hodnota(-2.2, 1.7) + 1.1, "$x_0$", color=CERVENA,
+    prostor.text(-2.5, 2.2, hodnota(-2.2, 1.7) + 1.1, "$\\mathbf{x}_0$", color=CERVENA,
                  fontsize=13, weight="bold")
     prostor.set(xlabel="$x_1$", ylabel="$x_2$", zlim=(-3.0, zz.max()))
-    prostor.set_zlabel("$f(x)$")
+    prostor.set_zlabel("$f(\\mathbf{x})$")
     prostor.set_zticks([])
     prostor.set_title("krajina účelové funkce", fontsize=11.5, color=MODRA, pad=0)
     prostor.view_init(elev=30, azim=-58)
@@ -222,7 +222,7 @@ def gradient_krajina() -> None:
 
     rovina.plot(cesta[:, 0], cesta[:, 1], "o-", color=ORANZOVA, markersize=5.5,
                 linewidth=2, markeredgecolor="white", markeredgewidth=0.6,
-                label="$x_{k+1}=x_k-\\alpha\\nabla f(x_k)$", zorder=4)
+                label="$\\mathbf{x}_{k+1}=\\mathbf{x}_k-\\alpha\\nabla f(\\mathbf{x}_k)$", zorder=4)
     rovina.scatter([0], [0], marker="*", s=200, color=CERVENA, edgecolor="white",
                    linewidth=1.0, zorder=5)
     rovina.set(xlabel="$x_1$", ylabel="$x_2$", xlim=(-2.4, 2.4), ylim=(-2.0, 2.3), aspect="equal")
@@ -299,7 +299,7 @@ def dimenze() -> None:
             facecolor=SVETLE_MODRA, edgecolor=TYRKYSOVA, linewidth=1.6, zorder=2,
         ))
         mnoho.text(2.0, y0 + 0.4, popisek, ha="center", va="center", fontsize=13, color=MODRA, zorder=3)
-    mnoho.text(3.7, 8.2, "$x$ ∈ ℝ$^n$", fontsize=16, color=MODRA, weight="bold")
+    mnoho.text(3.7, 8.2, "$\\mathbf{x}$ ∈ ℝ$^n$", fontsize=16, color=MODRA, weight="bold")
     mnoho.text(3.7, 6.6, "$n=10^3$ voxelů,\n$n=10^6$ vah sítě", fontsize=11.5, color="#52616b")
 
     mnoho.add_patch(FancyBboxPatch(
@@ -308,7 +308,7 @@ def dimenze() -> None:
     ))
     mnoho.text(5.0, 4.05, "přípustná množina", ha="center", va="center",
                fontsize=11.5, color="#046b71", weight="bold", zorder=3)
-    mnoho.text(5.0, 3.25, "$g_i(x)\\leq0,\\quad h_j(x)=0$", ha="center", va="center",
+    mnoho.text(5.0, 3.25, "$g_i(\\mathbf{x})\\leq0,\\quad h_j(\\mathbf{x})=0$", ha="center", va="center",
                fontsize=14, color=MODRA, zorder=3)
     mnoho.text(5.0, 1.35, "nakreslit ji nelze — přípustnost\njen ověříme dosazením",
                fontsize=12, color=CERVENA, ha="center", weight="bold")
@@ -345,7 +345,7 @@ def lp_pekarna() -> None:
         osa.scatter(*vrchol, s=55, color=MODRA, zorder=4)
     osa.scatter(100, 150, s=170, marker="*", color=CERVENA, edgecolor="white",
                 linewidth=1.0, zorder=5)
-    osa.annotate("$x^\\star=(100,150)$\nzisk 2600 Kč", xy=(100, 150), xytext=(118, 205),
+    osa.annotate("$\\mathbf{x}^\\star=(100,150)$\nzisk 2600 Kč", xy=(100, 150), xytext=(118, 205),
                  arrowprops={"arrowstyle": "->", "color": CERVENA}, color=CERVENA, weight="bold")
     osa.text(14, 118, "přípustná\noblast", color=TYRKYSOVA, weight="bold", fontsize=11, bbox=stitek)
     osa.set(xlabel="chleby $x_1$ [ks/den]", ylabel="bagety $x_2$ [ks/den]",
@@ -636,7 +636,7 @@ def aktivni_omezeni() -> None:
     osa.scatter([5], [4], marker="x", s=110, color="#777777", linewidth=2.5, zorder=4)
     osa.scatter(*optimum, s=100, color=CERVENA, edgecolor="white", linewidth=1.2, zorder=5)
     osa.annotate(
-        "optimum $x^\\star$", xy=optimum, xytext=(0.3, 3.35),
+        "optimum $\\mathbf{x}^\\star$", xy=optimum, xytext=(0.3, 3.35),
         arrowprops={"arrowstyle": "->", "color": CERVENA},
         color=CERVENA, weight="bold", bbox=bily_stitek,
     )
@@ -743,10 +743,10 @@ def typy_reseni() -> None:
     osy[1].plot([-0.75, 0.75], [0, 0], color=CERVENA, linewidth=5)
     osy[1].set_title("Více optim")
 
-    osy[2].axvspan(-2.2, -0.45, color="#b7e4c7", alpha=0.75)
-    osy[2].axvspan(0.45, 2.2, color="#f4bf75", alpha=0.75)
-    osy[2].axvline(-0.45, color=TYRKYSOVA, linewidth=2)
-    osy[2].axvline(0.45, color=ORANZOVA, linewidth=2)
+    osy[2].axvspan(-2.2, -1.0, color="#b7e4c7", alpha=0.75)
+    osy[2].axvspan(1.0, 2.2, color="#f4bf75", alpha=0.75)
+    osy[2].axvline(-1.0, color=TYRKYSOVA, linewidth=2)
+    osy[2].axvline(1.0, color=ORANZOVA, linewidth=2)
     osy[2].text(0, 0.58, "$x\\leq-1$\n a zároveň\n$x\\geq1$", ha="center", va="center", color=MODRA)
     osy[2].set_title("Žádné přípustné řešení")
 
@@ -770,22 +770,20 @@ def typy_reseni() -> None:
 
 
 def mapa_predmetu() -> None:
-    """Mapa třinácti témat předmětu ve čtyřech blocích."""
-    fig, osa = plt.subplots(figsize=(12.5, 5.5))
-    osa.set(xlim=(0, 13), ylim=(0, 6), aspect="equal")
-    osa.axis("off")
-    bloky = [
-        (0.25, 3.25, 4.0, 2.2, "MATEMATICKÉ ZÁKLADY", "1 Úvod\n2 Lineární programování\n3 Nelineární optimalizace a KKT\n4 Gradientní metody", "#d9eef7", TYRKYSOVA),
-        (4.55, 3.25, 4.0, 2.2, "HEURISTIKY A ROJE", "5–7 Evoluční techniky\n8–9 Přírodou inspirované metody", "#fff0d5", ORANZOVA),
-        (8.85, 3.25, 3.9, 2.2, "ROZHODOVÁNÍ", "10 Bayesovská optimalizace\n11 Reinforcement learning", "#e6f4ea", "#3a8a52"),
-        (4.55, 0.35, 4.0, 1.85, "KVANTOVÁ OPTIMALIZACE", "12 Kvantové počítání\n13 Kvantové a hybridní metody", "#eee4f8", "#7550a6"),
+    """Deset výukových termínů podle aktuálního DOCX 2026/27."""
+    fig, ax = plt.subplots(figsize=(12.5, 4.5))
+    ax.set(xlim=(0, 12), ylim=(0, 4.3))
+    ax.axis("off")
+    blocks = [
+        (0.1, 2.3, "FORMULACE A MATEMATIKA", "23. 9.  Úvod a konvexita\n30. 9.  Lineární programování\n7. 10.  Nelineární programování, KKT", TYRKYSOVA),
+        (6.2, 2.3, "OD GRADIENTU K HEURISTIKÁM", "14. 10.  Gradientní a Newtonovy metody\n21. 10.  Nelder–Mead, SA, tabu, CRS, ES", MODRA),
+        (0.1, 0.1, "GENETICKÉ A ROJOVÉ ALGORITMY", "4. 11.  Genetické algoritmy\n11. 11.  Obchodní cestující (TSP)\n18. a 25. 11.  ACO, PSO a rojové algoritmy", "#a06714"),
+        (6.2, 0.1, "CHYTRÝ VÝBĚR DALŠÍHO POKUSU", "2. 12.  Bayesovská optimalizace\nGaussovský proces a akviziční funkce\nNávrat k drahé černé skříňce", "#3a8a52"),
     ]
-    for x0, y0, sirka, vyska, nadpis, obsah, pozadi, okraj in bloky:
-        osa.add_patch(FancyBboxPatch((x0, y0), sirka, vyska, boxstyle="round,pad=0.12,rounding_size=0.16", facecolor=pozadi, edgecolor=okraj, linewidth=2))
-        osa.text(x0 + 0.22, y0 + vyska - 0.42, nadpis, color=okraj, weight="bold", fontsize=12)
-        osa.text(x0 + 0.22, y0 + vyska - 0.78, obsah, color=MODRA, va="top", fontsize=11, linespacing=1.4)
-    for zacatek, konec in [((4.25, 4.35), (4.55, 4.35)), ((8.55, 4.35), (8.85, 4.35)), ((10.8, 3.25), (8.55, 1.3))]:
-        osa.add_patch(FancyArrowPatch(zacatek, konec, arrowstyle="-|>", mutation_scale=16, linewidth=1.8, color=MODRA))
+    for x,y,title,body,color in blocks:
+        ax.add_patch(FancyBboxPatch((x,y),5.6,1.75,boxstyle="round,pad=0.1",facecolor="#f3f6f8",edgecolor=color,lw=2))
+        ax.text(x+.18,y+1.42,title,color=color,weight="bold",fontsize=11)
+        ax.text(x+.18,y+1.12,body,color=MODRA,va="top",fontsize=12,linespacing=1.55)
     fig.tight_layout()
     fig.savefig(OUT / "mapa-predmetu.svg", metadata=SVG_METADATA)
     plt.close(fig)
@@ -829,7 +827,7 @@ def gin_tonic() -> None:
     osa.add_patch(plt.Circle((8.2, 6.55), 0.55, facecolor="#ffe066", edgecolor="#d89b00", linewidth=1.4))
     osa.plot([8.2, 8.2], [6.15, 6.95], color="#f7f2d0", linewidth=2)
     osa.text(6.98, 5.65, "Gin & Tonic", ha="center", fontsize=15, weight="bold", color="#12355b")
-    osa.text(6.98, 4.55, "$T(x)$", ha="center", fontsize=18, color="#12355b")
+    osa.text(6.98, 4.55, "$T(\\mathbf{x})$", ha="center", fontsize=18, color="#12355b")
     osa.add_patch(FancyArrowPatch(
         (6.98, 1.95), (6.98, 0.4), arrowstyle="->",
         mutation_scale=17, linewidth=2, color="#007f86",
@@ -856,3 +854,8 @@ if __name__ == "__main__":
     lokalni_globalni()
     typy_reseni()
     mapa_predmetu()
+
+    from revize_priklady import main as revize_priklady
+    from revize_matematika import main as revize_matematika
+    revize_priklady()
+    revize_matematika()
