@@ -234,7 +234,8 @@ stranka = f"""<!doctype html>
 {styl}
 </style>
 <script>
-window.MathJax = {{ tex: {{ inlineMath: [['$', '$'], ['\\\\(', '\\\\)']] }},
+window.MathJax = {{ chtml: {{ fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2' }},
+                    tex: {{ inlineMath: [['$', '$'], ['\\\\(', '\\\\)']] }},
                     options: {{ skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }} }};
 </script>
 <script>
