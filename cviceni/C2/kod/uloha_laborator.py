@@ -30,8 +30,8 @@ a aby vyšly na celá čísla:
      360 Kč za den, hodina navíc na A nebo C nic — a to i přesto, že A je
      vytížený na 400 ze 420 minut.
   2. **Kterou reagencii doobjednat?** Obě zásoby jsou v optimu vyčerpané, ale
-     nestejně cenné: kazeta na troponin pro analyzátor B ušetří 24 Kč, kazeta
-     na základní biochemii pro analyzátor A jen 10 Kč.
+     nestejně cenné: vzorek zásoby troponinu pro analyzátor B navíc ušetří 24 Kč,
+     vzorek zásoby základní biochemie pro analyzátor A jen 10 Kč.
 
 Poptávka je zapsaná jako `>=` (musí se udělat aspoň všechny došlé vzorky).
 V optimu je splněná s rovností — víc vzorků, než jich přišlo, dělat nikdo
@@ -158,9 +158,9 @@ for i, nazev in enumerate(ANALYZATORY):
 print("  poptavka [Kc za jeden vzorek navic]")
 for j, nazev in enumerate(VYSETRENI):
     print(f"    {nazev:18s} {y_pop[j]:7.2f} Kc/vzorek")
-print("  zasoba reagencii [Kc za jednu kazetu navic]")
+print("  zasoba reagencii [Kc za jeden vzorek zasoby navic]")
 for k, y in zip(ZASOBA, y_zas):
-    print(f"    {POPIS_ZASOBY[k]:18s} {y:7.2f} Kc/kazeta")
+    print(f"    {POPIS_ZASOBY[k]:18s} {y:7.2f} Kc/vzorek")
 
 print("\n=== interpretace ===")
 nej_kap = int(np.argmax(y_kap))
@@ -174,7 +174,7 @@ print(f"Na analyzatorech {' a '.join(ANALYZATORY[i].split()[0] for i in zbytek)}
       f" kazety dosly driv nez minuty, takze cas navic lezi ladem.")
 nej_zas = int(np.argmax(y_zas))
 klic = list(ZASOBA)[nej_zas]
-print(f"Doobjednat se vyplati predevsim {POPIS_ZASOBY[klic]}: kazda dalsi kazeta"
+print(f"Doobjednat se vyplati predevsim {POPIS_ZASOBY[klic]}: kazdy dalsi vzorek zasoby"
       f" usetri {y_zas[nej_zas]:.0f} Kc, u druhe reagencie jen"
       f" {min(y_zas):.0f} Kc.")
 
