@@ -25,6 +25,7 @@ Spuštění z kořene repozitáře:
 """
 
 import matplotlib.pyplot as plt
+plt.rcParams["svg.hashsalt"] = "chuze-po-hranach"   # stejná ID při každém běhu
 import numpy as np
 
 CENA_A, CENA_B = 20.0, 50.0                       # Kc za litr roztoku A a B
@@ -65,11 +66,11 @@ fig, ax = plt.subplots(figsize=(8.6, 5.6))
 ax.add_patch(plt.Polygon(
     [(0, X2_MAX), START, OPT, SOUSED, (X1_MAX, 0), (X1_MAX, X2_MAX)],
     facecolor="#dbeafe", edgecolor="none", zorder=0))
-ax.annotate("pripustna oblast", (2.9, 1.22), ha="center", fontsize=11, color=MODRA)
+ax.annotate("přípustná oblast", (2.9, 1.22), ha="center", fontsize=11, color=MODRA)
 
 xs = np.linspace(-0.1, X1_MAX, 200)
 ax.plot(xs, (POZ_GLU - GLU_A * xs) / GLU_B, color="#b45309", lw=2.2,
-        label=f"glukoza: $50x_1+200x_2={POZ_GLU:.0f}$")
+        label=f"glukóza: $50x_1+200x_2={POZ_GLU:.0f}$")
 ax.plot(xs, POZ_OBJ - xs, color="#7c3aed", lw=2.2,
         label="objem: $x_1+x_2=1{,}5$")
 
@@ -77,7 +78,7 @@ ax.plot(xs, POZ_OBJ - xs, color="#7c3aed", lw=2.2,
 ax.annotate("", xy=OPT, xytext=START,
             arrowprops=dict(arrowstyle="-|>,head_width=0.34,head_length=0.7",
                             lw=3.0, color=ZELENA, shrinkA=13, shrinkB=15))
-ax.annotate("krok 1: po hrane\n75 -> 45 Kc, polepsim si", (0.5, 1.0),
+ax.annotate("krok 1: po hraně\n75 → 45 Kč, polepším si", (0.5, 1.0),
             xytext=(24, 26), textcoords="offset points", ha="left", fontsize=11,
             color=ZELENA, arrowprops=dict(arrowstyle="-", color=ZELENA, lw=0.9))
 
@@ -86,39 +87,39 @@ ax.annotate("", xy=SOUSED, xytext=OPT,
             arrowprops=dict(arrowstyle="-|>,head_width=0.3,head_length=0.6",
                             lw=2.0, ls=(0, (4, 3)), color=SEDA,
                             shrinkA=15, shrinkB=15))
-ax.annotate("kontrola souseda:\n60 Kc > 45 Kc, tedy horsi", (2.0, 0.25),
+ax.annotate("kontrola souseda:\n60 Kč > 45 Kč, tedy horší", (2.0, 0.25),
             xytext=(0, 34), textcoords="offset points", ha="center", fontsize=11,
             color="#6b7280", arrowprops=dict(arrowstyle="-", color=SEDA, lw=0.9))
 
 # --- vrcholy: start, optimum a zamitnuty soused ---
 ax.plot(*START, "o", ms=9, color="#111827", zorder=4)
-ax.annotate(f"START  ({cislo(START[0])}; {cislo(START[1])})\n{cena(*START):.0f} Kc",
+ax.annotate(f"START  ({cislo(START[0])}; {cislo(START[1])})\n{cena(*START):.0f} Kč",
             START, xytext=(12, 6), textcoords="offset points", ha="left",
             fontsize=11, fontweight="bold")
 
 ax.plot(*OPT, "o", ms=9, color="#111827", zorder=4)
 ax.plot(*OPT, "o", ms=15, mfc="none", mec=ZELENA, mew=2.6, zorder=5)
-ax.annotate(f"OPTIMUM  ({cislo(OPT[0])}; {cislo(OPT[1])})\n{cena(*OPT):.0f} Kc", OPT,
+ax.annotate(f"OPTIMUM  ({cislo(OPT[0])}; {cislo(OPT[1])})\n{cena(*OPT):.0f} Kč", OPT,
             xytext=(-18, -30), textcoords="offset points", ha="right", fontsize=11,
             fontweight="bold", color=ZELENA,
             arrowprops=dict(arrowstyle="->", color=ZELENA))
 
 ax.plot(*SOUSED, "o", ms=9, color=SEDA, zorder=4)
 ax.plot(*SOUSED, "x", ms=13, color="#ef4444", mew=2.4, zorder=6)
-ax.annotate(f"({cislo(SOUSED[0])}; {cislo(SOUSED[1])})  {cena(*SOUSED):.0f} Kc\n"
-            "zamitnuto", SOUSED,
+ax.annotate(f"({cislo(SOUSED[0])}; {cislo(SOUSED[1])})  {cena(*SOUSED):.0f} Kč\n"
+            "zamítnuto", SOUSED,
             xytext=(0, 20), textcoords="offset points", ha="center",
             fontsize=10.5, color="#6b7280")
 
 ax.set_xlim(-0.05, X1_MAX)
 ax.set_ylim(-0.12, X2_MAX)
-ax.set_xlabel("roztok A (50 g/l, 20 Kc/l)  $x_1$ [l]")
-ax.set_ylabel("roztok B (200 g/l, 50 Kc/l)  $x_2$ [l]")
-ax.set_title("Simplex neprohledava vsechny vrcholy: jde po hranach\n"
-             "a v kazdem kroku si polepsi", fontsize=13)
+ax.set_xlabel("roztok A (50 g/l, 20 Kč/l)  $x_1$ [l]")
+ax.set_ylabel("roztok B (200 g/l, 50 Kč/l)  $x_2$ [l]")
+ax.set_title("Simplex neprohledává všechny vrcholy: jde po hranách\n"
+             "a v každém kroku si polepší", fontsize=13)
 ax.grid(alpha=0.28)
 ax.legend(loc="upper right", fontsize=10, framealpha=0.95)
 
 fig.tight_layout()
-fig.savefig("cviceni/C2/obrazky/chuze_po_hranach.svg")
+fig.savefig("cviceni/C2/obrazky/chuze_po_hranach.svg", metadata={"Date": None})
 print("obrazek: cviceni/C2/obrazky/chuze_po_hranach.svg")
