@@ -195,14 +195,13 @@ window.MathJax = { chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5
 Na infuzi a plánování sálů si ukážeme i to, kolik přinese jednotka kapacity navíc.</p>
 <p><b>100 minut. Nic se neodevzdává ani neboduje.</b></p>
 <h2>Průběh cvičení</h2>
-<table><tr><th>Čas</th><th>Náplň</th></tr>
-<tr><td>0–5</td><td>Proměnné, cíl a omezení — krátké připomenutí.</td></tr>
-<tr><td>5–25</td><td><a href="#tabule-infuze">Infuze na tabuli:</a> obrázek, tři vrcholy, cena gramu navíc.</td></tr>
-<tr><td>25–45</td><td>Infuze: doplnit model, kontrolu a převod do <code>linprog</code>.</td></tr>
-<tr><td>45–50</td><td><a href="#matice">Matice:</a> krátká společná ukázka větší úlohy.</td></tr>
-<tr><td>50–80</td><td><a href="#saly">Samostatně: sály.</a> Formulace, řešení, kontrola a nabídka hodiny navíc.</td></tr>
-<tr><td>80–95</td><td><a href="#praporek">Najděte chybu</a> v hotovém modelu.</td></tr>
-<tr><td>95–100</td><td>Společné shrnutí a rezerva na dotazy.</td></tr></table>
+<ol><li>Proměnné, cíl a omezení — krátké připomenutí.</li>
+<li><a href="#tabule-infuze">Infuze na tabuli:</a> obrázek, tři vrcholy, cena gramu navíc.</li>
+<li>Infuze: doplnit model, kontrolu a převod do <code>linprog</code>.</li>
+<li><a href="#matice">Matice:</a> krátká společná ukázka větší úlohy.</li>
+<li><a href="#saly">Samostatně: sály.</a> Formulace, řešení, kontrola a nabídka hodiny navíc.</li>
+<li><a href="#praporek">Najděte chybu</a> v hotovém modelu.</li>
+<li>Společné shrnutí a rezerva na dotazy.</li></ol>
 <h2>Notebooky</h2>
 <p><a class="odkaz-colab" href="https://colab.research.google.com/github/tomasvicar/OMM-public/blob/master/cviceni/C2/notebooks/infuze.ipynb" target="_blank" rel="noopener">▶ Otevřít notebook infuze v Colabu</a></p><p><a class="odkaz-colab" href="https://colab.research.google.com/github/tomasvicar/OMM-public/blob/master/cviceni/C2/notebooks/saly.ipynb" target="_blank" rel="noopener">▶ Otevřít notebook saly v Colabu</a></p><p><a class="odkaz-colab" href="https://colab.research.google.com/github/tomasvicar/OMM-public/blob/master/cviceni/C2/notebooks/praporek.ipynb" target="_blank" rel="noopener">▶ Otevřít notebook praporek v Colabu</a></p>
 <p>Maticovou ukázku otevře vyučující ze záložky <a href="#matice">Matice</a>.</p>
@@ -279,7 +278,7 @@ Pak zobrazte vrstevnice ceny a spočítejte optimum.</p>
 <p>Změňte požadavek ze 150 na 151 g. Znovu vyřešte průsečík s objemem 1,5 l
  a porovnejte cenu. Rozdíl na gram je <b>stínová cena</b>.</p>
 
-<h2>Stejná úloha v Pythonu · 20 min</h2>
+<h2>Stejná úloha v Pythonu</h2>
 <p>Doplňte model v CVXPY, spusťte ho a zkontrolujte výsledek.
 Na konci společně přečteme hotovou ukázku <code>linprog</code>:
 pro zápis „nejvýš“ se obě strany našich nerovnic násobí −1.</p>
@@ -674,7 +673,7 @@ draslík a objem. Pro každý použijeme správný směr omezení, u objemu rovn
 </section><section class="ukazka" id="saly" hidden>
 <header><span class="stitek">MPC-OMM · cvičení 2</span><h1>Samostatná úloha: operační sály</h1></header>
 
-<p class="perex">30 minut včetně společné diskuse. Sestavte model, vyřešte ho a obhajte rozhodnutí.</p>
+<p class="perex">Sestavte model, vyřešte ho a obhajte rozhodnutí.</p>
 <h2>Zadání</h2>
 <p>Oddělení plánuje počty náhrad kyčle ($x_1$) a kolene ($x_2$) za týden.
 Jak při daných kapacitách dosáhnout největší marže? Data jsou výuková.</p>
@@ -704,7 +703,7 @@ Skutečný operační plán by vyžadoval celá čísla.</p>
 </section><section class="ukazka" id="praporek" hidden>
 <header><span class="stitek">MPC-OMM · cvičení 2</span><h1>Najděte chybu v hotovém modelu</h1></header>
 
-<p class="perex">15 minut. Model hlásí <code>optimal</code> a projde vlastní kontrolou.
+<p class="perex">Model hlásí <code>optimal</code> a projde vlastní kontrolou.
 Přesto nesplňuje úplné zadání v notebooku.</p>
 <h2>Úkol</h2>
 <ol><li>Spusťte připravený model.</li><li>Porovnejte výsledek s tabulkou požadavků v notebooku.
