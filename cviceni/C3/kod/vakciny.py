@@ -13,13 +13,12 @@ tisic osob, vic davek nez lidi okresu nedame.
                x_i >= 0                   (nezapornost, mu_i^nula)
 
 -> x* = (10; 11,57; 8,43; 0), odvraceno 312,44, mu_D = 70/22 = 3,18.
-Stacionarita po slozkach: a_i/(1 + x_i) = mu_D + mu_i^strop - mu_i^nula
-("vodni hladina": kazdy okres dostava, dokud jeho mezni prinos neklesne na mu_D).
+Stacionarita po slozkach: a_i/(1 + x_i) = mu_D + mu_i^strop - mu_i^nula.
 Okresy se v textu cisluji 1-4 (Mesto ... Hory), v Pythonu jsou na indexech 0-3;
 multiplikator dodavky je mu_D.
 
-Skript je jediny zdroj cisel pro report, notebook a obrazky
-cviceni/C3/obrazky/vakciny-hladina.svg a vakciny-dodavka.svg.
+Skript je jediny zdroj cisel pro report, notebook a obrazek
+cviceni/C3/obrazky/vakciny-dodavka.svg.
 """
 
 from pathlib import Path
@@ -28,11 +27,9 @@ import cvxpy as cp
 import matplotlib.pyplot as plt
 import numpy as np
 
-JMENA = ["Město", "Průmysl", "Venkov", "Hory"]
 A = np.array([60.0, 40.0, 30.0, 3.0])        # hospitalizace na jednotku ln(1 + x)
 N = np.array([10.0, 12.0, 18.0, 6.0])        # rizikova populace [tis. osob]
 DODAVKA = 30.0                               # [tis. davek]
-BARVY = ["#007f86", "#b45309", "#7c3aed", "#6b7280"]
 OBRAZKY = Path("cviceni/C3/obrazky")
 SVG = {"Date": None}
 plt.rcParams["svg.hashsalt"] = "mpc-omm-c3-vakciny"
@@ -58,9 +55,8 @@ def vyres(dodavka=DODAVKA, strop=True, minimum=0.0, rovnost=False):
     return (x.value, uloha.value, float(rozpocet.dual_value), mu_strop, om_nula.dual_value), uloha.status
 
 
-def hladina(dodavka: float):
-    """Totez analyticky (vodni hladina): x_i = clip(a_i/mu_D - 1, 0, n_i), mu_D bisekci.
-    Stejny algoritmus bezi v JS hristi reportu."""
+def rozdeleni(dodavka: float):
+    """Totez analyticky ze stacionarity: x_i = clip(a_i/mu_D - 1, 0, n_i), mu_D bisekci."""
     if dodavka >= N.sum():
         return N.copy(), 0.0
     lo, hi = 1e-9, A.max()
@@ -78,53 +74,11 @@ def odvraceno(x) -> float:
     return float(A @ np.log(1 + np.asarray(x)))
 
 
-def obrazek_hladina(x, mu_D):
-    fig, (o1, o2) = plt.subplots(1, 2, figsize=(11, 4.4), gridspec_kw={"width_ratios": (1.35, 1)})
-    for i in range(4):
-        h = np.linspace(0, N[i], 200)
-        o1.plot(h, A[i] / (1 + h), color=BARVY[i], lw=2.2, label=JMENA[i])
-        o1.plot([N[i]], [A[i] / (1 + N[i])], "|", ms=12, mew=2, color=BARVY[i])
-        o1.plot([x[i]], [A[i] / (1 + x[i])], "o", ms=9, color=BARVY[i], mec="white", zorder=5)
-    o1.axhline(mu_D, color="#c73e1d", ls="--", lw=1.6)
-    o1.text(17.9, mu_D + 0.2, f"hladina $\\mu_D$ = {c(mu_D)}", ha="right", va="bottom", color="#c73e1d")
-    o1.annotate(f"Město: na stropu 10 tis.\nmezní přínos {c(A[0] / 11)} > $\\mu_D$\n$\\mu_1^{{\\mathrm{{strop}}}}$ = {c(A[0] / 11 - mu_D)}",
-                (10, A[0] / 11), xytext=(11.2, 7.3), fontsize=9.5, color=BARVY[0],
-                arrowprops=dict(arrowstyle="-", color=BARVY[0], lw=0.8))
-    o1.annotate(f"Hory: na nule\nmezní přínos {c(A[3])} < $\\mu_D$\n$\\mu_4^{{\\mathrm{{nula}}}}$ = {c(mu_D - A[3])}",
-                (0, A[3]), xytext=(3.0, 1.35), fontsize=9.5, color="#374151",
-                arrowprops=dict(arrowstyle="-", color="#6b7280", lw=0.8))
-    o1.text(10.5, 4.25, "Průmysl a Venkov: uvnitř,\nmezní přínos = $\\mu_D$", fontsize=9.5, color="#374151")
-    o1.set_xlim(0, 18.3)
-    o1.set_xticks(range(0, 19, 2))
-    o1.set_ylim(0, 12)
-    o1.set_xlabel("dávky v okrese [tis.]")
-    o1.set_ylabel("přínos další tisícovky dávek\n[odvrácené hospitalizace]")
-    o1.set_title("Mezní přínos $a_i/(1+x_i)$ a vodní hladina $\\mu_D$", fontsize=11)
-    o1.legend(loc="upper right", fontsize=9, framealpha=0.95)
-    o1.grid(alpha=0.25)
-
-    poz = np.arange(4)
-    o2.bar(poz, N, color="#eef2f5", edgecolor="#9ca3af", label="strop = riziková populace")
-    o2.bar(poz, x, width=0.55, color=BARVY, label="optimum")
-    for i in range(4):
-        o2.text(i, x[i] + 0.35, c(x[i]), ha="center", fontsize=10, fontweight="bold", color=BARVY[i])
-    o2.set_xticks(poz, JMENA)
-    o2.set_ylabel("tisíce dávek")
-    o2.set_ylim(0, 20)
-    o2.set_yticks(range(0, 21, 5))
-    o2.set_title(f"Rozdělení 30 tis. dávek, odvráceno {c(odvraceno(x))}", fontsize=11)
-    o2.legend(loc="upper left", fontsize=9, frameon=False)
-    o2.grid(axis="y", alpha=0.25)
-    fig.tight_layout()
-    fig.savefig(OBRAZKY / "vakciny-hladina.svg", metadata=SVG, bbox_inches="tight")
-    plt.close(fig)
-
-
 def obrazek_dodavka(mu_D_30, f30):
     s = np.linspace(0, 60, 601)
-    f = np.array([odvraceno(hladina(v)[0]) for v in s])
-    mu_D = np.array([hladina(v)[1] for v in s])
-    f40 = odvraceno(hladina(40)[0])
+    f = np.array([odvraceno(rozdeleni(v)[0]) for v in s])
+    mu_D = np.array([rozdeleni(v)[1] for v in s])
+    f40 = odvraceno(rozdeleni(40)[0])
     fig, (o1, o2) = plt.subplots(1, 2, figsize=(11, 4.0))
     o1.plot(s, f, color="#007f86", lw=2.2, label="optimum pro danou dodávku")
     t = np.array([18, 48])
@@ -173,8 +127,8 @@ if __name__ == "__main__":
     print(f"  mezni prinosy a_i/(1+x_i) = {np.round(mezni, 4)}")
     print(f"  stacionarita a/(1+x) - mu_D - mu_s + mu_n = {np.round(mezni - mu_D - mu_s + mu_n, 6)}")
     print(f"  Prumysl+Venkov: 70/mu_D - 2 = {70 / mu_D - 2:.4f} = 30 - 10; x2 = 40/mu_D - 1 = {40 / mu_D - 1:.4f}")
-    xa, nua = hladina(DODAVKA)
-    print(f"  vodni hladina analyticky: x = {np.round(xa, 4)}, mu_D = {nua:.4f}")
+    xa, nua = rozdeleni(DODAVKA)
+    print(f"  analyticky ze stacionarity: x = {np.round(xa, 4)}, mu_D = {nua:.4f}")
 
     print("\nCO PRINESE DODAVKA NAVIC")
     for d in (31, 35, 40):
@@ -230,15 +184,14 @@ if __name__ == "__main__":
     u2.solve(solver=cp.CLARABEL)
     print(f"  aspon 20 % populace: x = {np.round(x2.value, 3)}, odvraceno {u2.value:.4f}, cena {f - u2.value:.4f}")
 
-    print("\nHRISTE: vodni hladina pro ruzne dodavky (kontrola JS)")
+    print("\nRUZNE DODAVKY")
     for d in (0, 5, 10, 20, 30, 40, 45, 46, 50, 60):
-        xd, nd = hladina(d)
+        xd, nd = rozdeleni(d)
         print(f"  {d:2d} tis.: x = {np.round(xd, 2)}, mu_D = {nd:.3f}, odvraceno {odvraceno(xd):.2f}")
     # zlomove dodavky: kdy se zmeni aktivni mnozina (mu_D projde a_i/(1+n_i) nebo a_i)
     zlomy = sorted(set(np.r_[A / (1 + N), A]))
     print("  zlomy (mu_D -> dodavka):", ", ".join(
         f"mu_D={z:.3f}: {np.clip(A / z - 1, 0, N).sum():.2f}" for z in zlomy))
 
-    obrazek_hladina(x, mu_D)
     obrazek_dodavka(mu_D, f)
-    print(f"\nobrazky: {OBRAZKY}/vakciny-hladina.svg, {OBRAZKY}/vakciny-dodavka.svg")
+    print(f"\nobrazek: {OBRAZKY}/vakciny-dodavka.svg")

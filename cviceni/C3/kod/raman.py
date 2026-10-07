@@ -18,17 +18,12 @@ sum(i * mu_i) = sum(i) = 44 850 (indexy 0..299) -- pro kazde alfa.
 Multiplikatory jsou nenulove jen v bodech dotyku (komplementarita).
 
 Skript je jediny zdroj cisel pro report raman.html, notebook raman.ipynb
-a obrazky raman-*.svg. Navic predpocita hriste: pozadi pro alfa = 10^1 az
-10^7 po pul dekade, s omezenim i bez nej (obycejne vyhlazeni nejmensimi
-ctverci  ||y - z||^2 + alfa ||D2 z||^2), a vlozi je jako JSON do reportu
-mezi znacky <!-- raman-data:zacatek --> a <!-- raman-data:konec -->.
+a obrazky raman-*.svg.
 
 Vaha hladkosti se jmenuje alfa (jako u ridge v prednasce), ne lambda: lambda je
 ve cviceni multiplikator rovnosti. Pozadi je z, protoze b je v praporku vektor dat.
 """
 
-import json
-import re
 from pathlib import Path
 
 import cvxpy as cp
@@ -36,7 +31,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 OBRAZKY = Path("cviceni/C3/obrazky")
-REPORT = Path("cviceni/C3/reporty/raman.html")
 SVG = {"Date": None}
 plt.rcParams.update({"svg.hashsalt": "mpc-omm-c3-raman", "svg.fonttype": "path",
                      "font.size": 10})
@@ -46,7 +40,6 @@ N = 300
 ALFA = 1e4
 PIKY = [(1003, 4.0, 8), (1250, 1.5, 25), (1450, 2.5, 15), (1660, 2.0, 20)]  # stred, vyska, sigma
 PRAH_MU = 0.1        # dotyk = multiplikator nad prahem (mezera mezi 0,02 a 1,2 pri alfa = 1e4)
-EXPONENTY = np.arange(1.0, 7.01, 0.5)   # hriste: alfa = 10^1 ... 10^7
 
 
 def data():
@@ -167,50 +160,6 @@ def obrazek_alfa():
     plt.close(fig)
 
 
-# -------------------------------------------------------------- hriste ----
-def predpocet():
-    """Pozadi pro radu alfa, s omezenim i bez nej, zaokrouhlene na 4 mista."""
-    varianty = []
-    for e in EXPONENTY:
-        alfa = 10.0 ** e
-        z, mu = pod_signalem(alfa)
-        q = bez_omezeni(alfa)
-        d = np.flatnonzero(mu > PRAH_MU)
-        varianty.append({
-            "exp": float(e),
-            "s": {"z": np.round(z, 4).tolist(), "dotyky": d.tolist(),
-                  "rmse": round(rmse(z), 4), "vysky": np.round(vysky(z), 4).tolist(),
-                  "sumMu": round(float(mu.sum()), 3)},
-            "bez": {"z": np.round(q, 4).tolist(), "rmse": round(rmse(q), 4),
-                    "vysky": np.round(vysky(q), 4).tolist()},
-        })
-        print(f"  10^{e:.1f}: s omezenim RMSE {rmse(z):.3f}, dotyku {len(d):3d}, "
-              f"sum mu {mu.sum():.3f}, vysky {np.round(vysky(z), 2)} | bez: RMSE {rmse(q):.3f}, "
-              f"zapornych {np.mean(Y - q < 0):.0%}, min {np.min(Y - q):.2f}, "
-              f"vysky {np.round(vysky(q), 2)}")
-    return {
-        "v": np.round(V, 2).tolist(), "y": np.round(Y, 4).tolist(),
-        "pravda": np.round(POZADI_PRAVDA, 4).tolist(), "piky": [list(p) for p in PIKY],
-        "indexyPiku": INDEXY_PIKU, "prahMu": PRAH_MU, "varianty": varianty,
-    }
-
-
-def vloz_do_reportu(obsah: dict):
-    """Prepise JSON mezi znackami v reportu (report jinak pise clovek)."""
-    if not REPORT.exists():
-        print(f"report {REPORT} neexistuje, JSON nevlozen")
-        return
-    html = REPORT.read_text(encoding="utf-8")
-    blok = ('<!-- raman-data:zacatek -->\n<script type="application/json" id="raman-data">'
-            + json.dumps(obsah, separators=(",", ":")) + "</script>\n<!-- raman-data:konec -->")
-    novy, pocet = re.subn(r"<!-- raman-data:zacatek -->.*?<!-- raman-data:konec -->",
-                          lambda _: blok, html, flags=re.S)
-    if pocet != 1:
-        raise SystemExit("v reportu chybi znacky <!-- raman-data:zacatek/konec -->")
-    REPORT.write_text(novy, encoding="utf-8")
-    print(f"JSON pro hriste vlozen do {REPORT} ({len(blok) / 1024:.0f} kB)")
-
-
 if __name__ == "__main__":
     z, mu = pod_signalem()
     dotyky = np.flatnonzero(mu > PRAH_MU)
@@ -232,16 +181,18 @@ if __name__ == "__main__":
           f"{sum(np.any(np.abs(V[dotyky] - s) < 2 * sg) for s, _, sg in PIKY)} piku ma dotyk")
 
     q = bez_omezeni()
+    print("\njine vahy alfa (do reportu: Navic k reseni, Otazky do salu):")
+    for e in (2, 3, 4, 4.5, 5, 5.5, 6):
+        ze, mue = pod_signalem(10.0 ** e)
+        print(f"  10^{e:g}: RMSE {rmse(ze):.3f}, dotyku {np.sum(mue > PRAH_MU)}, "
+              f"vysky {np.round(vysky(ze), 2)}, sum mu {mue.sum():.1f}")
+
     print(f"bez omezeni (LS vyhlazeni), alfa = 1e4: RMSE {rmse(q):.3f}, "
           f"zapornych {np.mean(Y - q < 0):.0%} bodu, min(y - z) {np.min(Y - q):.2f}, "
           f"vysky {np.round(vysky(q), 2)}")
-
-    print("\nhriste (predpocet):")
-    obsah = predpocet()
 
     OBRAZKY.mkdir(parents=True, exist_ok=True)
     obrazek_pozadi(z, mu, dotyky)
     obrazek_korigovane(z)
     obrazek_alfa()
     print("\nobrazky: raman-pozadi.svg, raman-korigovane.svg, raman-alfa.svg")
-    vloz_do_reportu(obsah)
