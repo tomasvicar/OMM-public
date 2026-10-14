@@ -600,7 +600,7 @@ když $\lVert\nabla f\rVert &lt; 10^{-6}$. Studenti doplní tři funkce <code>gr
 a předají je stejnému <code>gd</code>. Kód má potvrdit čísla z tabule a z teorie:</p>
 <ul>
 <li>v bodě $(1;\ 1)$ je $\nabla f = (-2;\ -2)$ u všech tří cest (na tabuli vyšel analyticky);</li>
-<li>dva kroky s $\alpha = 0{,}1$ vedou do $(1{,}2;\ 1{,}2)$ a $(1{,}2944;\ 1{,}3344)$;</li>
+<li>dva kroky s $\alpha = 0{,}1$ vedou do stejných bodů jako na tabuli;</li>
 <li>GD s $\alpha = 0{,}1$ dojde do $(1;\ 2)$ se všemi třemi gradienty stejně. Za kolik iterací? Porovnejte s tipem z tabule.</li>
 </ul>
 <p><a class="odkaz-colab" href="https://colab.research.google.com/github/tomasvicar/OMM-public/blob/master/cviceni/C4/notebooks/gradienty.ipynb" target="_blank" rel="noopener">▶ Otevřít notebook gradienty v Colabu</a></p>
@@ -613,8 +613,9 @@ i pro tenzor PyTorch. To se bude hodit u autogradu.</li>
 v každé centrální diference
 $\dfrac{\partial f}{\partial x_i}\approx\dfrac{f(\mathbf x+h\mathbf e_i)-f(\mathbf x-h\mathbf e_i)}{2h}$
 s $h = 10^{-5}$. Na jeden gradient padne $2n$ vyhodnocení $f$.</li>
-<li><b>Díra 2, analytický gradient.</b> Opsat vzorec z tabule,
-$\nabla f = \bigl(2(x_1-1)+2(x_1x_2-2)\,x_2;\ 2(x_1x_2-2)\,x_1\bigr)$.</li>
+<li><b>Díra 2, analytický gradient.</b> Opsat vzorec z tabule.
+<details><summary>Vzorec (otevřít až po tabuli)</summary>
+$\nabla f = \bigl(2(x_1-1)+2(x_1x_2-2)\,x_2;\ 2(x_1x_2-2)\,x_1\bigr)$</details></li>
 <li><b>Díra 3, autograd.</b> Vytvořit tenzor s <code>requires_grad=True</code>,
 spočítat <code>f</code>, zavolat <code>backward()</code> a vrátit <code>.grad</code>.
 To jsou přesně uzly a zpětný průchod z teorie, jen je počítá PyTorch.</li>
@@ -624,7 +625,8 @@ na vrstevnicích. Když assert spadne, chyba je v díře, ne v <code>gd</code>.<
 <li><b>Pokus.</b> Zkusit $\alpha = 0{,}2$ a porovnat s tipem z tabule.
 <details><summary>Co vyjde (otevřít až po vlastním běhu)</summary>
 Sestup do minima nedojde: ani po 20 000 iteracích se nezastaví a
-$f$ zůstane kolem 0,244. Proč, to dnes neřešíme, stačí to vidět.</details></li>
+přeskakuje údolí tam a zpět mezi $(0{,}90;\ 1{,}68)$ a $(1{,}27;\ 1{,}85)$,
+$f$ střídavě 0,244 a 0,191. Proč, to dnes neřešíme, stačí to vidět.</details></li>
 <li><b>Část 2, cena gradientu.</b> Stejné dvě funkce <code>grad_numericky</code>
 a <code>grad_autograd</code> dostanou funkci s $n$ proměnnými. Buňka změří čas
 jednoho gradientu pro $n$ = 10 až 10 000 a nakreslí graf.</li>
@@ -833,7 +835,7 @@ startů a vzít tu s nejmenší MSE.</p>
 <tr><td class="cislo">180°</td><td class="cislo">150,00°</td><td class="cislo">0,000399</td><td><b>globální</b></td></tr>
 <tr><td class="cislo">270°</td><td class="cislo">318,77°</td><td class="cislo">0,0193</td><td>lokální minimum</td></tr>
 </table>
-<p>Dva starty ze čtyř trefí správné údolí, a o výběru rozhodne prostě nejmenší MSE.
+<p>Start 270° skončí v ještě jiném lokálním minimu (318,77°): údolí, ve kterých gradient uvízne, může být víc. Dva starty ze čtyř trefí správné údolí, a o výběru rozhodne prostě nejmenší MSE.
 Profesionální nástroje navíc registrují nejdřív rozmazané a zmenšené snímky
 (<i>coarse-to-fine</i>), kde je údolí globálního minima širší.</p>
 </details>
