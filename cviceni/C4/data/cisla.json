@@ -1,0 +1,201 @@
+{
+ "funkce": {
+  "bod": [
+   1.0,
+   1.0
+  ],
+  "f": 1.0,
+  "analyticky": [
+   -2.0,
+   -2.0
+  ],
+  "centralni_h01": [
+   -2.0,
+   -2.0
+  ],
+  "dopredna_h01": [
+   -1.8,
+   -1.9
+  ],
+  "autograd": [
+   -2.0,
+   -2.0
+  ],
+  "uzly_dopredu": {
+   "a": 1.0,
+   "r": -1.0,
+   "q": 0.0,
+   "f": 1.0
+  },
+  "uzly_zpet": {
+   "df/df": 1.0,
+   "df/dr": -2.0,
+   "df/dq": 0.0,
+   "df/da": -2.0,
+   "df/dx1": -2.0,
+   "df/dx2": -2.0
+  },
+  "krok_alfa01": {
+   "x": [
+    1.2,
+    1.2
+   ],
+   "f": 0.3536
+  },
+  "kroky_alfa01": [
+   {
+    "x": [
+     1.0,
+     1.0
+    ],
+    "f": 1.0,
+    "grad": [
+     -2.0,
+     -2.0
+    ]
+   },
+   {
+    "x": [
+     1.2,
+     1.2
+    ],
+    "f": 0.3536,
+    "grad": [
+     -0.944,
+     -1.344
+    ]
+   },
+   {
+    "x": [
+     1.2944,
+     1.3344
+    ],
+    "f": 0.161065,
+    "grad": [
+     -0.139122,
+     -0.706102
+    ]
+   },
+   {
+    "x": [
+     1.308312,
+     1.40501
+    ],
+    "f": 0.121238,
+    "grad": [
+     0.161941,
+     -0.423391
+    ]
+   }
+  ]
+ },
+ "gd_z_bodu_1_1": {
+  "0.02": {
+   "iteraci": 1726,
+   "x": [
+    1.000001,
+    1.999997
+   ],
+   "f": 1.453917574039864e-12
+  },
+  "0.1": {
+   "iteraci": 340,
+   "x": [
+    1.000001,
+    1.999997
+   ],
+   "f": 1.439289853135773e-12
+  },
+  "0.2": {
+   "iteraci": 20000,
+   "x": [
+    0.90446,
+    1.675511
+   ],
+   "f": 0.2439329608719426
+  }
+ },
+ "registrace": {
+  "obraz": "mri-128.png",
+  "sum_sigma": 0.02,
+  "seed": 0,
+  "pravda": {
+   "tx": 0.1,
+   "ty": -0.06,
+   "theta_stupne": 12,
+   "tx_px": 6.4,
+   "ty_px": -3.84
+  },
+  "kroku": 300,
+  "lr": 0.02,
+  "start": [
+   0,
+   0,
+   0
+  ],
+  "vysledek": {
+   "tx": 0.1,
+   "ty": -0.06,
+   "theta_stupne": 12.0
+  },
+  "mse": 0.000403
+ },
+ "registrace_past": {
+  "pravda_theta_stupne": 150,
+  "z_nuly": {
+   "tx": -0.0868,
+   "ty": 0.0473,
+   "theta_stupne": -29.88,
+   "mse": 0.018071
+  },
+  "multistart": [
+   {
+    "start_stupne": 0,
+    "theta_stupne": 330.12,
+    "mse": 0.018071
+   },
+   {
+    "start_stupne": 90,
+    "theta_stupne": 150.0,
+    "mse": 0.000399
+   },
+   {
+    "start_stupne": 180,
+    "theta_stupne": 150.0,
+    "mse": 0.000399
+   },
+   {
+    "start_stupne": 270,
+    "theta_stupne": 318.77,
+    "mse": 0.01931
+   }
+  ]
+ },
+ "ct": {
+  "obraz": "ct-128.png",
+  "pixelu": 16384,
+  "kroku": 300,
+  "lr": 0.05,
+  "omezeni": "po kazdem kroku clamp na <0, 1>",
+  "rmse_definice": "uvnitr kruhu vepsaneho do obrazu",
+  "zakladni": {
+   "uhlu": 60,
+   "rmse": 0.0331
+  },
+  "malo_uhlu": {
+   "uhlu": 12,
+   "rmse": 0.078
+  },
+  "sum": {
+   "uhlu": 60,
+   "sigma": 1.0,
+   "tv": {
+    "0.0": 0.0735,
+    "0.001": 0.0567,
+    "0.004": 0.0688,
+    "0.01": 0.088
+   }
+  },
+  "numericky_gradient_projekci": 32768
+ }
+}
