@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>B02 – Obraz z průhledných trojúhelníků (bonus)</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style>
+
+:root {
+--text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+--ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; } 
+.box {
+background: var(--box); border-left: 4px solid var(--akcent);
+padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; } 
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+.anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+.pro-vyucujiciho {
+border-left: 4px solid var(--akcent2); background: #fdf6f4;
+padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; } 
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+body { overflow-wrap: break-word; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+pre { overflow-x: auto; max-width: 100%; }
+code { overflow-wrap: anywhere; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 600px) { body { padding: 1.2rem 1rem 3rem; } }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml.js"></script>
+</head>
+<body>
+<a class="zpet" href="../bonusy.html">← bonusové úlohy</a>
+<h1 id="b02-obraz-z-průhledných-trojúhelníků-bonus">B02 – Obraz z
+průhledných trojúhelníků (bonus)</h1>
+<p><strong>Bonusová úloha · 2 body nad 30 bodů projektu · tým smí získat
+nejvýš 2 bonusy · data: <a href="data-B02.zip">data-B02.zip</a></strong></p>
+<p>Roger Alsing v roce 2008 „vyvinul“ Monu Lisu z padesáti průhledných
+mnohoúhelníků. Zkuste totéž s fotografií Charlese Darwina (Julia
+Margaret Cameron, 1868): na začátku barevná mlha, po tisících pokusů se
+vynoří čelo, vousy a tmavý kabát. Variace a výběr – Darwin by
+souhlasil.</p>
+<h2 id="co-potřebujete-vědět">Co potřebujete vědět</h2>
+<p><strong>Obraz z trojúhelníků.</strong> Na plátno v průměrné barvě
+cíle se postupně kreslí <span class="math inline">\(N\)</span>
+trojúhelníků (třeba 100). Každý má tři vrcholy, barvu RGB a průhlednost
+<span class="math inline">\(\alpha \in [0, 1]\)</span> a s plátnem se
+smíchá jako <span class="math inline">\(c_{new} = \alpha\, c_{tri} +
+(1-\alpha)\, c_{old}\)</span>, takže na pořadí záleží. Celé řešení je
+vektor zhruba tisíce čísel a gradient k němu nemáte.</p>
+<p><strong>Chyba.</strong> Střední kvadratická odchylka (MSE) přes
+pixely a barevné kanály, dělená chybou jednobarevného plátna: <span class="math inline">\(E_{rel} = \mathrm{MSE}(\text{image}) /
+\mathrm{MSE}(\text{background})\)</span>. Hodnota 1 = nic lepšího než
+jedna barva, 0 = dokonalá kopie. Počítá se na zmenšenině 64 × 86 px, je
+to rychlé (pod milisekundu).</p>
+<figure>
+<img role="img" aria-label="Kam se dá dojít" src="B02.gif" alt="Kam se dá dojít" />
+<figcaption aria-hidden="true">Kam se dá dojít</figcaption>
+</figure>
+<p><em>Ukázka z našeho pokusu, ne laťka: jedna z jednodušších metod po
+50 000 vyhodnoceních chyby. Vaše cesta může vypadat úplně
+jinak.</em></p>
+<h2 id="co-dostanete">Co dostanete</h2>
+<ul>
+<li><code>darwin.png</code> – hlavní cíl; <code>cajal-purkyne.png</code>
+– Cajalova kresba Purkyňových buněk pro zvědavé. Zdroj a licence v
+<code>README.txt</code>.</li>
+<li><code>ukaz_start.py</code> – krátký skript, kde je hotové vykreslení
+trojúhelníků (<code>vykresli</code>) a výpočet chyby
+(<code>chyba</code>). Ukáže cíl vedle jednobarevného plátna a vedle 100
+náhodných trojúhelníků s vypsanou <span class="math inline">\(E_{rel}\)</span> a uloží <code>start.png</code>.
+Odtud začněte – optimalizace v něm není.</li>
+</ul>
+<h2 id="s-čím-si-pohrát">S čím si pohrát</h2>
+<ul>
+<li>Co se stane, když v jednom kroku změníte všechna čísla naráz, a co
+když jen jeden trojúhelník? Proč je takový rozdíl?</li>
+<li>Vyplatí se populace a křížení dvou obrazů, nebo stačí vylepšovat
+jedno řešení? A co občas přijmout horší krok?</li>
+<li>Jak začít: náhodně, prázdným plátnem, nebo trojúhelníky přidávat
+postupně? A jakou barvu dát novému trojúhelníku?</li>
+<li>Kolik trojúhelníků je potřeba, aby to byl poznatelně Darwin? A kolik
+už nic nepřidá?</li>
+<li>Odpovídá <span class="math inline">\(E_{rel}\)</span> tomu, co vidí
+oko? Najdete dva výsledky s podobnou chybou, z nichž jeden vypadá zjevně
+lépe?</li>
+<li>Jiný obraz, jiné tvary (elipsy, tahy štětcem), jiná míra podobnosti
+– a proč se Cajalovy tenké čáry skládají tak špatně?</li>
+<li>Jak udělat animaci, na kterou se chce koukat?</li>
+</ul>
+<h2 id="za-body">Za body</h2>
+<p>Do složky <code>bonus-B02/</code> vašeho repozitáře, spustitelné
+jedním příkazem:</p>
+<ul>
+<li>vlastní optimalizace, která počáteční stav z
+<code>ukaz_start.py</code> viditelně zlepší;</li>
+<li>animace průběhu (GIF, první snímek = výsledek);</li>
+<li>krátký README: co jste zkusili, co fungovalo a co ne, jeden graf
+průběhu optimalizace a srovnání s počátečním stavem nebo s náhodným
+hledáním.</li>
+</ul>
+<p><strong>Nápověda.</strong> Kreslit po pixelech v Pythonu je pomalé;
+Pillow kreslí poloprůhledné mnohoúhelníky rovnou
+(<code>ImageDraw.Draw(img, &quot;RGBA&quot;)</code>, jak to dělá
+<code>ukaz_start.py</code>). Chybu počítejte na malé zmenšenině,
+výsledek pak klidně vykreslete ve větším rozlišení – stejné řešení, jen
+jiné měřítko.</p>
+</body>
+</html>

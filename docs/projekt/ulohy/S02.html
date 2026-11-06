@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>S02 – Detektor QRS, který neslyší šum</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style>
+
+:root {
+--text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+--ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; } 
+.box {
+background: var(--box); border-left: 4px solid var(--akcent);
+padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; } 
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+.anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+.pro-vyucujiciho {
+border-left: 4px solid var(--akcent2); background: #fdf6f4;
+padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; } 
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+body { overflow-wrap: break-word; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+pre { overflow-x: auto; max-width: 100%; }
+code { overflow-wrap: anywhere; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 600px) { body { padding: 1.2rem 1rem 3rem; } }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml.js"></script>
+</head>
+<body>
+<a class="zpet" href="../ulohy.html">← nabídka úloh</a>
+<h1 id="s02-detektor-qrs-který-neslyší-šum">S02 – Detektor QRS, který
+neslyší šum</h1>
+<p><strong>Simulační úloha S02 · řešení patří do složky
+<code>simulacni-uloha/</code> vašeho repozitáře · simulátor a data: <a href="data-S02.zip">data-S02.zip</a> (rozbalit do
+<code>simulacni-uloha/</code>; simulátor k náhledu: <a href="S02/simulator.py" download="simulator.py">simulator.py</a>)</strong></p>
+<p>Holterův monitor nahrává EKG celý den a software z něj potom spočítá
+tep, jeho variabilitu a najde arytmie. Všechno stojí na prvním kroku:
+najít v záznamu každý stah srdce, tedy každý komplex QRS. Klasický
+detektor podle Pana a Tompkinse (1985) je jednoduchý řetězec pěti kroků
+se šesti knoflíky – a výrobci je dodnes často ladí ručně, „aby to na pár
+záznamech vypadalo dobře“. Vaše firma chce knoflíky nastavit poctivě,
+optimalizací. A hned potom přijde obchodní oddělení s tím, že stejný
+detektor půjde do hrudního pásu pro sportovce.</p>
+<p><em>Záznamy jsou simulované (součet tvarovaných vln a několika druhů
+rušení), polohy stahů jsou proto známé přesně.</em></p>
+<h2 id="co-potřebujete-vědět-o-ekg-a-detekci-qrs">Co potřebujete vědět o
+EKG a detekci QRS</h2>
+<p><strong>EKG</strong> je napětí na kůži (desetiny až jednotky mV),
+které vzniká při elektrické aktivaci srdce. Každý stah má typický tvar:
+malá vlna P (síně), ostrý komplex <strong>QRS</strong> (komory, trvá asi
+80–120 ms, jeho vrchol je vlna R) a pomalejší vlna T (návrat komor do
+klidu). Tep v klidu 50–100 za minutu, při zátěži i přes 150. Občas
+přijde <strong>komorová extrasystola</strong>: stah dřív, než by měl, se
+širokým a jinak tvarovaným QRS – v Holteru právě ten druh stahu, kvůli
+kterému se vyšetření dělá.</p>
+<p><strong>Rušení.</strong> Izolinie kolísá s dýcháním, svaly přidávají
+vysokofrekvenční šum, při pohybu se elektroda posouvá po kůži (pohybový
+artefakt, frekvenčně se překrývá s QRS) nebo se na chvíli odlepí a
+izolinie skočí.</p>
+<p><strong>Detektor</strong> (hotový v <code>simulator.py</code>,
+nemusíte ho psát ani do detailu chápat):</p>
+<ol type="1">
+<li><strong>pásmová propust</strong> potlačí pomalé kolísání i rychlý
+šum (mezní frekvence <code>f_dolni</code>, <code>f_horni</code> v
+Hz);</li>
+<li><strong>derivace</strong> zvýrazní strmé hrany, kterých je nejvíc v
+QRS;</li>
+<li><strong>kvadrát</strong> udělá z hran kladné špičky;</li>
+<li><strong>klouzavý průměr</strong> přes <code>okno</code> vzorků slije
+špičky jednoho QRS do jedné vlny;</li>
+<li><strong>adaptivní práh</strong>: detektor si průběžně pamatuje
+typickou výšku špiček QRS a typickou výšku šumu; špička se uzná jako
+stah, když je nad prahem mezi nimi (<code>prah</code> = 0 u šumu, 1 u
+QRS). Jak rychle se obě úrovně přizpůsobují novým špičkám, určuje
+<code>adaptace</code>. Po uznaném stahu je detektor
+<code>refrakter_ms</code> milisekund hluchý (vlna T by se mohla splést
+za stah). Když dlouho nic nepřijde, podívá se zpátky s polovičním
+prahem.</li>
+</ol>
+<p><strong>Kvalita detekce.</strong> Detekce je zásah (TP), když leží do
+±50 ms od skutečné vlny R, a každá vlna R smí být zasažena jen jednou.
+Ostatní detekce jsou falešné poplachy (FP), nezasažené vlny R jsou
+výpadky (FN). Záznam se hodnotí mírou</p>
+<p><span class="math display">\[F_1 = \frac{2\,TP}{2\,TP + FP +
+FN},\]</span></p>
+<p>která je 1 pro dokonalý detektor a trestá výpadky i falešné
+poplachy.</p>
+<h2 id="simulátor-a-data">Simulátor a data</h2>
+<p><code>simulator.py</code> (jen NumPy a SciPy, rozhraní v
+docstringu):</p>
+<ul>
+<li>parametry jsou vektor
+<code>p = (f_dolni, f_horni, okno, prah, refrakter_ms, adaptace)</code>
+s mezemi v <code>MEZE</code>; <code>okno</code> a
+<code>refrakter_ms</code> se zaokrouhlí na celé vzorky; musí platit
+<code>f_dolni &lt; f_horni</code>, jinak <code>ValueError</code>;</li>
+<li><code>vyhodnot(p, zaznamy)</code> vrátí průměrné a nejhorší <span class="math inline">\(F_1\)</span> přes záznamy, <span class="math inline">\(F_1\)</span> jednotlivých záznamů a součty TP, FP,
+FN; <code>detekuj(ekg, fs, p)</code> vrátí indexy detekovaných stahů
+jednoho záznamu; <code>nacti_sadu(&quot;klid-trenink&quot;)</code> načte celou
+sadu ze složky <code>data/</code> vedle simulátoru;</li>
+<li><code>VYCHOZI</code> jsou parametry doporučené v původním
+článku.</li>
+</ul>
+<p>Jedno vyhodnocení na deseti záznamech trvá desítky milisekund. O
+funkci <span class="math inline">\(\mathbf p \mapsto F_1\)</span> nevíte
+nic víc než ostatní uživatelé detektoru: nemá gradient ani vzorec.</p>
+<p>Archiv <a href="data-S02.zip">data-S02.zip</a> obsahuje
+<code>simulator.py</code> a ve složce <code>data/</code> čtyři sady
+(popis v <code>data/README.txt</code>):</p>
+<table>
+<thead>
+<tr>
+<th>složka</th>
+<th>obsah</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>klid-trenink/</code></td>
+<td>10 záznamů z Holteru vleže, na ladění</td>
+</tr>
+<tr>
+<td><code>klid-test/</code></td>
+<td>20 dalších klidových záznamů, na kontrolu</td>
+</tr>
+<tr>
+<td><code>pohyb-trenink/</code></td>
+<td>10 záznamů z hrudního pásu při pohybu, na ladění</td>
+</tr>
+<tr>
+<td><code>pohyb-test/</code></td>
+<td>20 dalších záznamů z pohybu, na kontrolu</td>
+</tr>
+</tbody>
+</table>
+<p>Každý soubor <code>zNN.npz</code> (<code>numpy.load</code>) je 60 s
+jednoho svodu a má klíče <code>ekg</code> (15 000 vzorků, mV),
+<code>fs</code> (250 Hz), <code>r</code> (indexy skutečných vln R od 0),
+<code>extrasystola</code> (stejně dlouhé jako <code>r</code>,
+<code>True</code> u komorové extrasystoly) a <code>typ</code>.
+<code>r</code> a <code>extrasystola</code> jsou značky (pravda):
+detektor je nevidí, ale <code>vyhodnot</code> z nich počítá <span class="math inline">\(F_1\)</span>. Značky <strong>trénovacích</strong>
+sad tedy patří do účelové funkce a ladit se na nich smí;
+<strong>testovací</strong> sady (i jejich značky) jsou jen pro kontrolu
+hotového nastavení.</p>
+<p><strong>Rozpočet.</strong> Jeden běh optimalizace smí vyhodnotit
+nejvýš <strong>300 nastavení</strong> parametrů; jedno vyhodnocení je
+jedno volání <code>vyhodnot</code> na celých trénovacích datech úlohy. V
+novém požadavku jsou trénovací data obě sady <code>klid-trenink</code> a
+<code>pohyb-trenink</code> (20 záznamů): vyhodnocení jednoho nastavení
+na obou sadách je pořád <strong>jedno</strong> vyhodnocení a rozpočet
+zůstává 300 na běh (ne 300 na každou sadu). Testovací složky do ladění
+nepatří.</p>
+<h2 id="úkol">Úkol</h2>
+<h3 id="základní-úloha">Základní úloha</h3>
+<p>Najděte parametry detektoru, které maximalizují průměrné <span class="math inline">\(F_1\)</span> na <code>klid-trenink</code>, a
+porovnejte je s parametry z článku. Vyzkoušejte aspoň tři metody z kurzu
+se stejným rozpočtem, mezi nimi náhodné hledání jako měřítko. Jak
+naložíte s podmínkou <code>f_dolni &lt; f_horni</code> a s celočíselnými
+parametry, je na vás.</p>
+<h3 id="nový-požadavek">Nový požadavek</h3>
+<p>Obchodní ředitel: „Hrudní pás pro sportovce bude mít stejný čip, jen
+firmware. Lidé ho budou nosit vsedě i při běhu. Nechci dvě verze – chci
+jedno nastavení, které nebude na pohybu dělat ostudu, a nechci, aby
+kvůli tomu Holter přestal fungovat.“</p>
+<p>Nalaďte jedno nastavení pro oba druhy záznamů a zjistěte, co to stálo
+a co to přineslo. Jaký cíl k tomu zvolíte (průměr, nejhorší záznam, něco
+jiného) a proč, je na vás.</p>
+<h3 id="co-má-vaše-práce-ukázat">Co má vaše práce ukázat</h3>
+<ul>
+<li>Férové srovnání metod: stejný rozpočet, aspoň 10 opakování s různými
+seedy, medián a rozptyl, průběh nejlepší hodnoty během běhu. Jsou
+rozdíly mezi metodami větší než rozptyl mezi seedy a čím si je
+vysvětlujete?</li>
+<li>Základní a robustní nastavení na <strong>testovacích</strong>
+složkách: co požadavek stál na klidu a co přinesl na pohybu. Jak se liší
+parametry a dá se to vysvětlit tím, co dělají? Ukažte to na
+signálu.</li>
+<li>Nezávislou kontrolu: přepočet nejlepších nastavení simulátorem na
+datech, která optimalizace neviděla, přípustnost, a aspoň jeden záznam,
+kde se podíváte na signál a detekce očima.</li>
+<li>Vlastní experiment s jasnou otázkou, tabulkou nebo grafem a
+závěrem.</li>
+</ul>
+<h2 id="otázky-k-zamyšlení">Otázky k zamyšlení</h2>
+<ul>
+<li>Jak vypadá funkce <span class="math inline">\(F_1\)</span>, když
+měníte jeden parametr po malých krocích, a co z toho plyne pro volbu
+metody?</li>
+<li>Je nejlepší nastavení na deseti tréninkových záznamech nejlepší i na
+dalších dvaceti? Které parametry trénink opravdu „přibije“ a které
+ne?</li>
+<li>Jsou všechny stahy pro lékaře stejně důležité? Co o tom říká
+průměrné <span class="math inline">\(F_1\)</span>?</li>
+<li>Proč parametry z článku z roku 1985 nemusí sedět na vaše záznamy, a
+přesto jsou rozumný začátek?</li>
+</ul>
+<h2 id="co-odevzdáváte">Co odevzdáváte</h2>
+<p>Řešení patří do složky <strong><code>simulacni-uloha/</code></strong>
+vašeho týmového repozitáře (šablona projektu). Archiv <a href="data-S02.zip">data-S02.zip</a> rozbalte přímo do této složky:
+<code>simulator.py</code> se ocitne vedle <code>reseni.py</code> a data
+v <code>simulacni-uloha/data/</code>. Simulátor ani data
+neupravujte.</p>
+<ul>
+<li><strong>Kód</strong>, který jedním příkazem
+(<code>uv run python simulacni-uloha/reseni.py</code>) přepočítá všechny
+výsledky, tabulky a grafy do <code>simulacni-uloha/vystupy/</code>. Jak
+kód rozdělíte do funkcí a souborů, je na vás. Pokud simulátor kvůli
+rychlosti nebo pokusu kopírujete a měníte, uveďte to a výsledky ověřte
+původním.</li>
+<li><strong><code>simulacni-uloha/README.md</code></strong> podle
+šablony: úloha (proměnné, meze, cíl, rozpočet; základní i upravená),
+metody a jejich nastavení, výsledky, interpretace a kontroly. Uveďte, co
+jste oproti zadání změnili a proč.</li>
+<li><strong>Testy</strong> (<code>uv run pytest simulacni-uloha</code>),
+mezi nimi aspoň jeden, který odhalí záměrně pokažené řešení (např.
+nepřípustný vektor parametrů nebo optimalizátor, který překročí
+rozpočet).</li>
+</ul>
+<p>Hodnotí se, co z výsledků vyčtete a jestli to umíte obhájit, ne shoda
+s nějakým referenčním číslem. U obhajoby počítejte s otázkou „co když“:
+malou změnou zadání (např. rozpočet klesne na 100 vyhodnocení, zásah se
+bude počítat do ±150 ms jako v normě), kterou musíte umět promítnout do
+svého postupu.</p>
+<h2 id="náměty-na-rozšíření">Náměty na rozšíření</h2>
+<ul>
+<li><strong>Nejhorší pacient.</strong> Co když nevadí průměr, ale
+nejhorší záznam?</li>
+<li><strong>Méně knoflíků.</strong> Které parametry na výsledku skoro
+nezáleží? Zlepší se optimalizace, když je zafixujete?</li>
+<li><strong>Skutečná data.</strong> MIT-BIH Arrhythmia Database a
+MIT-BIH Noise Stress Test Database na PhysioNetu (licenci ověřte):
+přenese se vaše nastavení na skutečné EKG s přičteným skutečným
+pohybovým artefaktem?</li>
+</ul>
+</body>
+</html>

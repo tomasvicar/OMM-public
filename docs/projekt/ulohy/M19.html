@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>M19 – Festival bez kolizí</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style>
+
+:root {
+--text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+--ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; } 
+.box {
+background: var(--box); border-left: 4px solid var(--akcent);
+padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; } 
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+.anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+.pro-vyucujiciho {
+border-left: 4px solid var(--akcent2); background: #fdf6f4;
+padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; } 
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+body { overflow-wrap: break-word; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+pre { overflow-x: auto; max-width: 100%; }
+code { overflow-wrap: anywhere; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 600px) { body { padding: 1.2rem 1rem 3rem; } }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml.js"></script>
+</head>
+<body>
+<a class="zpet" href="../ulohy.html">← nabídka úloh</a>
+<h1 id="m19-festival-bez-kolizí">M19 – Festival bez kolizí</h1>
+<p><strong>Modelová úloha M19 · řešení patří do složky
+<code>model-uloha/</code> vašeho repozitáře · data: <a href="data-M19.zip">data-M19.zip</a></strong></p>
+<p>Pořádáte festival: 24 kapel, 3 pódia, 8 časových bloků. V každém
+bloku hrají tři kapely najednou. 3000 lidí v předprodeji označilo, které
+kapely chtějí vidět. Hrají-li dvě kapely, které fanoušek chce, ve
+stejném bloku, jednu z nich zmešká. Najdete rozvrh, při kterém se zmešká
+co nejméně koncertů, pak přidáte pravidla, na kterých trvá produkce, a
+nakonec zjistíte, <strong>komu</strong> váš „optimální“ rozvrh ubližuje
+a kolik stojí to napravit.</p>
+<p><em>Data jsou simulovaná a jména kapel vymyšlená. Stejnou strukturu
+má rozvrh paralelních sekcí konference, přednášek, mezi kterými si
+studenti vybírají, nebo operačních sálů.</em></p>
+<h2 id="co-potřebujete-vědět">Co potřebujete vědět</h2>
+<p><strong>Kolik fanoušek zmešká.</strong> Fanoušek, který má v jednom
+bloku <span class="math inline">\(m\)</span> oblíbených kapel, stihne
+jen jednu z nich a zmešká <span class="math inline">\(\max(0,\,
+m-1)\)</span>. Pozor, to není počet kolizních dvojic: při třech
+oblíbených kapelách v bloku jsou kolizní dvojice tři, zmeškané koncerty
+jen dva. <strong>Celkové zmeškání</strong> rozvrhu je součet přes
+všechny fanoušky a všechny bloky.</p>
+<p><strong>Žánrové skupiny.</strong> Každý fanoušek patří do jedné
+žánrové skupiny (pop, rock, elektro, hiphop, metal). Metalisté jsou mezi
+fanoušky malá menšina (v hlavní instanci 4 %). Organizátor sleduje, jak
+rozvrh dopadá na jednotlivé skupiny, pomocí <strong>podílu zmeškání
+skupiny</strong> <span class="math inline">\(g\)</span>:</p>
+<p><span class="math display">\[
+p_g = \frac{\text{missed concerts of fans in } g}{\text{wishes of fans
+in } g},
+\]</span></p>
+<p>kde ve jmenovateli je součet délek seznamů přání všech fanoušků
+skupiny (pevné číslo, na rozvrhu nezávisí).</p>
+<p><strong>Pravidla produkce.</strong> Pódia mají různou kapacitu a
+kapela se na pódium vejde, když její očekávaná návštěvnost nepřekročí
+kapacitu pódia. Tři <strong>headlineři</strong> (hvězdy večera) smějí
+hrát jen v posledních dvou blocích (v <code>mini.json</code> jsou
+headlineři dva a smějí jen do posledního bloku).</p>
+<h2 id="data">Data</h2>
+<p>Archiv <a href="data-M19.zip">data-M19.zip</a> obsahuje soubory JSON
+se stejnou strukturou (podrobnosti a zdroj v <code>README.txt</code> v
+archivu):</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>soubor</th>
+<th>obsah</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>festival.json</code></td>
+<td>hlavní instance: 24 kapel, 3 pódia, 8 bloků, 3000 fanoušků</td>
+</tr>
+<tr>
+<td><code>mini.json</code></td>
+<td>malá instance: 8 kapel, <strong>2</strong> pódia, 4 bloky, 600
+fanoušků – dost malá na úplný výčet</td>
+</tr>
+<tr>
+<td><code>dalsi/festival-s101.json</code> … <code>s103</code></td>
+<td>další instance stejné velikosti jako hlavní (jiný seed)</td>
+</tr>
+<tr>
+<td><code>dalsi/mensina-02.json</code>, <code>-08</code>,
+<code>-12</code></td>
+<td>hlavní instance s jiným podílem metalistů; číslo v názvu je podíl
+metalistů v procentech (2 / 8 / 12 %, v hlavní 4 %)</td>
+</tr>
+</tbody>
+</table>
+<p>Struktura souboru (načtete ho <code>json.load</code>):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>klíč</th>
+<th>typ</th>
+<th>význam</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bloku</code></td>
+<td>celé číslo</td>
+<td>počet časových bloků; blok <span class="math inline">\(s\)</span> má
+index <code>0</code> … <code>bloku-1</code>, poslední je nejpozději</td>
+</tr>
+<tr>
+<td><code>pody</code></td>
+<td>seznam slovníků</td>
+<td>pódia; <strong>pódium <span class="math inline">\(k\)</span> je
+<code>pody[k]</code>, od 0</strong>, seřazená sestupně podle
+kapacity</td>
+</tr>
+<tr>
+<td><code>pody[k][&quot;jmeno&quot;]</code>, <code>[&quot;kapacita&quot;]</code></td>
+<td>text, celé číslo</td>
+<td>jméno pódia; kolik diváků se na něj vejde (osob)</td>
+</tr>
+<tr>
+<td><code>headliner_bloky</code></td>
+<td>seznam indexů</td>
+<td>bloky, ve kterých smějí hrát headlineři (v
+<code>festival.json</code> <code>[6, 7]</code>, tj. 7. a 8. blok)</td>
+</tr>
+<tr>
+<td><code>skupiny</code></td>
+<td>seznam textů</td>
+<td>žánrové skupiny fanoušků v pevném pořadí</td>
+</tr>
+<tr>
+<td><code>kapely</code></td>
+<td>seznam slovníků</td>
+<td><strong>kapela <span class="math inline">\(b\)</span> je
+<code>kapely[b]</code>, od 0</strong></td>
+</tr>
+<tr>
+<td><code>kapely[b][&quot;jmeno&quot;]</code>, <code>[&quot;zanr&quot;]</code></td>
+<td>text</td>
+<td>jméno pro výpisy; žánr (stejné názvy jako <code>skupiny</code>)</td>
+</tr>
+<tr>
+<td><code>kapely[b][&quot;headliner&quot;]</code></td>
+<td><code>true</code>/<code>false</code></td>
+<td>hvězda večera – smí jen do <code>headliner_bloky</code></td>
+</tr>
+<tr>
+<td><code>kapely[b][&quot;ocekavana_navstevnost&quot;]</code></td>
+<td>celé číslo</td>
+<td>kolik diváků kapela přitáhne (osob)</td>
+</tr>
+<tr>
+<td><code>kapely[b][&quot;popularita&quot;]</code></td>
+<td>číslo</td>
+<td>jen informace o vzniku dat, k řešení ji nepotřebujete</td>
+</tr>
+<tr>
+<td><code>fanousci</code></td>
+<td>seznam slovníků</td>
+<td>fanoušci z předprodeje; fanoušek <span class="math inline">\(f\)</span> je <code>fanousci[f]</code></td>
+</tr>
+<tr>
+<td><code>fanousci[f][&quot;skupina&quot;]</code></td>
+<td>text</td>
+<td>žánrová skupina fanouška</td>
+</tr>
+<tr>
+<td><code>fanousci[f][&quot;prani&quot;]</code></td>
+<td>seznam indexů</td>
+<td>kapely, které chce vidět (aspoň jedna)</td>
+</tr>
+<tr>
+<td><code>seed</code>, <code>popis</code></td>
+<td>–</td>
+<td>jen informace o vzniku instance</td>
+</tr>
+</tbody>
+</table>
+<p>Vždy platí: počet kapel = <code>bloku</code> × počet pódií, takže v
+každém bloku hrají všechna pódia. V <code>mini.json</code> hrají v bloku
+jen dvě kapely (4 · 2 = 8) a oba headlineři smějí jen do bloku 3
+(posledního). Počty kapel, pódií a bloků proto čtěte z dat, ne
+natvrdo.</p>
+<h2 id="úkol">Úkol</h2>
+<h3 id="základní-úloha">Základní úloha</h3>
+<p>Rozvrhněte kapely do bloků (a na pódia) tak, aby celkové zmeškání
+bylo co nejmenší. Je to kombinatorická úloha rozdělení do skupin;
+přímočarých celočíselných formulací se nabízí víc a nejsou pro řešič
+stejně snadné. Výběr modelu je součást úlohy – zdůvodněte ho.</p>
+<h3 id="nový-požadavek">Nový požadavek</h3>
+<p>Produkce: „Krásný rozvrh, jenže hvězda večera nemůže hrát ve dvě
+odpoledne a kapela, na kterou přijde dvanáct tisíc lidí, se nevejde do
+stanu.“ Rozvrh musí respektovat kapacity pódií i pravidlo o
+headlinerech.</p>
+<p>O týden později přijde stížnost z fanouškovského fóra: „Optimální
+rozvrh je možná optimální pro většinu, ale nás hází přes palubu.“
+Organizátor chce vědět, která skupina na rozvrh doplácí, a mít v záloze
+<strong>férový rozvrh</strong>: takový, kde je na tom nejhůř postižená
+skupina co nejlépe – a mezi takovými rozvrhy ten s nejmenším celkovým
+zmeškáním. Férovost posuďte bez pravidel produkce i s nimi.</p>
+<p><strong>Nápověda.</strong> Hledejte <em>sloupcovou formulaci</em>
+(<em>set partitioning</em>): proměnná nepatří jednotlivé kapele, ale
+celé skupině kapel, která může hrát v jednom bloku, a její cenu
+spočítáte předem.</p>
+<h3 id="co-má-vaše-práce-ukázat">Co má vaše práce ukázat</h3>
+<ul>
+<li>Rozvrhy základní, s pravidly a férové na hlavní instanci a jejich
+srovnání v jedné tabulce: celkové zmeškání i podíly všech skupin. Kolik
+stojí pravidla, kolik stojí férovost, kdo si polepšil a kdo
+zaplatil.</li>
+<li>Proč jste zvolili právě tento model – jak velký je, jak rychle se
+řeší a jak by dopadla jiná přirozená formulace.</li>
+<li>Nezávislou kontrolu: rozvrh přepočtený z přání fanoušků kódem, který
+nevolá řešič, a na <code>mini.json</code> srovnání MILP s úplným výčtem
+všech rozvrhů (u všech variant úlohy).</li>
+<li>Jestli vaše zjištění o tom, kdo doplácí, platí i na dalších
+instancích – nebo jen na té hlavní.</li>
+<li>Vlastní experiment s jasnou otázkou, tabulkou nebo grafem a závěrem.
+Náměty: křivka ceny férovosti (jak roste zmeškání, když postupně
+zpřísňujete požadavek na jednu skupinu), velikost menšiny
+(<code>dalsi/mensina-*.json</code>), heuristika proti MILP.</li>
+</ul>
+<h2 id="otázky-k-zamyšlení">Otázky k zamyšlení</h2>
+<ul>
+<li>Na čem celkové zmeškání vlastně závisí a na čem ne? Co to znamená
+pro velikost a tvar modelu?</li>
+<li>Dá se rozvrh optimální bez pravidel dodatečně upravit tak, aby
+pravidla splnil, a nic přitom neztratit? Proč ano, nebo ne?</li>
+<li>Která skupina doplácí na součtové optimum a proč právě ona? Šlo to
+předpovědět z dat ještě před výpočtem?</li>
+<li>Je cena férovosti velká, nebo malá – a kdo by o ní měl
+rozhodnout?</li>
+</ul>
+<h2 id="co-odevzdáváte">Co odevzdáváte</h2>
+<p>Řešení patří do složky <strong><code>model-uloha/</code></strong>
+vašeho týmového repozitáře (šablona projektu). Archiv
+<code>data-M19.zip</code> obsahuje jedinou složku
+<code>data-M19/</code>; její <strong>obsah</strong> rozbalte přímo do
+<code>model-uloha/data/</code>, takže vznikne např.
+<code>model-uloha/data/README.txt</code> (ne
+<code>model-uloha/data/data-M19/README.txt</code>).</p>
+<ul>
+<li><strong>Kód</strong>, který jedním příkazem
+(<code>uv run python model-uloha/reseni.py</code>) přepočítá všechny
+výsledky, tabulky a grafy do <code>model-uloha/vystupy/</code>. Jak kód
+rozdělíte do funkcí a souborů, je na vás.</li>
+<li><strong><code>model-uloha/README.md</code></strong> podle šablony:
+model (proměnné, cíl, omezení, základní i upravený; jaké proměnné jsou
+celočíselné a proč), výsledky, interpretace a kontroly. Uveďte, co jste
+oproti zadání změnili a proč.</li>
+<li><strong>Testy</strong> (<code>uv run pytest model-uloha</code>),
+mezi nimi aspoň jeden, který odhalí záměrně pokažené řešení.</li>
+</ul>
+<p>Hodnotí se, co z výsledků vyčtete a jestli to umíte obhájit, ne shoda
+s nějakým referenčním číslem. U obhajoby počítejte s otázkou „co když“:
+malou změnou zadání (např. přibude čtvrté pódium, headliner smí jen na
+hlavní pódium, dvě kapely nesmějí hrát po sobě, protože sdílejí
+bubeníka), kterou musíte umět promítnout do modelu.</p>
+<h2 id="náměty-na-rozšíření">Náměty na rozšíření</h2>
+<ul>
+<li><strong>Devět bloků místo osmi.</strong> 27 míst pro 24 kapel,
+některá pódia zůstanou v bloku prázdná. Kolik zmeškání ušetří blok navíc
+a komu?</li>
+<li><strong>Cesta mezi pódii.</strong> Fanoušek, který chce dvě kapely v
+po sobě jdoucích blocích na vzdálených pódiích, přijde pozdě. Jak se
+úloha změní, když záleží na pořadí bloků a na pódiích?</li>
+<li><strong>Férovost vůči jednotlivcům.</strong> Nikdo nesmí zmeškat víc
+než polovinu svých přání, nebo co nejméně fanoušků zmešká aspoň dvě
+kapely.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>S07 – Výběr vyšetření, který přeučí validaci</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style>
+
+:root {
+--text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+--ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; } 
+.box {
+background: var(--box); border-left: 4px solid var(--akcent);
+padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; } 
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+.anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+.pro-vyucujiciho {
+border-left: 4px solid var(--akcent2); background: #fdf6f4;
+padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; } 
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+body { overflow-wrap: break-word; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+pre { overflow-x: auto; max-width: 100%; }
+code { overflow-wrap: anywhere; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 600px) { body { padding: 1.2rem 1rem 3rem; } }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml.js"></script>
+</head>
+<body>
+<a class="zpet" href="../ulohy.html">← nabídka úloh</a>
+<h1 id="s07-výběr-vyšetření-který-přeučí-validaci">S07 – Výběr
+vyšetření, který přeučí validaci</h1>
+<p><strong>Simulační úloha S07 · řešení patří do složky
+<code>simulacni-uloha/</code> vašeho repozitáře · simulátor a data: <a href="data-S07.zip">data-S07.zip</a> (rozbalit do
+<code>simulacni-uloha/</code>; simulátor k náhledu: <a href="S07/simulator.py" download="simulator.py">simulator.py</a>)</strong></p>
+<p>Nemocnice sbírá u pacientů s podezřením na zánětlivé onemocnění 80
+laboratorních a klinických ukazatelů. Většina z nich se dělá „pro
+jistotu“, stojí peníze i čas a lékaři by rádi jednoduchý diagnostický
+model jen z několika vyšetření. K dispozici je 200 pacientů se
+stanovenou diagnózou. Vaším úkolem je najít podmnožinu vyšetření, se
+kterou model rozliší nemocné od zdravých co nejlépe. Prostor možností má
+<span class="math inline">\(2^{80}\)</span> prvků a jediný způsob, jak
+se o výběru něco dozvědět, je natrénovat model a změřit ho.</p>
+<p><em>Data jsou simulovaná, názvy vyšetření jsou neutrální kódy
+<code>V01</code>–<code>V80</code>. Simulace dovoluje to, co skutečná
+data ne: zkontrolovat model na velké skupině nových pacientů ze stejné
+populace.</em></p>
+<h2 id="co-potřebujete-vědět-o-diagnostických-modelech">Co potřebujete
+vědět o diagnostických modelech</h2>
+<p><strong>Logistická regrese</strong> z hodnot vybraných vyšetření
+<span class="math inline">\(x_1, \dots, x_k\)</span> spočítá skóre <span class="math inline">\(s = w_0 + w_1 x_1 + \dots + w_k x_k\)</span>; čím
+vyšší skóre, tím pravděpodobnější nemoc. Váhy se naučí z pacientů se
+známou diagnózou. Model si napíšete jen tehdy, když chcete – simulátor
+ho má v sobě; do rozpočtu se ale počítá stejně (viz níže).</p>
+<p><strong>AUC</strong> (plocha pod ROC křivkou) je pravděpodobnost, že
+náhodně vybraný nemocný dostane vyšší skóre než náhodně vybraný zdravý.
+AUC 0,5 je hod mincí, 1 je dokonalé rozlišení; dobrý klinický test mívá
+0,8–0,9.</p>
+<p><strong>Křížová validace (CV).</strong> Měřit model na pacientech, na
+kterých se učil, je podvod – model si je „pamatuje“. Pacienti se proto
+rozdělí do 5 částí; model se pětkrát naučí na čtyřech a změří na páté,
+výsledek je průměr. Jak přesně se pacienti do částí rozdělí, je náhoda:
+jiné rozdělení dá trochu jiné číslo.</p>
+<h2 id="simulátor-a-data">Simulátor a data</h2>
+<p><code>simulator.py</code> (jen NumPy a SciPy) načte jednu instanci ze
+složky <code>data/</code> vedle sebe; obojí je v archivu <a href="data-S07.zip">data-S07.zip</a> (popis dat v
+<code>data/README.txt</code>):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> simulator <span class="im">import</span> Simulator</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> Simulator(instance<span class="op">=</span><span class="dv">1</span>)        <span class="co"># data/ vedle simulator.py</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sim.skore(maska, seed_cv<span class="op">=</span><span class="dv">0</span>)        <span class="co"># CV-AUC na 200 trénovacích pacientech</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sim.skore(maska, seed_cv, pacienti<span class="op">=</span>idx)       <span class="co"># totéž jen na podmnožině pacientů</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sim.auc_odlozena(maska, trenink<span class="op">=</span>i1, test<span class="op">=</span>i2)  <span class="co"># naučí na i1, změří na i2</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>sim.cena(maska)                    <span class="co"># cena vybraných vyšetření na pacienta, Kč</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sim.auc_novi_pacienti(maska)       <span class="co"># AUC na 2000 nových pacientech</span></span></code></pre></div>
+<p><code>maska</code> je pole 80 nul a jedniček (1 = vyšetření se dělá),
+<code>seed_cv</code> určuje rozdělení pacientů do pěti částí. Jedno
+volání trvá jednotky milisekund. Podrobnosti jsou v docstringu
+simulátoru.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>soubor</th>
+<th>obsah</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>trenink_s1.csv</code></td>
+<td>hlavní instance: 200 pacientů, sloupce
+<code>V01</code>–<code>V80</code> (hodnoty vyšetření v různých
+jednotkách) a <code>nemoc</code> (0/1)</td>
+</tr>
+<tr>
+<td><code>vysetreni_s1.csv</code></td>
+<td>sloupce <code>vysetreni</code>, <code>cena_kc</code> – cena
+vyšetření na pacienta</td>
+</tr>
+<tr>
+<td><code>novi_pacienti_s1.csv</code></td>
+<td>2000 nových pacientů, stejné sloupce – <strong>jen pro závěrečné
+vyhodnocení</strong></td>
+</tr>
+<tr>
+<td><code>*_s2</code> … <code>*_s4</code></td>
+<td>tři další instance stejné nemocnice s jinými pacienty a jinými
+vyšetřeními</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Pravidlo:</strong> <code>auc_novi_pacienti</code> ani
+<code>novi_pacienti_s*.csv</code> se nesmí použít k výběru vyšetření ani
+k ladění metody – představují pacienty příštího roku, které nemocnice v
+době výběru ještě nemá. Smíte je použít jen ke kontrole hotového
+výsledku a to, jak jste je použili, musí být z kódu zřejmé.</p>
+<p><strong>Rozpočet:</strong> jeden běh optimalizace smí vyhodnotit
+masky na trénovacích pacientech nejvýš <strong>3000krát</strong>. Jedno
+vyhodnocení je jedno volání <code>skore</code> nebo
+<code>auc_odlozena</code>, a stejně tak každé vlastní vyhodnocení masky
+(vlastní model, vlastní CV, odložená část, jiné rozdělení pacientů):
+jedno skóre jedné masky = jedno vyhodnocení, bez ohledu na to, kolik
+modelů se uvnitř naučí. Počítá se každé, i opakované. Mimo rozpočet je
+jen závěrečná kontrola hotové masky a srovnávací L1 regrese, která masku
+nehledá.</p>
+<h2 id="úkol">Úkol</h2>
+<h3 id="základní-úloha">Základní úloha</h3>
+<p>Najděte masku, která maximalizuje křížově validované AUC na
+trénovacích pacientech (s jedním pevným rozdělením do částí) s malou
+pokutou za počet vyšetření – její velikost si zvolte a zdůvodněte. Jde o
+binární optimalizaci v 80 rozměrech. Porovnejte při stejném rozpočtu
+náhodné hledání a aspoň dvě metody z kurzu pro binární proměnné. Jako
+srovnání bez black-boxu se hodí logistická regrese s L1 regularizací
+(LASSO), která vybírá vyšetření sama.</p>
+<h3 id="nový-požadavek">Nový požadavek</h3>
+<p>Primář: „Model, který nám dáte, pustíme na pacienty příštího roku. Do
+žádosti o financování potřebuju napsat, jaké AUC na nich bude mít – ne
+na vašich dvou stech pacientech, ale na nových. Když to číslo nebude
+sedět, je to horší, než kdybyste napsali nižší. A jestli jde model
+udělat tak, aby na nových pacientech fungoval líp, beru.“</p>
+<p>Dodejte k modelu odhad jeho AUC na nových pacientech, který vznikne
+jen z trénovacích dat, a ukažte, jak dobře takový odhad sedí. Zkuste
+také, jestli nějaká úprava postupu výsledek na nových pacientech zlepší.
+Jakou úpravu zvolíte, je na vás.</p>
+<h3 id="co-má-vaše-práce-ukázat">Co má vaše práce ukázat</h3>
+<ul>
+<li>Srovnání metod v základní úloze <strong>při stejném rozpočtu a na
+víc seedech</strong> (medián a rozptyl, ne jeden šťastný běh) a srovnání
+s L1 regresí. Seřadí CV a noví pacienti metody stejně?</li>
+<li>Co se děje s nejlepší nalezenou maskou v průběhu hledání: její
+CV-AUC, CV-AUC s jiným rozdělením pacientů a AUC na nových
+pacientech.</li>
+<li>Jak daleko byl váš odhad od skutečnosti, a to nejen na hlavní
+instanci, ale i na dalších – jedna instance může vyjít náhodou. Co vaše
+úprava postupu stála v CV skóre a co přinesla na nových pacientech.</li>
+<li>Nezávislou kontrolu výsledku: přepočet odevzdané masky simulátorem a
+srovnání s maskami, které nevznikly optimalizací (náhodné masky stejné
+velikosti, výběr L1 regrese).</li>
+<li>Vlastní experiment s jasnou otázkou, tabulkou nebo grafem a
+závěrem.</li>
+</ul>
+<h2 id="otázky-k-zamyšlení">Otázky k zamyšlení</h2>
+<ul>
+<li>Co přesně optimalizátor maximalizoval a jak to souvisí s tím, co
+chce primář?</li>
+<li>Jak se kvalita modelu mění s rozpočtem a s metodou?</li>
+<li>Které číslo byste napsali do zprávy pro primáře jako očekávané AUC a
+proč zrovna to?</li>
+<li>Jak poznáte, která vyšetření do modelu skutečně patří?</li>
+<li>Jak by se výsledky změnily s víc trénovacími pacienty?</li>
+</ul>
+<h2 id="co-odevzdáváte">Co odevzdáváte</h2>
+<p>Řešení patří do složky <strong><code>simulacni-uloha/</code></strong>
+vašeho týmového repozitáře (šablona projektu). Archiv <a href="data-S07.zip">data-S07.zip</a> rozbalte přímo do této složky:
+<code>simulator.py</code> se ocitne vedle <code>reseni.py</code> a data
+v <code>simulacni-uloha/data/</code>. Simulátor ani data
+neupravujte.</p>
+<ul>
+<li><strong>Kód</strong>, který jedním příkazem
+(<code>uv run python simulacni-uloha/reseni.py</code>) přepočítá všechny
+výsledky, tabulky a grafy do <code>simulacni-uloha/vystupy/</code>. Jak
+kód rozdělíte do funkcí a souborů, je na vás. Pevné seedy.</li>
+<li><strong><code>simulacni-uloha/README.md</code></strong> podle
+šablony: formulace (proměnné, cíl, omezení, základní i upravená), metody
+a jejich nastavení, rozpočet, výsledky, interpretace a kontroly. Uveďte,
+co jste oproti zadání změnili a proč.</li>
+<li><strong>Testy</strong> (<code>uv run pytest simulacni-uloha</code>),
+mezi nimi aspoň jeden, který odhalí záměrně pokažené řešení (např.
+překročený rozpočet volání nebo masku špatné délky).</li>
+</ul>
+<p>Hodnotí se, co z výsledků vyčtete a jestli to umíte obhájit, ne shoda
+s nějakým referenčním číslem. U obhajoby počítejte s otázkou „co když“:
+malou změnou zadání (např. trénovacích pacientů bude jen 100, rozpočet
+volání se zdesetinásobí), kterou musíte umět promítnout do postupu.</p>
+<h2 id="náměty-na-rozšíření">Náměty na rozšíření</h2>
+<ul>
+<li><strong>Kolik pacientů.</strong> Jak se mezera mezi CV a novými
+pacienty mění, když výběr děláte jen na části trénovacích pacientů?</li>
+<li><strong>Stabilita výběru.</strong> Vybírají různé běhy a různé
+metody stejná vyšetření? Která vyšetření se objevují vždy?</li>
+<li><strong>Pojišťovna platí nejvýš 2000 Kč na pacienta.</strong> Jak s
+takovým limitem zacházet a co stojí na nových pacientech? Jak se výběr
+mění s limitem (Paretova fronta cena–AUC)?</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nabídka úloh</title>
+<style>
+/* Jednotny styl reportu k ukazkam prvniho cviceni MPC-OMM. */
+:root {
+  --text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+  --ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+  font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+  color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+  display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+  color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; }   /* pravidlo, ktere NEPLATI */
+.box {
+  background: var(--box); border-left: 4px solid var(--akcent);
+  padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+/* --- rozcestnik (index.html) --- */
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+  border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+  display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; }   /* stitek je jen tak siroky jako text */
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+/* --- anatomie ulohy: promenne / ucelova funkce / omezeni --- */
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+  background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+  border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+  display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+  .anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+/* --- interaktivni hriste (JS widget v reportech ukazek) --- */
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+  border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+  padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+  border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+  display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+  align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+  font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+/* --- pasaze pro vyucujiciho (jdou skryt pro studentskou verzi) --- */
+.pro-vyucujiciho {
+  border-left: 4px solid var(--akcent2); background: #fdf6f4;
+  padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+  content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+  font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+  color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+  border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+/* --- zvětšení obrázku kliknutím (lupa.js) --- */
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; }   /* sem se kliká, nezvětšuje se */
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+  background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+  background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+  line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+  background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+
+.ovladani { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1.5rem 0; }
+.ovladani button { border: 1px solid var(--ram); background: var(--pozadi); color: var(--text);
+  padding: .35rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; font-size: .95rem; }
+.ovladani button.on { border-color: var(--akcent); color: var(--akcent); font-weight: 600; }
+.ovladani input { flex: 1 1 200px; min-width: 0; border: 1px solid var(--ram); padding: .4rem .8rem;
+  border-radius: 6px; font: inherit; font-size: .95rem; }
+.uloha { border: 1px solid var(--ram); border-radius: 6px; padding: 1rem 1.2rem; margin: 0 0 1rem;
+  overflow-wrap: anywhere; }
+.uloha .hlava { display: flex; flex-wrap: wrap; gap: .3rem .7rem; align-items: center;
+  font-size: .9rem; color: var(--tlum); }
+.uloha .id { flex-shrink: 0; color: #fff; font-weight: 700; padding: 0 .45rem; border-radius: 3px; }
+.uloha .id.M { background: var(--akcent); } .uloha .id.S { background: var(--akcent2); }
+.uloha h3 { margin: .4rem 0 .3rem; font-size: 1.15rem; }
+.uloha h3 a { color: inherit; }
+.uloha p { margin: .3rem 0; }
+.uloha .meta { font-size: .9rem; color: var(--tlum); }
+.uloha .pripravuje { font-size: .9rem; color: var(--tlum); font-style: italic; }
+.skryt { display: none; }
+a.tlacitko { display: inline-block; background: var(--akcent); color: #fff; text-decoration: none;
+  padding: .55rem 1.2rem; border-radius: 4px; font-weight: 600; }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+
+</style>
+</head>
+<body>
+
+<a class="zpet" href="index.html">← princip projektu</a>
+<header>
+  <div class="stitek">MPC-OMM · projekt 2026</div>
+  <h1>Nabídka úloh</h1>
+  <p class="perex">38 úloh: 20 modelových (M) a 18 simulačních (S).
+  Tým si vybere jednu M a jednu S a přihlásí se v e-learningu. Každou úlohu řeší
+  nejvýš jeden tým.</p>
+</header>
+<div class="ovladani">
+  <button data-f="all" class="on">vše</button>
+  <button data-f="M">M – modelové</button>
+  <button data-f="S">S – simulační</button>
+  <input type="search" placeholder="hledat (obor, název, model…)" aria-label="hledat">
+</div>
+
+<article class="uloha" data-skupina="M" data-text="m01 kdy se člověk lekl? rozklad kožní vodivosti psychofyziologie, biosignály (elektrodermální aktivita) qp (nezáporná dekonvoluce s l1 penalizací a hladkým pozadím, typ cvxeda) náramek na zápěstí měří kožní vodivost a každá reakce nervového systému v ní zanechá pomalou vlnku; vlnky se překrývají a sedí na plíživé hladině. navrhnete konvexní model, který záznam rozloží na hladinu a jednotlivé reakce, na simulacích se známou pravdou i na skutečném záznamu při stresu. psycholog k tomu chce pomalou hladinu, málo reakcí a metodu, kterou nemusí ladit pro každý náramek zvlášť.">
+  <div class="hlava"><span class="id M">M01</span><span>psychofyziologie, biosignály (elektrodermální aktivita)</span></div>
+  <h3><a href="ulohy/M01.html">Kdy se člověk lekl? Rozklad kožní vodivosti</a></h3>
+  <p>Náramek na zápěstí měří kožní vodivost a každá reakce nervového systému v ní zanechá pomalou vlnku; vlnky se překrývají a sedí na plíživé hladině. Navrhnete konvexní model, který záznam rozloží na hladinu a jednotlivé reakce, na simulacích se známou pravdou i na skutečném záznamu při stresu. Psycholog k tomu chce pomalou hladinu, málo reakcí a metodu, kterou nemusí ladit pro každý náramek zvlášť.</p>
+  <p class="meta">Model: QP (nezáporná dekonvoluce s L1 penalizací a hladkým pozadím, typ cvxEDA) · obtížnost: střední</p>
+  <p><a href="ulohy/M01.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m02 spolehlivý tep z ppg biomedicínské signály, pulzní oxymetrie a nositelná elektronika milp: tok v acyklickém grafu s konfliktními omezeními, tvrdá a měkká (penalizovaná) varianta, dp jako přesná reference pulzní oxymetr i chytré hodinky počítají tep z pulzní vlny, jenže detektor špiček najde kromě úderů i dikrotické vlny a kmity od pohybu. z kandidátů vyberete věrohodný rytmus jako diskrétní optimalizační úlohu a pak přidáte požadavek z praxe, že rytmus má být pravidelný. zjistíte, co ten požadavek udělá se syntetickým i skutečným signálem z jip, a obhájíte, v jaké podobě ho do modelu vložit.">
+  <div class="hlava"><span class="id M">M02</span><span>biomedicínské signály, pulzní oxymetrie a nositelná elektronika</span></div>
+  <h3><a href="ulohy/M02.html">Spolehlivý tep z PPG</a></h3>
+  <p>Pulzní oxymetr i chytré hodinky počítají tep z pulzní vlny, jenže detektor špiček najde kromě úderů i dikrotické vlny a kmity od pohybu. Z kandidátů vyberete věrohodný rytmus jako diskrétní optimalizační úlohu a pak přidáte požadavek z praxe, že rytmus má být pravidelný. Zjistíte, co ten požadavek udělá se syntetickým i skutečným signálem z JIP, a obhájíte, v jaké podobě ho do modelu vložit.</p>
+  <p class="meta">Model: MILP: tok v acyklickém grafu s konfliktními omezeními, tvrdá a měkká (penalizovaná) varianta, DP jako přesná reference · obtížnost: střední</p>
+  <p><a href="ulohy/M02.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m03 zaostřete snímek jader: záporné fotony neexistují fluorescenční mikroskopie, zpracování obrazu qp (tichonovovy nejmenší čtverce s x ≥ 0) mikroskop rozmaže jádra buněk a klasické zaostření snímku umí vyrobit záporné fotony. přidáte do modelu fyzikální požadavek, že jas nesmí být záporný, a zjistíte, co to udělá s obrazem a s měřením jasu jader. navíc musíte parametr umět zvolit i tehdy, když pravý obraz neznáte.">
+  <div class="hlava"><span class="id M">M03</span><span>fluorescenční mikroskopie, zpracování obrazu</span></div>
+  <h3><a href="ulohy/M03.html">Zaostřete snímek jader: záporné fotony neexistují</a></h3>
+  <p>Mikroskop rozmaže jádra buněk a klasické zaostření snímku umí vyrobit záporné fotony. Přidáte do modelu fyzikální požadavek, že jas nesmí být záporný, a zjistíte, co to udělá s obrazem a s měřením jasu jader. Navíc musíte parametr umět zvolit i tehdy, když pravý obraz neznáte.</p>
+  <p class="meta">Model: QP (Tichonovovy nejmenší čtverce s x ≥ 0) · obtížnost: střední</p>
+  <p><a href="ulohy/M03.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m04 segmentace jader: spojitá úloha, která vrátí černobílý obraz fluorescenční mikroskopie, segmentace obrazu lp (anizotropní totální variace, min-cut), milp s omezením plochy krátce exponované snímky buněčných jader jsou zašuměné a prosté prahování dá roztřepené okraje. sestavíte segmentaci s krátkou hranicí jako lineární program a pak přidáte rozumný požadavek: maska má mít známou plochu jádra. zjistíte, co tím získáte, a jak se dostat k černobílé masce, o které víte, jak daleko je od nejlepší možné.">
+  <div class="hlava"><span class="id M">M04</span><span>fluorescenční mikroskopie, segmentace obrazu</span></div>
+  <h3><a href="ulohy/M04.html">Segmentace jader: spojitá úloha, která vrátí černobílý obraz</a></h3>
+  <p>Krátce exponované snímky buněčných jader jsou zašuměné a prosté prahování dá roztřepené okraje. Sestavíte segmentaci s krátkou hranicí jako lineární program a pak přidáte rozumný požadavek: maska má mít známou plochu jádra. Zjistíte, co tím získáte, a jak se dostat k černobílé masce, o které víte, jak daleko je od nejlepší možné.</p>
+  <p class="meta">Model: LP (anizotropní totální variace, min-cut), MILP s omezením plochy · obtížnost: střední</p>
+  <p><a href="ulohy/M04.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m05 sledování buněk ve videu: kdo je čí dcera? buněčná biologie, analýza mikroskopických obrazů milp, přiřazení / min-cost tok, líná omezení detektor našel v časosběrném videu z mikroskopu polohy buněčných jader a biolog chce rodokmen: která buňka je která a kdy se rozdělila. postavíte tracker jako celočíselný program a postupně do něj zapracujete, co se ve videu skutečně děje – dělení, přehlédnutá jádra, délku buněčného cyklu. u každého požadavku zjistíte, co přinesl, co stál a jak se model choval, dokud jev vyjádřit neuměl.">
+  <div class="hlava"><span class="id M">M05</span><span>buněčná biologie, analýza mikroskopických obrazů</span></div>
+  <h3><a href="ulohy/M05.html">Sledování buněk ve videu: kdo je čí dcera?</a></h3>
+  <p>Detektor našel v časosběrném videu z mikroskopu polohy buněčných jader a biolog chce rodokmen: která buňka je která a kdy se rozdělila. Postavíte tracker jako celočíselný program a postupně do něj zapracujete, co se ve videu skutečně děje – dělení, přehlédnutá jádra, délku buněčného cyklu. U každého požadavku zjistíte, co přinesl, co stál a jak se model choval, dokud jev vyjádřit neuměl.</p>
+  <p class="meta">Model: MILP, přiřazení / min-cost tok, líná omezení · obtížnost: střední</p>
+  <p><a href="ulohy/M05.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m06 kolik je které izoformy? bioinformatika, rna-seq a alternativní sestřih konvexní maximální věrohodnost na simplexu (logaritmický cíl, exponenciální kužel) s lineárními poměrovými omezeními jeden gen se sestřihuje do pěti izoforem a sekvenátor vrací krátká čtení, která většinou pasují na víc izoforem najednou. stejně jako nástroje kallisto a salmon odhadnete podíly izoforem maximální věrohodností a zjistíte, jak moc výsledku můžete věřit. pak posoudíte, co přinese druhé, jiné měření.">
+  <div class="hlava"><span class="id M">M06</span><span>bioinformatika, RNA-seq a alternativní sestřih</span></div>
+  <h3><a href="ulohy/M06.html">Kolik je které izoformy?</a></h3>
+  <p>Jeden gen se sestřihuje do pěti izoforem a sekvenátor vrací krátká čtení, která většinou pasují na víc izoforem najednou. Stejně jako nástroje kallisto a salmon odhadnete podíly izoforem maximální věrohodností a zjistíte, jak moc výsledku můžete věřit. Pak posoudíte, co přinese druhé, jiné měření.</p>
+  <p class="meta">Model: konvexní maximální věrohodnost na simplexu (logaritmický cíl, exponenciální kužel) s lineárními poměrovými omezeními · obtížnost: střední</p>
+  <p><a href="ulohy/M06.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m07 marker, který měří laboratoř bioinformatika (genová exprese) lp (l1-svm s lineárním omezením invariance) z expresních dat 200 genů vyberete malý panel genů pro levný qpcr test na nádor. nádory se ale v laboratoři měřily hlavně v jiné šarži reagencií než kontroly, takže se model snadno naučí poznávat šarži místo nemoci. navrhnete, jak tomu v modelu zabránit, a ověříte to na datech z jiné laboratoře.">
+  <div class="hlava"><span class="id M">M07</span><span>bioinformatika (genová exprese)</span></div>
+  <h3><a href="ulohy/M07.html">Marker, který měří laboratoř</a></h3>
+  <p>Z expresních dat 200 genů vyberete malý panel genů pro levný qPCR test na nádor. Nádory se ale v laboratoři měřily hlavně v jiné šarži reagencií než kontroly, takže se model snadno naučí poznávat šarži místo nemoci. Navrhnete, jak tomu v modelu zabránit, a ověříte to na datech z jiné laboratoře.</p>
+  <p class="meta">Model: LP (L1-SVM s lineárním omezením invariance) · obtížnost: střední</p>
+  <p><a href="ulohy/M07.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m08 proč bakterie plýtvá cukrem systémová biologie lp (flux balance analysis), duální proměnné rychle rostoucí bakterie vylučuje acetát, i když by dýcháním získala víc energie. postavíte model metabolismu jako lineární program, přidáte do něj omezenou kapacitu bílkovin a ze stínových cen zjistíte, jestli buňka opravdu plýtvá.">
+  <div class="hlava"><span class="id M">M08</span><span>systémová biologie</span></div>
+  <h3><a href="ulohy/M08.html">Proč bakterie plýtvá cukrem</a></h3>
+  <p>Rychle rostoucí bakterie vylučuje acetát, i když by dýcháním získala víc energie. Postavíte model metabolismu jako lineární program, přidáte do něj omezenou kapacitu bílkovin a ze stínových cen zjistíte, jestli buňka opravdu plýtvá.</p>
+  <p class="meta">Model: LP (flux balance analysis), duální proměnné · obtížnost: střední</p>
+  <p><a href="ulohy/M08.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m09 šum, nebo supresor? řídký diagnostický model se znaménky, kterým lékař uvěří klinická biochemie, vývoj diagnostických skóre z laboratorních markerů qp (lasso s l1 rozpočtem, znaménková omezení, l1 vážené cenou) z 30 laboratorních markerů sestavíte model závažnosti stavu pacienta, který si vystačí s několika vyšetřeními. obyčejný postup ale některým markerům dá klinicky nesmyslný vliv, třeba ochrannému hdl cholesterolu škodlivý. zakážete to, zjistíte, co to stojí, a pokusíte se poznat, kdy je špatné znaménko chyba a kdy skutečnost.">
+  <div class="hlava"><span class="id M">M09</span><span>klinická biochemie, vývoj diagnostických skóre z laboratorních markerů</span></div>
+  <h3><a href="ulohy/M09.html">Šum, nebo supresor? Řídký diagnostický model se znaménky, kterým lékař uvěří</a></h3>
+  <p>Z 30 laboratorních markerů sestavíte model závažnosti stavu pacienta, který si vystačí s několika vyšetřeními. Obyčejný postup ale některým markerům dá klinicky nesmyslný vliv, třeba ochrannému HDL cholesterolu škodlivý. Zakážete to, zjistíte, co to stojí, a pokusíte se poznat, kdy je špatné znaménko chyba a kdy skutečnost.</p>
+  <p class="meta">Model: QP (LASSO s L1 rozpočtem, znaménková omezení, L1 vážené cenou) · obtížnost: střední</p>
+  <p><a href="ulohy/M09.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m10 férový screening: koho poslat na vyšetření? screening diabetu, férovost algoritmů v medicíně qp (lineární svm s měkkým okrajem a lineárním omezením parity) kraj vybírá z pěti laboratorních hodnot lidi, které pozve na test na diabetes. ve dvou oblastech je nemoc stejně častá, přesto klasifikátor zve z jedné oblasti mnohem víc lidí, i když o bydlišti nic neví. zjistíte, odkud se nespravedlnost bere, upravíte samotné učení modelu a změříte, kolik férovost stojí.">
+  <div class="hlava"><span class="id M">M10</span><span>screening diabetu, férovost algoritmů v medicíně</span></div>
+  <h3><a href="ulohy/M10.html">Férový screening: koho poslat na vyšetření?</a></h3>
+  <p>Kraj vybírá z pěti laboratorních hodnot lidi, které pozve na test na diabetes. Ve dvou oblastech je nemoc stejně častá, přesto klasifikátor zve z jedné oblasti mnohem víc lidí, i když o bydlišti nic neví. Zjistíte, odkud se nespravedlnost bere, upravíte samotné učení modelu a změříte, kolik férovost stojí.</p>
+  <p class="meta">Model: QP (lineární SVM s měkkým okrajem a lineárním omezením parity) · obtížnost: střední</p>
+  <p><a href="ulohy/M10.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m11 inzulinová pumpa, která nesmí podstřelit diabetologie, řízení dávkování (open-loop mpc) qp a lp (konvoluční lineární model, scénářová robustnost) naplánujete dávky inzulinu, které pumpa podá k obědu, aby cukr v krvi zůstal blízko cíle. pacientka ale velikost jídla jen odhaduje a někdy ho ohlásí pozdě; zjistíte, co stojí jistota, že cukr nespadne nebezpečně nízko, a co stojí pozdní ohlášení. jde o hračkový model pro výuku, ne o návod k dávkování.">
+  <div class="hlava"><span class="id M">M11</span><span>diabetologie, řízení dávkování (open-loop MPC)</span></div>
+  <h3><a href="ulohy/M11.html">Inzulinová pumpa, která nesmí podstřelit</a></h3>
+  <p>Naplánujete dávky inzulinu, které pumpa podá k obědu, aby cukr v krvi zůstal blízko cíle. Pacientka ale velikost jídla jen odhaduje a někdy ho ohlásí pozdě; zjistíte, co stojí jistota, že cukr nespadne nebezpečně nízko, a co stojí pozdní ohlášení. Jde o hračkový model pro výuku, ne o návod k dávkování.</p>
+  <p class="meta">Model: QP a LP (konvoluční lineární model, scénářová robustnost) · obtížnost: střední</p>
+  <p><a href="ulohy/M11.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m12 smí pacient s náhradou lokte zvednout krabici 5 kg? biomechanika, ortopedie (rozdělení svalových sil) qp + socp (kuželové omezení na normu síly), lp jako zahřátí pacient po náhradě lokte smí podle běžné rady zvedat asi 5 kg, implantát ale zatěžuje síla v kloubu, a ta závisí na tom, jak a kterými svaly krabici zvedá. spočítáte, jak tělo rozdělí práci mezi osm svalů paže, a zjistíte, jakou krabici a jakým pohybem pacient smí zvednout, aniž by překročil mez implantátu.">
+  <div class="hlava"><span class="id M">M12</span><span>biomechanika, ortopedie (rozdělení svalových sil)</span></div>
+  <h3><a href="ulohy/M12.html">Smí pacient s náhradou lokte zvednout krabici 5 kg?</a></h3>
+  <p>Pacient po náhradě lokte smí podle běžné rady zvedat asi 5 kg, implantát ale zatěžuje síla v kloubu, a ta závisí na tom, jak a kterými svaly krabici zvedá. Spočítáte, jak tělo rozdělí práci mezi osm svalů paže, a zjistíte, jakou krabici a jakým pohybem pacient smí zvednout, aniž by překročil mez implantátu.</p>
+  <p class="meta">Model: QP + SOCP (kuželové omezení na normu síly), LP jako zahřátí · obtížnost: střední</p>
+  <p><a href="ulohy/M12.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m13 výměna ledvin: kruh, který nejde odoperovat transplantační medicína milp – cycle cover a set packing nad cykly a řetězci pacienti, jejichž dárce jim nevyhovuje, si mohou dárce vyměnit v kruhu. najdete co nejvíc transplantací, když kruh smí mít nejvýš tři páry, posoudíte, jestli stačí nejlepší řešení bez omezení jen ořezat, a zjistíte, co pomůže víc: nový altruistický dárce, nebo volnější pravidlo.">
+  <div class="hlava"><span class="id M">M13</span><span>transplantační medicína</span></div>
+  <h3><a href="ulohy/M13.html">Výměna ledvin: kruh, který nejde odoperovat</a></h3>
+  <p>Pacienti, jejichž dárce jim nevyhovuje, si mohou dárce vyměnit v kruhu. Najdete co nejvíc transplantací, když kruh smí mít nejvýš tři páry, posoudíte, jestli stačí nejlepší řešení bez omezení jen ořezat, a zjistíte, co pomůže víc: nový altruistický dárce, nebo volnější pravidlo.</p>
+  <p class="meta">Model: MILP – cycle cover a set packing nad cykly a řetězci · obtížnost: střední</p>
+  <p><a href="ulohy/M13.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m14 klinické stáže: nejspokojenější studenti, nebo stabilní rozdělení? organizace zdravotnického vzdělávání (párovací trhy) milp (přiřazení se stabilitními omezeními), algoritmus odloženého přijetí třicet studentů se rozděluje na osm pracovišť klinických stáží a obě strany mají svá pořadí. zjistíte, jestli rozdělení, které nejvíc vyhoví studentům, obstojí, když se student s pracovištěm mohou domluvit mimo systém, kolik stojí rozdělení, které drží, a co se změní, když pracoviště smějí některé studenty odmítnout.">
+  <div class="hlava"><span class="id M">M14</span><span>organizace zdravotnického vzdělávání (párovací trhy)</span></div>
+  <h3><a href="ulohy/M14.html">Klinické stáže: nejspokojenější studenti, nebo stabilní rozdělení?</a></h3>
+  <p>Třicet studentů se rozděluje na osm pracovišť klinických stáží a obě strany mají svá pořadí. Zjistíte, jestli rozdělení, které nejvíc vyhoví studentům, obstojí, když se student s pracovištěm mohou domluvit mimo systém, kolik stojí rozdělení, které drží, a co se změní, když pracoviště smějí některé studenty odmítnout.</p>
+  <p class="meta">Model: MILP (přiřazení se stabilitními omezeními), algoritmus odloženého přijetí · obtížnost: střední</p>
+  <p><a href="ulohy/M14.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m15 pojištění nemocnice proti špatnému roku řízení rizik ve zdravotnictví, ekonomika nemocnice lp s omezením cvar (rockafellar–uryasev), bonus milp pro var nemocnici občas potká špatný rok: drahé energie, slabá koruna, epidemie nebo porucha magnetické rezonance, nejhůř všechno najednou. ministerstvo nařídí, že průměrný náklad v nejhorších 5 % let nesmí přesáhnout limit, a vy vybíráte ze 7 pojistných smluv. zjistíte, které smlouvy se vyplatí, proč právě ty a kolik stojí každý milion snížení rizika.">
+  <div class="hlava"><span class="id M">M15</span><span>řízení rizik ve zdravotnictví, ekonomika nemocnice</span></div>
+  <h3><a href="ulohy/M15.html">Pojištění nemocnice proti špatnému roku</a></h3>
+  <p>Nemocnici občas potká špatný rok: drahé energie, slabá koruna, epidemie nebo porucha magnetické rezonance, nejhůř všechno najednou. Ministerstvo nařídí, že průměrný náklad v nejhorších 5 % let nesmí přesáhnout limit, a vy vybíráte ze 7 pojistných smluv. Zjistíte, které smlouvy se vyplatí, proč právě ty a kolik stojí každý milion snížení rizika.</p>
+  <p class="meta">Model: LP s omezením CVaR (Rockafellar–Uryasev), bonus MILP pro VaR · obtížnost: střední</p>
+  <p><a href="ulohy/M15.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m16 forma na den závodu sportovní fyziologie, plánování tréninku (paralela k dávkování léků) lp (lineární konvoluční model, epigraf max–min), volitelně qp kamarádka poběží za 12 týdnů půlmaraton. podle jednoduchého modelu kondice a únavy jí navrhnete denní tréninkový plán s nejlepším výkonem v den závodu a zjistíte, co s plánem udělají pravidla sportovního lékaře a omezený čas na trénink ve zkouškovém.">
+  <div class="hlava"><span class="id M">M16</span><span>sportovní fyziologie, plánování tréninku (paralela k dávkování léků)</span></div>
+  <h3><a href="ulohy/M16.html">Forma na den závodu</a></h3>
+  <p>Kamarádka poběží za 12 týdnů půlmaraton. Podle jednoduchého modelu kondice a únavy jí navrhnete denní tréninkový plán s nejlepším výkonem v den závodu a zjistíte, co s plánem udělají pravidla sportovního lékaře a omezený čas na trénink ve zkouškovém.</p>
+  <p class="meta">Model: LP (lineární konvoluční model, epigraf max–min), volitelně QP · obtížnost: střední</p>
+  <p><a href="ulohy/M16.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m17 časovka do kopce i z kopce: jak rozložit síly na trati sportovní fyziologie a biomechanika cyklistiky obecný konvexní program (inv_pos, pos, power; kuželový řešič), změna proměnných v na t spočítáte, jak má cyklista rozložit síly na časovce po skutečné trati u tišnova a přes červenohorské sedlo. porovnáte jízdu stále stejným výkonem s matematicky optimální jízdou a pak do modelu přidáte fyziologii únavy, aby rozložení šlo opravdu ujet.">
+  <div class="hlava"><span class="id M">M17</span><span>sportovní fyziologie a biomechanika cyklistiky</span></div>
+  <h3><a href="ulohy/M17.html">Časovka do kopce i z kopce: jak rozložit síly na trati</a></h3>
+  <p>Spočítáte, jak má cyklista rozložit síly na časovce po skutečné trati u Tišnova a přes Červenohorské sedlo. Porovnáte jízdu stále stejným výkonem s matematicky optimální jízdou a pak do modelu přidáte fyziologii únavy, aby rozložení šlo opravdu ujet.</p>
+  <p class="meta">Model: obecný konvexní program (inv_pos, pos, power; kuželový řešič), změna proměnných v na t · obtížnost: náročnější</p>
+  <p><a href="ulohy/M17.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m18 ladění klavíru: proč nejde mít všechny kvinty čisté hudební akustika (mimo biomedicínu) vážené nejmenší čtverce, qp s mezemi, minimax lp naladíte dvanáct tónů klavíru tak, aby bachovo preludium c dur znělo co nejčistěji, a pak zjistíte, co se stane, když na stejném klavíru někdo zahraje cis dur. z reálných notových záznamů víte, jak dlouho který interval zní; klient ale chce klavír, který snese všechny tóniny, a vy hledáte, kde je hranice možného.">
+  <div class="hlava"><span class="id M">M18</span><span>hudební akustika (mimo biomedicínu)</span></div>
+  <h3><a href="ulohy/M18.html">Ladění klavíru: proč nejde mít všechny kvinty čisté</a></h3>
+  <p>Naladíte dvanáct tónů klavíru tak, aby Bachovo preludium C dur znělo co nejčistěji, a pak zjistíte, co se stane, když na stejném klavíru někdo zahraje Cis dur. Z reálných notových záznamů víte, jak dlouho který interval zní; klient ale chce klavír, který snese všechny tóniny, a vy hledáte, kde je hranice možného.</p>
+  <p class="meta">Model: vážené nejmenší čtverce, QP s mezemi, minimax LP · obtížnost: střední</p>
+  <p><a href="ulohy/M18.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m19 festival bez kolizí rozvrhování akcí (festival), mimo biomedicínu milp, set partitioning (sloupcová formulace s trojicemi), min-max férovost s lexikografickým dořešením pořádáte festival se třemi pódii a 3000 fanoušků v předprodeji označilo, které kapely chtějí vidět. sestavíte rozvrh, při kterém se zmešká co nejméně koncertů, přidáte pravidla produkce a zjistíte, komu takový „optimální“ rozvrh ubližuje a kolik stojí ho napravit.">
+  <div class="hlava"><span class="id M">M19</span><span>rozvrhování akcí (festival), mimo biomedicínu</span></div>
+  <h3><a href="ulohy/M19.html">Festival bez kolizí</a></h3>
+  <p>Pořádáte festival se třemi pódii a 3000 fanoušků v předprodeji označilo, které kapely chtějí vidět. Sestavíte rozvrh, při kterém se zmešká co nejméně koncertů, přidáte pravidla produkce a zjistíte, komu takový „optimální“ rozvrh ubližuje a kolik stojí ho napravit.</p>
+  <p class="meta">Model: MILP, set partitioning (sloupcová formulace s trojicemi), min-max férovost s lexikografickým dořešením · obtížnost: střední</p>
+  <p><a href="ulohy/M19.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="M" data-text="m20 senátní obvody: vyrovnané, kompaktní a souvislé územní plánování obvodů (districting), přenositelné na spádové oblasti nemocnic a záchranné služby milp, kapacitní p-medián s tokovou formulací souvislosti rozdělíte kraj na volební obvody s vyrovnaným počtem obyvatel a co nejkompaktnějším tvarem. pak zjistíte, jestli jsou vaše obvody vůbec souvislé, a vyrovnáte se s přísnějším pravidlem pro počet obyvatel. stejný model se používá pro spádové oblasti nemocnic a záchranné služby.">
+  <div class="hlava"><span class="id M">M20</span><span>územní plánování obvodů (districting), přenositelné na spádové oblasti nemocnic a záchranné služby</span></div>
+  <h3><a href="ulohy/M20.html">Senátní obvody: vyrovnané, kompaktní a souvislé</a></h3>
+  <p>Rozdělíte kraj na volební obvody s vyrovnaným počtem obyvatel a co nejkompaktnějším tvarem. Pak zjistíte, jestli jsou vaše obvody vůbec souvislé, a vyrovnáte se s přísnějším pravidlem pro počet obyvatel. Stejný model se používá pro spádové oblasti nemocnic a záchranné služby.</p>
+  <p class="meta">Model: MILP, kapacitní p-medián s tokovou formulací souvislosti · obtížnost: náročnější</p>
+  <p><a href="ulohy/M20.html">Zadání a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s01 antibiotikum proti mutantovi: nasycovací dávka, udržovací dávka a interval farmakologie a mikrobiologie (antibiotická léčba, rezistence) simulátor infekce a antibiotika: najděte třídenní dávkovací režim s co nejmenším množstvím léku, který infekci vyléčí a nepřekročí limity toxicity. pak přijdou náhodné mutace a požadavek, aby léčba uspěla bez rezistence aspoň v 90 % případů – cíl, který jde jen odhadnout z opakovaných simulací.">
+  <div class="hlava"><span class="id S">S01</span><span>farmakologie a mikrobiologie (antibiotická léčba, rezistence)</span></div>
+  <h3><a href="ulohy/S01.html">Antibiotikum proti mutantovi: nasycovací dávka, udržovací dávka a interval</a></h3>
+  <p>Simulátor infekce a antibiotika: najděte třídenní dávkovací režim s co nejmenším množstvím léku, který infekci vyléčí a nepřekročí limity toxicity. Pak přijdou náhodné mutace a požadavek, aby léčba uspěla bez rezistence aspoň v 90 % případů – cíl, který jde jen odhadnout z opakovaných simulací.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S01.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s02 detektor qrs, který neslyší šum zpracování biosignálů (ekg, nositelná zařízení) holterův detektor srdečních stahů má šest knoflíků, které se obvykle nastavují od oka. naladíte je optimalizací na klidových záznamech, a pak zjistíte, co se stane, když se stejný detektor přesune do nositelného zařízení, které se při chůzi třese a odlepuje.">
+  <div class="hlava"><span class="id S">S02</span><span>zpracování biosignálů (EKG, nositelná zařízení)</span></div>
+  <h3><a href="ulohy/S02.html">Detektor QRS, který neslyší šum</a></h3>
+  <p>Holterův detektor srdečních stahů má šest knoflíků, které se obvykle nastavují od oka. Naladíte je optimalizací na klidových záznamech, a pak zjistíte, co se stane, když se stejný detektor přesune do nositelného zařízení, které se při chůzi třese a odlepuje.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S02.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s03 segmentace buněk: co vlastně optimalizujete? analýza mikroskopických obrazů (počítání jader buněk) laboratoř počítá jádra buněk na fluorescenčních snímcích klasickým řetězcem bez neuronové sítě a vy naladíte jeho pět knoflíků jako černou skříňku. zjistíte, jestli parametry, které nejlépe trefí obarvené pixely, dají biologovi i správný počet buněk, a co stojí, když na počtu záleží.">
+  <div class="hlava"><span class="id S">S03</span><span>analýza mikroskopických obrazů (počítání jader buněk)</span></div>
+  <h3><a href="ulohy/S03.html">Segmentace buněk: co vlastně optimalizujete?</a></h3>
+  <p>Laboratoř počítá jádra buněk na fluorescenčních snímcích klasickým řetězcem bez neuronové sítě a vy naladíte jeho pět knoflíků jako černou skříňku. Zjistíte, jestli parametry, které nejlépe trefí obarvené pixely, dají biologovi i správný počet buněk, a co stojí, když na počtu záleží.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S03.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s04 hodiny z bakterie: fit repressilátoru z řídkého měření systémová a syntetická biologie (odhad parametrů ode) z fluorescence jednoho reportéru máte zjistit parametry repressilátoru, prvního umělého genového oscilátoru – simulátor jde jen vyhodnotit. druhá laboratoř pak měří jen každé tři hodiny a model se posuzuje podle toho, jak dobře předpoví průběh, ne jak dobře proloží body.">
+  <div class="hlava"><span class="id S">S04</span><span>systémová a syntetická biologie (odhad parametrů ODE)</span></div>
+  <h3><a href="ulohy/S04.html">Hodiny z bakterie: fit repressilátoru z řídkého měření</a></h3>
+  <p>Z fluorescence jednoho reportéru máte zjistit parametry repressilátoru, prvního umělého genového oscilátoru – simulátor jde jen vyhodnotit. Druhá laboratoř pak měří jen každé tři hodiny a model se posuzuje podle toho, jak dobře předpoví průběh, ne jak dobře proloží body.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S04.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s05 tetris: váhy, které vydrží i na nových hrách hry a umělá inteligence (optimalizace zašuměné simulace) počítačový hráč tetrisu se rozhoduje podle váženého součtu osmi rysů desky a celá jeho šikovnost je v osmi vahách. vyladíte je black-box metodami se stejným rozpočtem odehraných her a před turnajem na neviděných hrách musíte předem nahlásit, kolik řad váš hráč udělá – a zjistit, nakolik se dá věřit skóre, které naměřil optimalizátor.">
+  <div class="hlava"><span class="id S">S05</span><span>hry a umělá inteligence (optimalizace zašuměné simulace)</span></div>
+  <h3><a href="ulohy/S05.html">Tetris: váhy, které vydrží i na nových hrách</a></h3>
+  <p>Počítačový hráč Tetrisu se rozhoduje podle váženého součtu osmi rysů desky a celá jeho šikovnost je v osmi vahách. Vyladíte je black-box metodami se stejným rozpočtem odehraných her a před turnajem na neviděných hrách musíte předem nahlásit, kolik řad váš hráč udělá – a zjistit, nakolik se dá věřit skóre, které naměřil optimalizátor.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S05.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s06 enzym na pěti destičkách laboratoř, enzymová kinetika (plánování pokusů) laboratoř má enzym jen na 40 jamek a chce z něj vyladit recept reakce o čtyřech faktorech. porovnáte postup laborantky „jeden faktor po druhém“ s metodami z kurzu, pak přejdete na měření po destičkách a vedoucímu doporučíte jeden recept i s odhadem, kolik doopravdy dá.">
+  <div class="hlava"><span class="id S">S06</span><span>laboratoř, enzymová kinetika (plánování pokusů)</span></div>
+  <h3><a href="ulohy/S06.html">Enzym na pěti destičkách</a></h3>
+  <p>Laboratoř má enzym jen na 40 jamek a chce z něj vyladit recept reakce o čtyřech faktorech. Porovnáte postup laborantky „jeden faktor po druhém“ s metodami z kurzu, pak přejdete na měření po destičkách a vedoucímu doporučíte jeden recept i s odhadem, kolik doopravdy dá.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S06.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s07 výběr vyšetření, který přeučí validaci klinická diagnostika, výběr biomarkerů (strojové učení na malých kohortách) nemocnice chce diagnostický model jen z několika vyšetření a vy hledáte, která z osmdesáti vybrat, aby křížově validované auc bylo co nejlepší. pak přijde požadavek: model se ověří na pacientech, které jste nikdy neviděli, a nemocnice chce předem vědět, jak dobrý bude. zjistíte, jestli lepší optimalizace znamená lepší model a jak poctivě odhadnout jeho kvalitu.">
+  <div class="hlava"><span class="id S">S07</span><span>klinická diagnostika, výběr biomarkerů (strojové učení na malých kohortách)</span></div>
+  <h3><a href="ulohy/S07.html">Výběr vyšetření, který přeučí validaci</a></h3>
+  <p>Nemocnice chce diagnostický model jen z několika vyšetření a vy hledáte, která z osmdesáti vybrat, aby křížově validované AUC bylo co nejlepší. Pak přijde požadavek: model se ověří na pacientech, které jste nikdy neviděli, a nemocnice chce předem vědět, jak dobrý bude. Zjistíte, jestli lepší optimalizace znamená lepší model a jak poctivě odhadnout jeho kvalitu.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S07.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s08 strom života z dna: parsimonie, nebo věrohodnost bioinformatika (fylogeneze) z dna dvaceti druhů máte zrekonstruovat jejich rodokmen – strom, kterých je víc než zrnek písku na zemi. nejdřív hledáte strom s nejmenším počtem mutací, pak se ukáže, že se hodnotí shoda se skutečnou historií druhů, a vy musíte rozhodnout, jestli stačí lépe optimalizovat, nebo je potřeba změnit, co optimalizujete – za cenu řádově dražšího vyhodnocení.">
+  <div class="hlava"><span class="id S">S08</span><span>bioinformatika (fylogeneze)</span></div>
+  <h3><a href="ulohy/S08.html">Strom života z DNA: parsimonie, nebo věrohodnost</a></h3>
+  <p>Z DNA dvaceti druhů máte zrekonstruovat jejich rodokmen – strom, kterých je víc než zrnek písku na Zemi. Nejdřív hledáte strom s nejmenším počtem mutací, pak se ukáže, že se hodnotí shoda se skutečnou historií druhů, a vy musíte rozhodnout, jestli stačí lépe optimalizovat, nebo je potřeba změnit, co optimalizujete – za cenu řádově dražšího vyhodnocení.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S08.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s09 pořadí řádků k-prostoru v mri biomedicínské zobrazování (mri, sekvence turbo spin echo) turbo spin echo nasbírá k-prostor mri po řádcích v několika buzeních a signál během každého buzení slábne. na pořadí řádků záleží: hledáte permutaci 64 řádků, která dá co nejvěrnější obraz. pak přijde neklidný pacient, který se v neznámém okamžiku pohne, a vy zjistíte, jestli pořadí z učebnice ještě platí.">
+  <div class="hlava"><span class="id S">S09</span><span>biomedicínské zobrazování (MRI, sekvence turbo spin echo)</span></div>
+  <h3><a href="ulohy/S09.html">Pořadí řádků k-prostoru v MRI</a></h3>
+  <p>Turbo spin echo nasbírá k-prostor MRI po řádcích v několika buzeních a signál během každého buzení slábne. Na pořadí řádků záleží: hledáte permutaci 64 řádků, která dá co nejvěrnější obraz. Pak přijde neklidný pacient, který se v neznámém okamžiku pohne, a vy zjistíte, jestli pořadí z učebnice ještě platí.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S09.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s10 větrná farma v úplavech a zakázané zóny energetika (větrné elektrárny, rozmístění turbín) simulátor úplavů za větrnými turbínami: rozmístěte 16 turbín na pozemku tak, aby farma vyrobila za rok co nejvíc, a výsledek obhajte před posudkem banky. rychlost výpočtu si volíte sami, rozpočet je pevný. pak úřad zakáže ochranné pásmo obce a mokřad uprostřed pozemku – a black-box metody se musí naučit omezení.">
+  <div class="hlava"><span class="id S">S10</span><span>energetika (větrné elektrárny, rozmístění turbín)</span></div>
+  <h3><a href="ulohy/S10.html">Větrná farma v úplavech a zakázané zóny</a></h3>
+  <p>Simulátor úplavů za větrnými turbínami: rozmístěte 16 turbín na pozemku tak, aby farma vyrobila za rok co nejvíc, a výsledek obhajte před posudkem banky. Rychlost výpočtu si volíte sami, rozpočet je pevný. Pak úřad zakáže ochranné pásmo obce a mokřad uprostřed pozemku – a black-box metody se musí naučit omezení.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S10.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s11 oštěp před rokem 1986 a po něm biomechanika sportu, aerodynamika letu (hod oštěpem) simulátor letu oštěpu, tři čísla výhozu a pravidlo, že hod platí, jen když oštěp dopadne hrotem napřed. najdete nejdelší platný hod starým oštěpem, zjistíte, co v roce 1986 udělal posun těžiště o 4 cm, a pak budete hledat, jak to obejít – stejně jako výrobci oštěpů na konci 80. let.">
+  <div class="hlava"><span class="id S">S11</span><span>biomechanika sportu, aerodynamika letu (hod oštěpem)</span></div>
+  <h3><a href="ulohy/S11.html">Oštěp před rokem 1986 a po něm</a></h3>
+  <p>Simulátor letu oštěpu, tři čísla výhozu a pravidlo, že hod platí, jen když oštěp dopadne hrotem napřed. Najdete nejdelší platný hod starým oštěpem, zjistíte, co v roce 1986 udělal posun těžiště o 4 cm, a pak budete hledat, jak to obejít – stejně jako výrobci oštěpů na konci 80. let.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S11.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s12 záplaty z perikardu: balení tvarů do drahého plátu výroba biologických chlopní a záplat, řezání tkáně (nesting) z drahého pásu hovězího perikardu se laserem vyřezávají cípy srdečních chlopní, záplaty a proužky. hledáte pořadí a natočení dílů, se kterým se vejdou do co nejkratšího kusu pásu – rozložení ale umí spočítat jen dekodér. pak technolog připomene, že cípy musí vést po kolagenních vláknech, a vy zjistíte, co to stojí a jak se to dá do optimalizace dostat.">
+  <div class="hlava"><span class="id S">S12</span><span>výroba biologických chlopní a záplat, řezání tkáně (nesting)</span></div>
+  <h3><a href="ulohy/S12.html">Záplaty z perikardu: balení tvarů do drahého plátu</a></h3>
+  <p>Z drahého pásu hovězího perikardu se laserem vyřezávají cípy srdečních chlopní, záplaty a proužky. Hledáte pořadí a natočení dílů, se kterým se vejdou do co nejkratšího kusu pásu – rozložení ale umí spočítat jen dekodér. Pak technolog připomene, že cípy musí vést po kolagenních vláknech, a vy zjistíte, co to stojí a jak se to dá do optimalizace dostat.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S12.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s13 samolepka, která zmate klasifikátor krvinek hematologie, strojové učení (robustnost klasifikátoru, adversariální útok) nemocnice chce nasadit automatický klasifikátor bílých krvinek a vy hrajete červený tým: hledáte pár barevných smítek na sklíčku, která model zmatou, a vidíte přitom jen jeho výstup. pak zjistíte, kolik útok stojí, když musí přežít posun sklíčka pod kamerou.">
+  <div class="hlava"><span class="id S">S13</span><span>hematologie, strojové učení (robustnost klasifikátoru, adversariální útok)</span></div>
+  <h3><a href="ulohy/S13.html">Samolepka, která zmate klasifikátor krvinek</a></h3>
+  <p>Nemocnice chce nasadit automatický klasifikátor bílých krvinek a vy hrajete červený tým: hledáte pár barevných smítek na sklíčku, která model zmatou, a vidíte přitom jen jeho výstup. Pak zjistíte, kolik útok stojí, když musí přežít posun sklíčka pod kamerou.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S13.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s14 gradient hplc: rychle, nebo čistě? analytická chemie, kapalinová chromatografie (vývoj metody) analytická laboratoř hledá metodu kapalinové chromatografie, která rozdělí léčivo a jeho nečistoty: teplotu kolony, průtok a gradient methanolu. simulátor kolony je black box s nehladkým cílem. nejdřív najdete nejlepší rozlišení při pevné délce analýzy, pak vedoucí chce vědět, kolik rozlišení stojí každá ušetřená minuta.">
+  <div class="hlava"><span class="id S">S14</span><span>analytická chemie, kapalinová chromatografie (vývoj metody)</span></div>
+  <h3><a href="ulohy/S14.html">Gradient HPLC: rychle, nebo čistě?</a></h3>
+  <p>Analytická laboratoř hledá metodu kapalinové chromatografie, která rozdělí léčivo a jeho nečistoty: teplotu kolony, průtok a gradient methanolu. Simulátor kolony je black box s nehladkým cílem. Nejdřív najdete nejlepší rozlišení při pevné délce analýzy, pak vedoucí chce vědět, kolik rozlišení stojí každá ušetřená minuta.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S14.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s15 chlazení krystalizátoru: pokuta, oprava, nebo jiné proměnné farmaceutická technologie, krystalizace (populační bilance) farmaceutický provoz krystalizuje účinnou látku lineárním chlazením a chce větší krystaly. navrhnete lepší průběh teploty se simulátorem krystalizace, jehož výsledek se – jako v provozu – jen nepřesně měří, a zjistíte, jak moc záleží na tom, jak do optimalizace zapíšete omezení chlazení, zvlášť když smíte udělat desetkrát méně pokusů.">
+  <div class="hlava"><span class="id S">S15</span><span>farmaceutická technologie, krystalizace (populační bilance)</span></div>
+  <h3><a href="ulohy/S15.html">Chlazení krystalizátoru: pokuta, oprava, nebo jiné proměnné</a></h3>
+  <p>Farmaceutický provoz krystalizuje účinnou látku lineárním chlazením a chce větší krystaly. Navrhnete lepší průběh teploty se simulátorem krystalizace, jehož výsledek se – jako v provozu – jen nepřesně měří, a zjistíte, jak moc záleží na tom, jak do optimalizace zapíšete omezení chlazení, zvlášť když smíte udělat desetkrát méně pokusů.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S15.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s16 směny na urgentu ušité na jeden týden zdravotnický management (plánování personálu, diskrétně-událostní simulace) urgentní příjem má pevný počet lidí na den a hledá rozpis lékařů a sester po čtyřhodinových blocích, při kterém co nejméně pacientů čeká déle, než smí. rozpis navrhnete black-box metodami nad simulátorem provozu – a pak zjistíte, jestli funguje i v týdnech, které jste neviděli, a komu pomůže fast-track pro lehké případy.">
+  <div class="hlava"><span class="id S">S16</span><span>zdravotnický management (plánování personálu, diskrétně-událostní simulace)</span></div>
+  <h3><a href="ulohy/S16.html">Směny na urgentu ušité na jeden týden</a></h3>
+  <p>Urgentní příjem má pevný počet lidí na den a hledá rozpis lékařů a sester po čtyřhodinových blocích, při kterém co nejméně pacientů čeká déle, než smí. Rozpis navrhnete black-box metodami nad simulátorem provozu – a pak zjistíte, jestli funguje i v týdnech, které jste neviděli, a komu pomůže fast-track pro lehké případy.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S16.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s17 konstelace pro implantát telekomunikace, bezdrátový přenos do implantátu (návrh modulace) implantát posílá zaznamenaná data ven přes kůži a jeho vysílač má přísně omezený výkon. navrhnete rozmístění 16 symbolů v komplexní rovině s co nejmenší chybovostí, jen pomocí simulátoru kanálu. hlavní otázka přijde se skutečným zesilovačem, který se u velkých amplitud saturuje: platí pro něj ještě učebnicová odpověď?">
+  <div class="hlava"><span class="id S">S17</span><span>telekomunikace, bezdrátový přenos do implantátu (návrh modulace)</span></div>
+  <h3><a href="ulohy/S17.html">Konstelace pro implantát</a></h3>
+  <p>Implantát posílá zaznamenaná data ven přes kůži a jeho vysílač má přísně omezený výkon. Navrhnete rozmístění 16 symbolů v komplexní rovině s co nejmenší chybovostí, jen pomocí simulátoru kanálu. Hlavní otázka přijde se skutečným zesilovačem, který se u velkých amplitud saturuje: platí pro něj ještě učebnicová odpověď?</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S17.html">Zadání, simulátor a data →</a></p>
+</article>
+<article class="uloha" data-skupina="S" data-text="s18 šifrovaný deník lékárníka: hill climbing nad klíčem kryptoanalýza historických šifer, informatika v archivu se našel zašifrovaný deník venkovského lékárníka. klíčů je 4 · 10²⁶, ale stačí najít ten, se kterým text „vypadá česky“ – kryptoanalýza jako hledání permutace. krátké recepty a poslední listy zašifrované šifrou playfair prověří, kam až postup dosáhne.">
+  <div class="hlava"><span class="id S">S18</span><span>kryptoanalýza historických šifer, informatika</span></div>
+  <h3><a href="ulohy/S18.html">Šifrovaný deník lékárníka: hill climbing nad klíčem</a></h3>
+  <p>V archivu se našel zašifrovaný deník venkovského lékárníka. Klíčů je 4 · 10²⁶, ale stačí najít ten, se kterým text „vypadá česky“ – kryptoanalýza jako hledání permutace. Krátké recepty a poslední listy zašifrované šifrou Playfair prověří, kam až postup dosáhne.</p>
+  <p class="meta">Simulační úloha (simulátor, metody bez gradientu) · obtížnost: střední</p>
+  <p><a href="ulohy/S18.html">Zadání, simulátor a data →</a></p>
+</article>
+
+<script>
+const tl = document.querySelectorAll('.ovladani button'), q = document.querySelector('.ovladani input');
+let f = 'all';
+function filtr() {
+  const t = q.value.toLowerCase().trim();
+  document.querySelectorAll('.uloha').forEach(k => {
+    const ok = (f === 'all' || k.dataset.skupina === f) && (!t || k.dataset.text.includes(t));
+    k.classList.toggle('skryt', !ok);
+  });
+}
+tl.forEach(b => b.onclick = () => { tl.forEach(x => x.classList.remove('on')); b.classList.add('on'); f = b.dataset.f; filtr(); });
+q.oninput = filtr;
+</script>
+
+</body>
+</html>

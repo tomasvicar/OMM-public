@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>S04 – Hodiny z bakterie: fit repressilátoru z řídkého
+měření</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style>
+
+:root {
+--text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+--ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; } 
+.box {
+background: var(--box); border-left: 4px solid var(--akcent);
+padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; } 
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+.anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+.pro-vyucujiciho {
+border-left: 4px solid var(--akcent2); background: #fdf6f4;
+padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; } 
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+body { overflow-wrap: break-word; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+pre { overflow-x: auto; max-width: 100%; }
+code { overflow-wrap: anywhere; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 600px) { body { padding: 1.2rem 1rem 3rem; } }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml.js"></script>
+</head>
+<body>
+<a class="zpet" href="../ulohy.html">← nabídka úloh</a>
+<h1 id="s04-hodiny-z-bakterie-fit-repressilátoru-z-řídkého-měření">S04 –
+Hodiny z bakterie: fit repressilátoru z řídkého měření</h1>
+<p><strong>Simulační úloha S04 · řešení patří do složky
+<code>simulacni-uloha/</code> vašeho repozitáře · simulátor a data: <a href="data-S04.zip">data-S04.zip</a> (rozbalit do
+<code>simulacni-uloha/</code>; simulátor k náhledu: <a href="S04/simulator.py" download="simulator.py">simulator.py</a>)</strong></p>
+<p>V roce 2000 sestavili Michael Elowitz a Stanislas Leibler v bakterii
+<em>E. coli</em> první umělé genové „hodiny“: tři geny v kruhu, z nichž
+každý vypíná další. Buňky pak samy od sebe pravidelně blikají. Laboratoř
+A postavila podobný obvod s fluorescenčním reportérem a dva dny ho
+měřila každých 30 minut. Chce z měření zjistit parametry obvodu – jak
+silné jsou promotory, jak kooperativní je represe, jak rychle se rozpadá
+mRNA – a mít model, který umí předpovídat. Model je soustava
+diferenciálních rovnic, kterou dodáváme jako simulátor; derivace podle
+parametrů ani vzorec pro řešení nemáte.</p>
+<p><em>Data jsou simulovaná modelem se známými parametry a šumem, aby
+šlo výsledek ověřit. Skutečná měření by vypadala podobně, jen s více
+nedokonalostmi.</em></p>
+<h2 id="co-potřebujete-vědět-o-repressilátoru">Co potřebujete vědět o
+repressilátoru</h2>
+<p><strong>Represe a Hillova funkce.</strong> Represor je protein, který
+se naváže na promotor jiného genu a zastaví jeho přepis. Rychlost
+přepisu klesá s množstvím represoru <span class="math inline">\(p\)</span> jako <span class="math inline">\(\alpha/(1+p^n)\)</span>: <span class="math inline">\(\alpha\)</span> je maximální rychlost (silný
+promotor = velké <span class="math inline">\(\alpha\)</span>), Hillův
+koeficient <span class="math inline">\(n\)</span> říká, jak ostře
+represe nastupuje (víc molekul represoru musí spolupracovat). Promotor
+navíc trochu „teče“ (malá rychlost přepisu i při plné represi).</p>
+<p><strong>Kruh tří represorů.</strong> Protein 1 vypíná gen 2, protein
+2 vypíná gen 3 a protein 3 vypíná gen 1. Když je hodně proteinu 1, gen 2
+mlčí, protein 2 ubývá, gen 3 se rozjede, protein 3 přibývá a vypne gen 1
+– a tak dokola. Zda obvod opravdu kmitá, nebo se ustálí v rovnováze,
+záleží na parametrech: kmitání podporuje silný promotor, kooperativní
+represe a podobná rychlost rozpadu mRNA a proteinu.</p>
+<p><strong>Model.</strong> Pro každý gen <span class="math inline">\(i =
+1, 2, 3\)</span> je jedna rovnice pro mRNA <span class="math inline">\(m_i\)</span> a jedna pro protein <span class="math inline">\(p_i\)</span>. V čase měřeném v dobách života mRNA
+(<span class="math inline">\(\tau = k t\)</span>, <span class="math inline">\(k\)</span> je rychlost rozpadu mRNA v 1/h, <span class="math inline">\(t\)</span> čas v hodinách):</p>
+<p><span class="math display">\[
+\frac{dm_i}{d\tau} = -m_i + \frac{\alpha}{1 + p_{i-1}^{\,n}} + \alpha_0,
+\qquad
+\frac{dp_i}{d\tau} = -\beta\,(p_i - m_i),
+\]</span></p>
+<p>kde <span class="math inline">\(p_0\)</span> znamená <span class="math inline">\(p_3\)</span>, <span class="math inline">\(\alpha_0
+= 0{,}2\)</span> je pevná netěsnost promotoru a <span class="math inline">\(\beta\)</span> poměr rychlosti rozpadu proteinu a
+mRNA. Měří se fluorescence reportéru navázaného na protein 1, <span class="math inline">\(F(t) = s\,p_1(t)\)</span>, kde <span class="math inline">\(s\)</span> je jas reportéru. Měření začíná po
+indukci, která obvod nastaví do známého stavu: mRNA nulová, <span class="math inline">\(p_1(0) = 20\)</span>, <span class="math inline">\(p_2(0) = p_3(0) = 1\)</span>.</p>
+<p><strong>Pozorování pod mikroskopem.</strong> Tento kmen bliká s
+periodou zhruba 6 až 16 hodin.</p>
+<h2 id="simulátor">Simulátor</h2>
+<p><a href="S04/simulator.py" download="simulator.py"><code>simulator.py</code></a> (jen NumPy a
+SciPy) nabízí:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>funkce</th>
+<th>význam</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>simuluj(theta, t)</code></td>
+<td>fluorescence <span class="math inline">\(F\)</span> v časech
+<code>t</code> (h)</td>
+</tr>
+<tr>
+<td><code>simuluj(theta, t, vse=True)</code></td>
+<td>všech šest stavů, pole 6 × <code>len(t)</code>: <span class="math inline">\(m_1, m_2, m_3, p_1, p_2, p_3\)</span></td>
+</tr>
+<tr>
+<td><code>chyba(theta, t, y)</code></td>
+<td>součet čtverců rozdílů <span class="math inline">\(\log F\)</span> a
+<span class="math inline">\(\log y\)</span> přes body měření</td>
+</tr>
+<tr>
+<td><code>perioda(theta)</code></td>
+<td>perioda kmitů reportéru v hodinách (z průběhu 12–48 h),
+<code>nan</code>, když model nekmitá</td>
+</tr>
+</tbody>
+</table>
+<p><code>theta</code> je vektor pěti čísel v tomto pořadí (čtyři z nich
+v log10):</p>
+<table>
+<thead>
+<tr>
+<th>index</th>
+<th>parametr</th>
+<th>rozsah</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><span class="math inline">\(\log_{10}\alpha\)</span></td>
+<td>1 až 3,5</td>
+</tr>
+<tr>
+<td>1</td>
+<td><span class="math inline">\(n\)</span></td>
+<td>1 až 4</td>
+</tr>
+<tr>
+<td>2</td>
+<td><span class="math inline">\(\log_{10}\beta\)</span></td>
+<td>−1 až 1</td>
+</tr>
+<tr>
+<td>3</td>
+<td><span class="math inline">\(\log_{10} k\)</span> (<span class="math inline">\(k\)</span> v 1/h)</td>
+<td>−1 až 0,8</td>
+</tr>
+<tr>
+<td>4</td>
+<td><span class="math inline">\(\log_{10} s\)</span></td>
+<td>−1 až 2</td>
+</tr>
+</tbody>
+</table>
+<p>Rozsahy (konstanty <code>DOLNI</code>, <code>HORNI</code>) jsou
+součástí zadání – parametry mimo ně nepovažujeme za biologicky
+věrohodné. Simulátor je deterministický; neměňte ho, vlastní účelovou
+funkci nad ním si napsat smíte.</p>
+<p><strong>Rozpočet:</strong> jeden optimalizační běh smí vyhodnotit
+vaši účelovou funkci nejvýš <strong>1 500krát</strong>; jedno
+vyhodnocení smí zavolat každou funkci simulátoru nejvýš jednou. Jeden
+běh trvá zhruba 5–20 s, srovnání několika metod na deseti seedech
+desítky minut procesorového času – pusťte ho na víc jader
+(<code>multiprocessing</code>) a ladění dělejte na menším rozpočtu.</p>
+<h2 id="data">Data</h2>
+<p>Archiv <a href="data-S04.zip">data-S04.zip</a> obsahuje
+<code>simulator.py</code> a ve složce <code>data/</code> CSV soubory se
+sloupci <code>cas_h</code> (čas v hodinách) a <code>fluorescence</code>
+(libovolné jednotky):</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>soubor</th>
+<th>obsah</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data/hlavni/husta.csv</code></td>
+<td>laboratoř A: každých 30 min, 0–48 h (97 bodů)</td>
+</tr>
+<tr>
+<td><code>data/hlavni/ridka.csv</code></td>
+<td>laboratoř B, stejný kmen: každé 3 h, 0–48 h (17 bodů)</td>
+</tr>
+<tr>
+<td><code>data/hlavni/kontrola.csv</code></td>
+<td>laboratoř B později: každých 30 min, 0–72 h (145 bodů) – <strong>jen
+pro vyhodnocení předpovědi, do fitu nepatří</strong></td>
+</tr>
+<tr>
+<td><code>data/dalsi/s2/</code> … <code>data/dalsi/s6/</code></td>
+<td>pět dalších kmenů se stejnými třemi soubory</td>
+</tr>
+</tbody>
+</table>
+<p>Šum měření je multiplikativní, zhruba 15 %.</p>
+<h2 id="úkol">Úkol</h2>
+<h3 id="základní-úloha">Základní úloha</h3>
+<p>Najděte parametry, se kterými simulátor co nejlépe vysvětlí hustá
+data laboratoře A (<code>data/hlavni/husta.csv</code>). Jde o klasický
+odhad parametrů nejmenšími čtverci v logaritmech – jenže účelová funkce
+je simulace a o tvaru její krajiny předem nic nevíte. Porovnejte poctivě
+aspoň tři metody z kurzu (náhodné hledání jako srovnání a dvě až tři
+další) při stejném rozpočtu.</p>
+<h3 id="nový-požadavek">Nový požadavek</h3>
+<p>Laboratoř B měří stejný kmen levněji – jen každé 3 hodiny. Vedoucí
+laboratoře: „Nezajímá mě, jak hezky model projde mými sedmnácti body.
+Chci vědět, kdy bude buňka svítit zítra. Model posoudím podle toho, jak
+předpoví kontrolní měření.“</p>
+<p>Najděte parametry z <code>data/hlavni/ridka.csv</code> a posuďte je
+podle <code>data/hlavni/kontrola.csv</code>. Pokud čistý fit nestačí,
+upravte úlohu (účelovou funkci, omezení nebo postup), aby dávala
+věrohodné předpovědi, a zdůvodněte proč.</p>
+<h3 id="co-má-vaše-práce-ukázat">Co má vaše práce ukázat</h3>
+<ul>
+<li>Srovnání metod při stejném rozpočtu a na víc seedech (medián a
+rozptyl, ne jeden šťastný běh) na hustých i řídkých datech; jak běh
+vypadá v průběhu (konvergenční křivky) a kam metody skončí.</li>
+<li>Co požadavek stál a co přinesl: chyba fitu na řídkých bodech a chyba
+předpovědi na kontrolních datech pro čistý fit a pro vaši upravenou
+úlohu.</li>
+<li>Nezávislou kontrolu výsledku: přepočet chyby simulátorem z uložených
+parametrů, dodržení rozsahů, vykreslení fitu i mimo body měření. Data
+jsou simulovaná, takže jako měřítko „dobrého fitu“ poslouží úroveň šumu
+– jak velkou chybu byste čekali u modelu s pravými parametry?</li>
+<li>Zda vaše závěry platí i na dalších kmenech
+(<code>data/dalsi/</code>), ne jen na hlavním.</li>
+<li>Vlastní experiment s jasnou otázkou, tabulkou nebo grafem a závěrem.
+Například: kam přidat tři měření navíc a co by to změnilo; pomohl by
+druhý reportér na proteinu 2; jak velký rozpočet potřebuje která
+metoda.</li>
+</ul>
+<h2 id="otázky-k-zamyšlení">Otázky k zamyšlení</h2>
+<ul>
+<li>Kde v prostoru parametrů vaše metody končí? Liší se ta místa mezi
+metodami a seedy a jak je poznáte z výsledné křivky?</li>
+<li>Jak souvisí kvalita fitu na řídkých datech s kvalitou předpovědi
+kontrolního měření?</li>
+<li>Jak se liší krajina účelové funkce na hustých a na řídkých datech a
+co to udělalo s jednotlivými metodami?</li>
+<li>Která část metody (globální průzkum, lokální doladění, restarty)
+rozhodla o tom, kdo vyhrál?</li>
+</ul>
+<h2 id="co-odevzdáváte">Co odevzdáváte</h2>
+<p>Řešení patří do složky <strong><code>simulacni-uloha/</code></strong>
+vašeho týmového repozitáře (šablona projektu). Archiv <a href="data-S04.zip">data-S04.zip</a> rozbalte přímo do této složky:
+<code>simulator.py</code> se ocitne vedle <code>reseni.py</code> a data
+v <code>simulacni-uloha/data/</code>. Simulátor ani data
+neupravujte.</p>
+<ul>
+<li><strong>Kód</strong>, který jedním příkazem
+(<code>uv run python simulacni-uloha/reseni.py</code>) přepočítá všechny
+výsledky, tabulky a grafy do <code>simulacni-uloha/vystupy/</code>. Jak
+kód rozdělíte do funkcí a souborů, je na vás. Pevné seedy, ať jde každé
+číslo zopakovat.</li>
+<li><strong><code>simulacni-uloha/README.md</code></strong> podle
+šablony: účelová funkce (základní i upravená), metody a jejich
+nastavení, rozpočet, výsledky, interpretace a kontroly. Uveďte, co jste
+oproti zadání změnili a proč.</li>
+<li><strong>Testy</strong> (<code>uv run pytest simulacni-uloha</code>),
+mezi nimi aspoň jeden, který odhalí záměrně pokažené řešení (např.
+parametry mimo rozsah nebo nahlášenou chybu, která nesedí s
+přepočtem).</li>
+</ul>
+<p>Hodnotí se, co z výsledků vyčtete a jestli to umíte obhájit, ne shoda
+s nějakým referenčním číslem. U obhajoby počítejte s otázkou „co když“:
+malou změnou zadání (např. laboratoř měří každé 2 h místo 3 h, nebo
+dostanete rozpočet jen 500 vyhodnocení), kterou musíte umět promítnout
+do výpočtu.</p>
+<h2 id="náměty-na-rozšíření">Náměty na rozšíření</h2>
+<ul>
+<li><strong>Profil.</strong> Jak se mění nejlepší dosažitelná chyba,
+když jeden parametr (např. <span class="math inline">\(k\)</span>)
+zafixujete na mřížce hodnot a ostatní dofitujete? Co profil řekne o tom,
+které parametry data určují?</li>
+<li><strong>Šum a robustnost.</strong> Jak se výsledky změní, když z
+hustých dat vynecháte náhodnou třetinu bodů, nebo když šum
+zesílíte?</li>
+</ul>
+</body>
+</html>

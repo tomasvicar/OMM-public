@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vizuální bonusy</title>
+<style>
+/* Jednotny styl reportu k ukazkam prvniho cviceni MPC-OMM. */
+:root {
+  --text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+  --ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+  font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+  color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+  display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+  color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; }   /* pravidlo, ktere NEPLATI */
+.box {
+  background: var(--box); border-left: 4px solid var(--akcent);
+  padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+/* --- rozcestnik (index.html) --- */
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+  border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+  display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; }   /* stitek je jen tak siroky jako text */
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+/* --- anatomie ulohy: promenne / ucelova funkce / omezeni --- */
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+  background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+  border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+  display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+  .anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+/* --- interaktivni hriste (JS widget v reportech ukazek) --- */
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+  border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+  padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+  border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+  display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+  align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+  font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+/* --- pasaze pro vyucujiciho (jdou skryt pro studentskou verzi) --- */
+.pro-vyucujiciho {
+  border-left: 4px solid var(--akcent2); background: #fdf6f4;
+  padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+  content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+  font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+  color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+  border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+/* --- zvětšení obrázku kliknutím (lupa.js) --- */
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; }   /* sem se kliká, nezvětšuje se */
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+  background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+  background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+  line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+  background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+
+.ovladani { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: 1.5rem 0; }
+.ovladani button { border: 1px solid var(--ram); background: var(--pozadi); color: var(--text);
+  padding: .35rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; font-size: .95rem; }
+.ovladani button.on { border-color: var(--akcent); color: var(--akcent); font-weight: 600; }
+.ovladani input { flex: 1 1 200px; min-width: 0; border: 1px solid var(--ram); padding: .4rem .8rem;
+  border-radius: 6px; font: inherit; font-size: .95rem; }
+.uloha { border: 1px solid var(--ram); border-radius: 6px; padding: 1rem 1.2rem; margin: 0 0 1rem;
+  overflow-wrap: anywhere; }
+.uloha .hlava { display: flex; flex-wrap: wrap; gap: .3rem .7rem; align-items: center;
+  font-size: .9rem; color: var(--tlum); }
+.uloha .id { flex-shrink: 0; color: #fff; font-weight: 700; padding: 0 .45rem; border-radius: 3px; }
+.uloha .id.M { background: var(--akcent); } .uloha .id.S { background: var(--akcent2); }
+.uloha h3 { margin: .4rem 0 .3rem; font-size: 1.15rem; }
+.uloha h3 a { color: inherit; }
+.uloha p { margin: .3rem 0; }
+.uloha .meta { font-size: .9rem; color: var(--tlum); }
+.uloha .pripravuje { font-size: .9rem; color: var(--tlum); font-style: italic; }
+.skryt { display: none; }
+a.tlacitko { display: inline-block; background: var(--akcent); color: #fff; text-decoration: none;
+  padding: .55rem 1.2rem; border-radius: 4px; font-weight: 600; }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+
+.bonus { display: grid; grid-template-columns: minmax(0, 260px) 1fr; gap: 1.2rem;
+  border: 1px solid var(--ram); border-radius: 10px; padding: 1rem; margin: 1.2rem 0; }
+.bonus img { width: 100%; border-radius: 6px; display: block; }
+.bonus h3 { margin-top: 0; }
+@media (max-width: 600px) { .bonus { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+
+<a class="zpet" href="index.html">← princip projektu</a>
+<header>
+  <div class="stitek">MPC-OMM · projekt 2026</div>
+  <h1>Vizuální bonusy</h1>
+  <p class="perex">Otevřené úlohy na hraní: dostanete data nebo simulátor, skript
+  <code>ukaz_start.py</code> s počátečním stavem a animaci pro inspiraci. Metodu,
+  vylepšení i vzhled výsledné animace vymyslíte sami. Každý bonus je za 2 body nad
+  30 bodů projektu, tým může získat nejvýš 2 bonusy (4 body).</p>
+</header>
+
+<article class="bonus">
+  <a href="bonusy/B01.html"><img src="bonusy/B01.gif" alt="animace B01" loading="lazy"></a>
+  <div>
+    <h3><a href="bonusy/B01.html">Evoluce plazícího tvorečka</a></h3>
+    <p>Tvoreček z kuliček a tyček umí jen rytmicky stahovat svaly. Najděte mu evolucí takový rytmus, aby se po zvlněném terénu doplazil co nejdál – a podívejte se, jestli opravdu leze, nebo jen podvádí fyziku.</p>
+    <p><a href="bonusy/B01.html">Zadání a data →</a></p>
+  </div>
+</article>
+<article class="bonus">
+  <a href="bonusy/B02.html"><img src="bonusy/B02.gif" alt="animace B02" loading="lazy"></a>
+  <div>
+    <h3><a href="bonusy/B02.html">Obraz z průhledných trojúhelníků</a></h3>
+    <p>Poskládejte Darwinův portrét ze stovky poloprůhledných trojúhelníků. Optimalizace v tisícirozměrném prostoru bez gradientu, kde si můžete hrát s tím, co a jak mutujete – a výsledkem je animace, na kterou se dobře kouká.</p>
+    <p><a href="bonusy/B02.html">Zadání a data →</a></p>
+  </div>
+</article>
+<article class="bonus">
+  <a href="bonusy/B04.html"><img src="bonusy/B04.gif" alt="animace B04" loading="lazy"></a>
+  <div>
+    <h3><a href="bonusy/B04.html">String art: Cajal z nití</a></h3>
+    <p>Portrét zakladatele neurovědy utkaný z černé nitě napnuté mezi 180 hřebíky. Vyberte ze 14 490 možných tětiv nejvýš 2000 tak, aby z dálky vznikl obličej – hladově, přes LP relaxaci, nebo úplně po svém.</p>
+    <p><a href="bonusy/B04.html">Zadání a data →</a></p>
+  </div>
+</article>
+<article class="bonus">
+  <a href="bonusy/B05.html"><img src="bonusy/B05.gif" alt="animace B05" loading="lazy"></a>
+  <div>
+    <h3><a href="bonusy/B05.html">Dominový portrét</a></h3>
+    <p>Složte portrét Gregora Mendela z kompletních sad domina, každou kostku právě jednou. Zblízka hromada teček, z dálky obličej – a k tomu otázka, proč tak celočíselná úloha možná vůbec nepotřebuje celočíselné proměnné.</p>
+    <p><a href="bonusy/B05.html">Zadání a data →</a></p>
+  </div>
+</article>
+<article class="bonus">
+  <a href="bonusy/B06.html"><img src="bonusy/B06.gif" alt="animace B06" loading="lazy"></a>
+  <div>
+    <h3><a href="bonusy/B06.html">Turingovy skvrny</a></h3>
+    <p>Gepard a zebra dostali kožich od stejné chemie, jen s jinými konstantami. Zkuste z obrázku vzoru vyladit konstanty reakčně-difuzního modelu – zašuměný a drahý černý box, kde nejzajímavější otázka zní, co vlastně znamená „podobný vzor“.</p>
+    <p><a href="bonusy/B06.html">Zadání a data →</a></p>
+  </div>
+</article>
+<article class="bonus">
+  <a href="bonusy/B07.html"><img src="bonusy/B07.gif" alt="animace B07" loading="lazy"></a>
+  <div>
+    <h3><a href="bonusy/B07.html">Rostlina chytá světlo</a></h3>
+    <p>Vypěstujte v počítači rostlinu, která ze svého květináče nachytá co nejvíc světla za co nejmenší cenu. A cestou zjistěte, jestli je slavný zlatý úhel 137,5° mezi listy opravdu optimální – nebo jen hodně dobrý.</p>
+    <p><a href="bonusy/B07.html">Zadání a data →</a></p>
+  </div>
+</article>
+<article class="bonus">
+  <a href="bonusy/B08.html"><img src="bonusy/B08.gif" alt="animace B08" loading="lazy"></a>
+  <div>
+    <h3><a href="bonusy/B08.html">Hejno proti predátorovi</a></h3>
+    <p>Hejno ryb nemá velitele, jen pár jednoduchých pravidel. Hrajte si s váhami těchto pravidel tak, aby predátorovi uniklo co nejvíc ryb – zašuměná černá skříňka, u které se snadno necháte oklamat jedním šťastným útokem.</p>
+    <p><a href="bonusy/B08.html">Zadání a data →</a></p>
+  </div>
+</article>
+<article class="bonus">
+  <a href="bonusy/B09.html"><img src="bonusy/B09.gif" alt="animace B09" loading="lazy"></a>
+  <div>
+    <h3><a href="bonusy/B09.html">Evoluce autíček</a></h3>
+    <p>Z náhodných vraků z paprsků a kol vypěstujte evolucí autíčko, které přejede kopce, schody i díry. Návrh tvaru bez gradientu, jen se simulací – a na výsledek se dobře kouká.</p>
+    <p><a href="bonusy/B09.html">Zadání a data →</a></p>
+  </div>
+</article>
+</body>
+</html>

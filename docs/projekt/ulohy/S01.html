@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>S01 – Antibiotikum proti mutantovi: nasycovací dávka, udržovací
+dávka a interval</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style>
+
+:root {
+--text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+--ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; } 
+.box {
+background: var(--box); border-left: 4px solid var(--akcent);
+padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; } 
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+.anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+.pro-vyucujiciho {
+border-left: 4px solid var(--akcent2); background: #fdf6f4;
+padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; } 
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+body { overflow-wrap: break-word; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+pre { overflow-x: auto; max-width: 100%; }
+code { overflow-wrap: anywhere; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 600px) { body { padding: 1.2rem 1rem 3rem; } }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml.js"></script>
+</head>
+<body>
+<a class="zpet" href="../ulohy.html">← nabídka úloh</a>
+<h1 id="s01-antibiotikum-proti-mutantovi-nasycovací-dávka-udržovací-dávka-a-interval">S01
+– Antibiotikum proti mutantovi: nasycovací dávka, udržovací dávka a
+interval</h1>
+<p><strong>Simulační úloha S01 · řešení patří do složky
+<code>simulacni-uloha/</code> vašeho repozitáře · simulátor a data: <a href="data-S01.zip">data-S01.zip</a> (rozbalit do
+<code>simulacni-uloha/</code>; simulátor k náhledu: <a href="S01/simulator.py" download="simulator.py">simulator.py</a>)</strong></p>
+<p>Pacient má bakteriální infekci, v těle je zhruba miliarda bakterií.
+Antibiotikum ledviny špatně snášejí, a tak chce lékař dát léku co
+nejméně. Léčba trvá tři dny a lékař volí tři věci: první dávku, dávku,
+která se pak opakuje, a interval mezi dávkami. Klasický farmakologický
+model mu spočítá nejúspornější režim, který bakterie ještě zabije.
+Mikrobioložka ale varuje: „Mezi miliardou bakterií se vždycky najde pár
+mutantů, kterým váš lék skoro nevadí. Když je budete dlouho krmit nízkou
+koncentrací, vypěstujete si je.“</p>
+<p><em>Simulátor je výukový model se syntetickými, ilustračními
+parametry. Nejde o klinické doporučení.</em></p>
+<h2 id="co-potřebujete-vědět-z-farmakologie-a-mikrobiologie">Co
+potřebujete vědět z farmakologie a mikrobiologie</h2>
+<p><strong>Koncentrace léku.</strong> Lék se podává nitrožilně. Po každé
+dávce koncentrace v krvi vyskočí (<em>špička</em>) a pak exponenciálně
+klesá s poločasem eliminace; těsně před další dávkou je nejnižší
+(<em>minimum</em>, angl. <em>trough</em>). Dávky se sčítají, takže se
+koncentrace během léčby postupně zvedá k ustálenému stavu. První dávku
+lze dát jinou než ostatní (<em>nasycovací dávka</em>, angl. <em>loading
+dose</em>).</p>
+<p><strong>Toxicita.</strong> Lék škodí při vysoké špičce a při
+dlouhodobě vysokém minimu. Proto platí dva limity: nejvyšší koncentrace
+během léčby a koncentrace těsně před poslední dávkou (tu lékař v praxi
+měří). Obojí počítá simulátor přesně a levně (funkce
+<code>toxicita</code>), bez simulace.</p>
+<p><strong>MIC a okno výběru mutantů.</strong> <em>Minimální inhibiční
+koncentrace</em> (MIC) je koncentrace, při které lék právě vyrovná růst
+bakterií: nad ní populace ubývá, pod ní roste. Mutant má MIC několikrát
+vyšší. Když je koncentrace <strong>mezi</strong> MIC citlivých bakterií
+a MIC mutantů, citlivé umírají a mutanti rostou a mají volné pole.
+Tomuto pásmu se říká <em>okno výběru mutantů</em> (<em>mutant selection
+window</em>).</p>
+<p><strong>Imunita a náhoda.</strong> Malou populaci bakterií dočistí
+imunitní systém sám, velkou nestíhá. Mutant vzniká vzácně při dělení
+citlivé bakterie a pár mutantů může být v infekci už na začátku.
+Výsledek léčby je proto náhodná veličina: smysluplná otázka zní „jak
+často léčba uspěje“.</p>
+<h2 id="simulátor">Simulátor</h2>
+<p>Soubor <a href="S01/simulator.py" download="simulator.py">simulator.py</a> potřebuje jen NumPy;
+jeho docstring popisuje model i rovnice. Režim je trojice: nasycovací
+dávka <span class="math inline">\(D_1\)</span> (mg), udržovací dávka
+<span class="math inline">\(D\)</span> (mg) a interval <span class="math inline">\(\tau \in \{6, 8, 12, 24\}\)</span> h
+(<code>TAU_POVOLENE</code>). Léčba trvá vždy 3 dny
+(<code>DNY_LECBY</code>), první dávka je v čase 0, potom se sleduje
+ještě 4 dny.</p>
+<p><strong>Meze proměnných:</strong> <span class="math inline">\(D_1 \in
+[20, 800]\)</span> mg (800 mg dá špičku právě na limitu 40 mg/l), <span class="math inline">\(D \in [1, 800]\)</span> mg, <span class="math inline">\(\tau\)</span> jen z <code>TAU_POVOLENE</code>.
+Simulátor tyto meze <strong>nehlídá</strong>: odmítne jen nekladnou
+dávku a interval mimo <code>TAU_POVOLENE</code>, jinak spočítá cokoli.
+Meze a limity toxicity musí hlídat vaše metoda (a <code>kontrola</code>
+v šabloně).</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>funkce</th>
+<th>co vrací</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>instance(seed)</code></td>
+<td>slovník parametrů; <code>seed=0</code> je <strong>hlavní
+pacient</strong>, <code>seed=1…8</code> další pacienti (jiný poločas,
+jiný poměr MIC mutanta, jiná frekvence mutací)</td>
+</tr>
+<tr>
+<td><code>toxicita(D1, D, tau, inst)</code></td>
+<td>(nejvyšší koncentrace, koncentrace před poslední dávkou) v mg/l;
+limity jsou <code>inst[&quot;spicka_max&quot;]</code> a
+<code>inst[&quot;minimum_max&quot;]</code></td>
+</tr>
+<tr>
+<td><code>celkem_leku(D1, D, tau)</code></td>
+<td>celkové množství léku v mg</td>
+</tr>
+<tr>
+<td><code>deterministicky(D1, D, tau, inst)</code></td>
+<td>klasický model <strong>bez mutantů</strong> (střední hodnoty):
+<code>True</code>, když infekci vyléčí</td>
+</tr>
+<tr>
+<td><code>stochasticky(D1, D, tau, inst, n_behu, seed)</code></td>
+<td>pole délky <code>n_behu</code> s výsledkem každého náhodného běhu:
+<code>0</code> = vyléčeno, <code>1</code> = přežily citlivé bakterie,
+<code>2</code> = rezistence; stejný <code>seed</code> dá stejná náhodná
+čísla</td>
+</tr>
+<tr>
+<td><code>koncentrace(D1, D, tau, t, inst)</code></td>
+<td>koncentrace v časech <code>t</code> (h), pro grafy</td>
+</tr>
+</tbody>
+</table>
+<p>Jedno volání <code>stochasticky</code> trvá 0,1–0,3 s skoro bez
+ohledu na <code>n_behu</code>.</p>
+<p><strong>Rozpočet.</strong> V základní úloze má každá metoda (jeden
+běh) nejvýš <strong>300 vyhodnocení</strong> deterministického modelu –
+jedno vyhodnocení je jedno volání <code>deterministicky</code>, tedy
+jeden kandidátní režim. V novém požadavku má každá optimalizační metoda
+k dispozici <strong>30 000 stochastických běhů</strong> (součet
+<code>n_behu</code> přes všechna volání během hledání); deterministický
+model se tam už nepočítá. Ověření nalezeného řešení a vlastní reference
+se do rozpočtu nepočítají, ale musí používat jiné seedy než hledání.
+<code>toxicita</code> a <code>celkem_leku</code> jsou vzorce a
+nepočítají se nikdy.</p>
+<h2 id="úkol">Úkol</h2>
+<h3 id="základní-úloha">Základní úloha</h3>
+<p>Lékař používá klasický deterministický model bez mutantů. Najděte
+režim <span class="math inline">\((D_1, D, \tau)\)</span> s co nejmenším
+celkovým množstvím léku, který podle tohoto modelu infekci vyléčí a
+dodrží oba limity toxicity. Porovnejte aspoň jednu obecnou black-box
+metodu s postupem, který využívá strukturu úlohy.</p>
+<h3 id="nový-požadavek">Nový požadavek</h3>
+<p>Mikrobioložka po prvních výsledcích: „Pusťte ten režim v modelu s
+náhodnými mutacemi. A chci režim, který vyléčí bez rezistence
+<strong>aspoň 90 % pacientů</strong> – s co nejmenším množstvím
+léku.“</p>
+<p>Pravděpodobnost úspěchu je teď omezení, které jde jen
+<strong>odhadnout</strong> z opakovaných běhů. Rozhodnete, kolik běhů
+dát jednomu kandidátovi, jak zacházet s kandidáty těsně kolem 90 % a jak
+zapracovat diskrétní interval a limity toxicity do metod, které je přímo
+neumějí.</p>
+<p>Požadavek je splněný, když odhad z aspoň <strong>10 000 čerstvých
+běhů</strong> (seedy, které hledání nevidělo) vyjde nejméně
+<strong>0,89</strong>; menší rozdíl od 0,90 je v mezích šumu.</p>
+<h3 id="co-má-vaše-práce-ukázat">Co má vaše práce ukázat</h3>
+<ul>
+<li>Deterministické optimum a co se s ním stane ve stochastickém modelu;
+vysvětlení pomocí koncentrační křivky a okna výběru mutantů.</li>
+<li>Režim splňující nový požadavek a jeho srovnání se základním: co
+požadavek stál v množství léku, co přinesl a jak se liší tvar
+režimu.</li>
+<li><strong>Férové srovnání aspoň tří metod</strong> při stejném
+rozpočtu 30 000 běhů (vždy náhodné hledání jako baseline a dvě až tři
+metody z kurzu), každá opakovaně s různými seedy; medián a rozptyl, ne
+jeden šťastný běh.</li>
+<li><strong>Nezávislou kontrolu:</strong> každé nalezené řešení
+přepočítejte na čerstvých seedech a ověřte limity toxicity. Jak daleko
+je od nejlepšího řešení, které umíte najít bez omezení rozpočtu (vlastní
+reference), a jak se ta reference dá obhájit?</li>
+<li>Jestli závěr platí i pro další pacienty (<code>instance(1)</code> až
+<code>instance(8)</code>).</li>
+<li>Vlastní experiment s jasnou otázkou, tabulkou nebo grafem a
+závěrem.</li>
+</ul>
+<h2 id="otázky-k-zamyšlení">Otázky k zamyšlení</h2>
+<ul>
+<li>Proč klasický model doporučí právě takový režim a co v něm
+chybí?</li>
+<li>Když metoda „našla“ režim s odhadem úspěšnosti nad 90 %, jak moc
+tomu číslu věříte? Liší se odhad, podle kterého jste kandidáta vybrali,
+od odhadu na čerstvých seedech, a proč?</li>
+<li>Co dělají společná náhodná čísla (stejný seed pro všechny kandidáty)
+se srovnáním dvou kandidátů a co s odhadem úspěšnosti jednoho z
+nich?</li>
+<li>Je pořadí metod stabilní, když změníte počet běhů na kandidáta?</li>
+<li>Které omezení je v nejlepším režimu aktivní? Co by se stalo, kdyby
+lékař limit toxicity zmírnil?</li>
+</ul>
+<h2 id="co-odevzdáváte">Co odevzdáváte</h2>
+<p>Řešení patří do složky <strong><code>simulacni-uloha/</code></strong>
+vašeho týmového repozitáře (šablona projektu). Archiv <a href="data-S01.zip">data-S01.zip</a> obsahuje jen
+<code>simulator.py</code>; rozbalte ho přímo do této složky, vedle
+<code>reseni.py</code>. Simulátor neupravujte.</p>
+<ul>
+<li><strong>Kód</strong>, který jedním příkazem
+(<code>uv run python simulacni-uloha/reseni.py</code>) přepočítá všechny
+výsledky, tabulky a grafy do <code>simulacni-uloha/vystupy/</code>. Jak
+kód rozdělíte do funkcí a souborů, je na vás. Pevné seedy všude. Běhy
+metod s různými seedy jsou nezávislé, dají se pouštět paralelně.</li>
+<li><strong><code>simulacni-uloha/README.md</code></strong> podle
+šablony: formulace (proměnné, cíl, omezení, základní i upravená; jak
+jste ošetřili šum, diskrétní interval a toxicitu), metody a jejich
+nastavení, výsledky, interpretace a kontroly. Uveďte, co jste oproti
+zadání změnili a proč.</li>
+<li><strong>Testy</strong> (<code>uv run pytest simulacni-uloha</code>),
+mezi nimi aspoň jeden, který odhalí záměrně pokažené řešení (např.
+režim, který porušuje limit toxicity nebo nesplňuje 90 % na čerstvých
+seedech).</li>
+</ul>
+<p>Hodnotí se, co z výsledků vyčtete a jestli to umíte obhájit, ne shoda
+s nějakým referenčním číslem. U obhajoby počítejte s otázkou „co když“:
+malou změnou zadání (např. požadavek 95 % místo 90 %, pacient se
+zhoršenou funkcí ledvin, rozpočet desetkrát menší), kterou musíte umět
+promítnout do svého postupu.</p>
+<h2 id="náměty-na-rozšíření">Náměty na rozšíření</h2>
+<ul>
+<li><strong>Paretova fronta:</strong> množství léku proti
+pravděpodobnosti rezistence – kolik léku stojí každé další procento
+úspěšnosti?</li>
+<li><strong>Postupné zpřesňování:</strong> dát slibným kandidátům víc
+běhů a slabé vyřadit brzy (<em>successive halving</em>). Ušetří to
+rozpočet?</li>
+<li><strong>Jeden režim pro všechny:</strong> režim, který splní 90 % u
+všech pacientů 0–8 najednou. Kolik stojí proti režimům šitým na
+míru?</li>
+<li><strong>Délka léčby:</strong> ve vlastní kopii simulátoru změňte
+<code>DNY_LECBY</code>. Vyplatí se léčit déle, nebo kratší dobu?</li>
+</ul>
+</body>
+</html>

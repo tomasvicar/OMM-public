@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>M14 – Klinické stáže: nejspokojenější studenti, nebo stabilní
+rozdělení?</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style>
+
+:root {
+--text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+--ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; } 
+.box {
+background: var(--box); border-left: 4px solid var(--akcent);
+padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; } 
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+.anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+.pro-vyucujiciho {
+border-left: 4px solid var(--akcent2); background: #fdf6f4;
+padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; } 
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+body { overflow-wrap: break-word; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+pre { overflow-x: auto; max-width: 100%; }
+code { overflow-wrap: anywhere; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 600px) { body { padding: 1.2rem 1rem 3rem; } }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml.js"></script>
+</head>
+<body>
+<a class="zpet" href="../ulohy.html">← nabídka úloh</a>
+<h1 id="m14-klinické-stáže-nejspokojenější-studenti-nebo-stabilní-rozdělení">M14
+– Klinické stáže: nejspokojenější studenti, nebo stabilní
+rozdělení?</h1>
+<p><strong>Modelová úloha M14 · řešení patří do složky
+<code>model-uloha/</code> vašeho repozitáře · data: <a href="data-M14.zip">data-M14.zip</a></strong></p>
+<p>Třicet studentů jde na povinnou stáž na osm pracovišť (kardiologie,
+radiologie, okresní nemocnice…), dohromady je k dispozici 33 míst. Každý
+student seřadí všechna pracoviště od nejoblíbenějšího, každé pracoviště
+seřadí všechny studenty (podle prospěchu a pohovoru). Koordinátor chce
+studenty co nejvíc potěšit, a tak spočítá rozdělení s nejmenším součtem
+pořadí. Druhý den volá primářka kardiologie: „Studentka S07 k nám chtěla
+a my jsme chtěli ji. Proč jste nám poslali někoho, koho jsme měli až za
+ní?“ Taková dvojice se snadno domluví mimo systém – a rozdělení se začne
+rozpadat.</p>
+<p><em>Data jsou simulovaná a názvy pracovišť fiktivní. Skutečné
+preference z párovacích řízení se nezveřejňují.</em></p>
+<h2 id="co-potřebujete-vědět-o-párovacích-trzích">Co potřebujete vědět o
+párovacích trzích</h2>
+<p><strong>Dvě strany, obě si vybírají.</strong> Rozdělování na stáže,
+rezidentury lékařů nebo na střední školy je <em>párovací trh</em>:
+nestačí, aby byli spokojení studenti, svůj názor mají i pracoviště.
+Pracoviště <span class="math inline">\(h\)</span> má
+<strong>kapacitu</strong> <span class="math inline">\(c_h\)</span>
+(počet míst). Student <span class="math inline">\(s\)</span> dá
+pracovišti <span class="math inline">\(h\)</span>
+<strong>pořadí</strong> <span class="math inline">\(r_{sh}\)</span> (1 =
+nejoblíbenější, 8 = nejméně oblíbené), pracoviště <span class="math inline">\(h\)</span> dá studentovi <span class="math inline">\(s\)</span> pořadí <span class="math inline">\(p_{hs}\)</span> (1 = nejžádanější).</p>
+<p><strong>Blokující dvojice.</strong> Student <span class="math inline">\(s\)</span> a pracoviště <span class="math inline">\(h\)</span> tvoří <em>blokující dvojici</em>, když
+v daném rozdělení</p>
+<ol type="1">
+<li>student <span class="math inline">\(s\)</span> <strong>není</strong>
+na <span class="math inline">\(h\)</span> a byl by na <span class="math inline">\(h\)</span> raději než tam, kam ho poslali (nebo je
+neumístěný), <strong>a zároveň</strong></li>
+<li>pracoviště <span class="math inline">\(h\)</span> má <strong>volné
+místo</strong>, nebo má aspoň jednoho studenta, kterého chce
+<strong>méně</strong> než <span class="math inline">\(s\)</span>.</li>
+</ol>
+<p>Oběma se vyplatí systém obejít: student místo odmítne a pracoviště ho
+vezme místo někoho horšího. Rozdělení bez blokující dvojice se nazývá
+<strong>stabilní</strong>. Obrázek ukazuje malý příklad: v rozdělení a)
+chce student S2 radši na kardiologii, než kam ho poslali, a kardiologie
+by ho brala radši než S1, kterého má.</p>
+<figure>
+<img role="img" aria-label="Malý příklad: tři studenti, dvě pracoviště. Pod studentem je jeho pořadí pracovišť, pod pracovištěm jeho pořadí studentů. Plná čára = přiřazení, přerušovaná = blokující dvojice." src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjY5MS4ycHQiIGhlaWdodD0iMjU5LjJwdCIgdmlld0JveD0iMCAwIDY5MS4yIDI1OS4yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSI+CiA8bWV0YWRhdGE+CiAgPHJkZjpSREYgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICA8Y2M6V29yaz4KICAgIDxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz4KICAgIDxkYzpkYXRlPjIwMjYtMTEtMDNUMTQ6MzY6MDUuMzk3MDgyPC9kYzpkYXRlPgogICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICA8ZGM6Y3JlYXRvcj4KICAgICA8Y2M6QWdlbnQ+CiAgICAgIDxkYzp0aXRsZT5NYXRwbG90bGliIHYzLjExLjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvPC9kYzp0aXRsZT4KICAgICA8L2NjOkFnZW50PgogICAgPC9kYzpjcmVhdG9yPgogICA8L2NjOldvcms+CiAgPC9yZGY6UkRGPgogPC9tZXRhZGF0YT4KIDxkZWZzPgogIDxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+KntzdHJva2UtbGluZWpvaW46IHJvdW5kOyBzdHJva2UtbGluZWNhcDogYnV0dH08L3N0eWxlPgogPC9kZWZzPgogPGcgaWQ9ImZpZ3VyZV8xIj4KICA8ZyBpZD0icGF0Y2hfMSI+CiAgIDxwYXRoIGQ9Ik0gMCAyNTkuMiAKTCA2OTEuMiAyNTkuMiAKTCA2OTEuMiAwIApMIDAgMCAKegoiIHN0eWxlPSJmaWxsOiAjZmZmZmZmIi8+CiAgPC9nPgogIDxnIGlkPSJheGVzXzEiPgogICA8ZyBpZD0ibGluZTJkXzEiPgogICAgPHBhdGggZD0iTSA4NS40Mjk2ODggNzcuODkxNDI5IApMIDIxNC4xMDE1NjIgOTMuNjI2ODU3IAoiIGNsaXAtcGF0aD0idXJsKCNwNzI0MzI4ZGExMSkiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6ICMyYjZjYjA7IHN0cm9rZS13aWR0aDogMi4yOyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgIDwvZz4KICAgPGcgaWQ9ImxpbmUyZF8yIj4KICAgIDxwYXRoIGQ9Ik0gODUuNDI5Njg4IDEzNS41ODggCkwgMjE0LjEwMTU2MiAxNzcuNTQ5MTQzIAoiIGNsaXAtcGF0aD0idXJsKCNwNzI0MzI4ZGExMSkiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6ICMyYjZjYjA7IHN0cm9rZS13aWR0aDogMi4yOyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgIDwvZz4KICAgPGcgaWQ9ImxpbmUyZF8zIj4KICAgIDxwYXRoIGQ9Ik0gODUuNDI5Njg4IDE5My4yODQ1NzEgCkwgMjE0LjEwMTU2MiAxNzcuNTQ5MTQzIAoiIGNsaXAtcGF0aD0idXJsKCNwNzI0MzI4ZGExMSkiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6ICMyYjZjYjA7IHN0cm9rZS13aWR0aDogMi4yOyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgIDwvZz4KICAgPGcgaWQ9ImxpbmUyZF80Ij4KICAgIDxwYXRoIGQ9Ik0gODUuNDI5Njg4IDEzNS41ODggCkwgMjE0LjEwMTU2MiA5My42MjY4NTcgCiIgY2xpcC1wYXRoPSJ1cmwoI3A3MjQzMjhkYTExKSIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZS1kYXNoYXJyYXk6IDExLDYuNjsgc3Ryb2tlLWRhc2hvZmZzZXQ6IDA7IHN0cm9rZTogI2M1MzAzMDsgc3Ryb2tlLXdpZHRoOiAyLjIiLz4KICAgPC9nPgogICA8ZyBpZD0icGF0Y2hfMiI+CiAgICA8cGF0aCBkPSJNIDY5Ljk4OTA2MiA5My42MjY4NTcgCkMgNzQuMDgzOTY0IDkzLjYyNjg1NyA3OC4wMTE3IDkxLjk2ODg3MyA4MC45MDcyMzMgODkuMDE4MDU3IApDIDgzLjgwMjc2NiA4Ni4wNjcyNDEgODUuNDI5Njg3IDgyLjA2NDUxMyA4NS40Mjk2ODcgNzcuODkxNDI5IApDIDg1LjQyOTY4NyA3My43MTgzNDQgODMuODAyNzY2IDY5LjcxNTYxNyA4MC45MDcyMzMgNjYuNzY0OCAKQyA3OC4wMTE3IDYzLjgxMzk4NCA3NC4wODM5NjQgNjIuMTU2IDY5Ljk4OTA2MiA2Mi4xNTYgCkMgNjUuODk0MTYxIDYyLjE1NiA2MS45NjY0MjUgNjMuODEzOTg0IDU5LjA3MDg5MiA2Ni43NjQ4IApDIDU2LjE3NTM1OSA2OS43MTU2MTcgNTQuNTQ4NDM3IDczLjcxODM0NCA1NC41NDg0MzcgNzcuODkxNDI5IApDIDU0LjU0ODQzNyA4Mi4wNjQ1MTMgNTYuMTc1MzU5IDg2LjA2NzI0MSA1OS4wNzA4OTIgODkuMDE4MDU3IApDIDYxLjk2NjQyNSA5MS45Njg4NzMgNjUuODk0MTYxIDkzLjYyNjg1NyA2OS45ODkwNjIgOTMuNjI2ODU3IAp6CiIgY2xpcC1wYXRoPSJ1cmwoI3A3MjQzMjhkYTExKSIgc3R5bGU9ImZpbGw6ICNlYmY0ZmY7IHN0cm9rZTogIzJiNmNiMDsgc3Ryb2tlLXdpZHRoOiAxLjU7IHN0cm9rZS1saW5lam9pbjogbWl0ZXIiLz4KICAgPC9nPgogICA8ZyBpZD0icGF0Y2hfMyI+CiAgICA8cGF0aCBkPSJNIDY5Ljk4OTA2MiAxNTEuMzIzNDI5IApDIDc0LjA4Mzk2NCAxNTEuMzIzNDI5IDc4LjAxMTcgMTQ5LjY2NTQ0NSA4MC45MDcyMzMgMTQ2LjcxNDYyOCAKQyA4My44MDI3NjYgMTQzLjc2MzgxMiA4NS40Mjk2ODcgMTM5Ljc2MTA4NCA4NS40Mjk2ODcgMTM1LjU4OCAKQyA4NS40Mjk2ODcgMTMxLjQxNDkxNiA4My44MDI3NjYgMTI3LjQxMjE4OCA4MC45MDcyMzMgMTI0LjQ2MTM3MiAKQyA3OC4wMTE3IDEyMS41MTA1NTUgNzQuMDgzOTY0IDExOS44NTI1NzEgNjkuOTg5MDYyIDExOS44NTI1NzEgCkMgNjUuODk0MTYxIDExOS44NTI1NzEgNjEuOTY2NDI1IDEyMS41MTA1NTUgNTkuMDcwODkyIDEyNC40NjEzNzIgCkMgNTYuMTc1MzU5IDEyNy40MTIxODggNTQuNTQ4NDM3IDEzMS40MTQ5MTYgNTQuNTQ4NDM3IDEzNS41ODggCkMgNTQuNTQ4NDM3IDEzOS43NjEwODQgNTYuMTc1MzU5IDE0My43NjM4MTIgNTkuMDcwODkyIDE0Ni43MTQ2MjggCkMgNjEuOTY2NDI1IDE0OS42NjU0NDUgNjUuODk0MTYxIDE1MS4zMjM0MjkgNjkuOTg5MDYyIDE1MS4zMjM0MjkgCnoKIiBjbGlwLXBhdGg9InVybCgjcDcyNDMyOGRhMTEpIiBzdHlsZT0iZmlsbDogI2ViZjRmZjsgc3Ryb2tlOiAjMmI2Y2IwOyBzdHJva2Utd2lkdGg6IDEuNTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICA8L2c+CiAgIDxnIGlkPSJwYXRjaF80Ij4KICAgIDxwYXRoIGQ9Ik0gNjkuOTg5MDYyIDIwOS4wMiAKQyA3NC4wODM5NjQgMjA5LjAyIDc4LjAxMTcgMjA3LjM2MjAxNiA4MC45MDcyMzMgMjA0LjQxMTIgCkMgODMuODAyNzY2IDIwMS40NjAzODMgODUuNDI5Njg3IDE5Ny40NTc2NTYgODUuNDI5Njg3IDE5My4yODQ1NzEgCkMgODUuNDI5Njg3IDE4OS4xMTE0ODcgODMuODAyNzY2IDE4NS4xMDg3NTkgODAuOTA3MjMzIDE4Mi4xNTc5NDMgCkMgNzguMDExNyAxNzkuMjA3MTI3IDc0LjA4Mzk2NCAxNzcuNTQ5MTQzIDY5Ljk4OTA2MiAxNzcuNTQ5MTQzIApDIDY1Ljg5NDE2MSAxNzcuNTQ5MTQzIDYxLjk2NjQyNSAxNzkuMjA3MTI3IDU5LjA3MDg5MiAxODIuMTU3OTQzIApDIDU2LjE3NTM1OSAxODUuMTA4NzU5IDU0LjU0ODQzNyAxODkuMTExNDg3IDU0LjU0ODQzNyAxOTMuMjg0NTcxIApDIDU0LjU0ODQzNyAxOTcuNDU3NjU2IDU2LjE3NTM1OSAyMDEuNDYwMzgzIDU5LjA3MDg5MiAyMDQuNDExMiAKQyA2MS45NjY0MjUgMjA3LjM2MjAxNiA2NS44OTQxNjEgMjA5LjAyIDY5Ljk4OTA2MiAyMDkuMDIgCnoKIiBjbGlwLXBhdGg9InVybCgjcDcyNDMyOGRhMTEpIiBzdHlsZT0iZmlsbDogI2ViZjRmZjsgc3Ryb2tlOiAjMmI2Y2IwOyBzdHJva2Utd2lkdGg6IDEuNTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICA8L2c+CiAgIDxnIGlkPSJwYXRjaF81Ij4KICAgIDxwYXRoIGQ9Ik0gMjE0LjEwMTU2MiAxMTQuNjA3NDI5IApMIDMxMS44OTIxODggMTE0LjYwNzQyOSAKUSAzMTQuNDY1NjI1IDExNC42MDc0MjkgMzE0LjQ2NTYyNSAxMTEuOTg0ODU3IApMIDMxNC40NjU2MjUgNzUuMjY4ODU3IApRIDMxNC40NjU2MjUgNzIuNjQ2Mjg2IDMxMS44OTIxODggNzIuNjQ2Mjg2IApMIDIxNC4xMDE1NjIgNzIuNjQ2Mjg2IApRIDIxMS41MjgxMjUgNzIuNjQ2Mjg2IDIxMS41MjgxMjUgNzUuMjY4ODU3IApMIDIxMS41MjgxMjUgMTExLjk4NDg1NyAKUSAyMTEuNTI4MTI1IDExNC42MDc0MjkgMjE0LjEwMTU2MiAxMTQuNjA3NDI5IAp6CiIgY2xpcC1wYXRoPSJ1cmwoI3A3MjQzMjhkYTExKSIgc3R5bGU9ImZpbGw6ICNmN2ZhZmM7IHN0cm9rZTogIzRhNTU2ODsgc3Ryb2tlLXdpZHRoOiAxLjU7IHN0cm9rZS1saW5lam9pbjogbWl0ZXIiLz4KICAgPC9nPgogICA8ZyBpZD0icGF0Y2hfNiI+CiAgICA8cGF0aCBkPSJNIDIxNC4xMDE1NjIgMTk4LjUyOTcxNCAKTCAzMTEuODkyMTg4IDE5OC41Mjk3MTQgClEgMzE0LjQ2NTYyNSAxOTguNTI5NzE0IDMxNC40NjU2MjUgMTk1LjkwNzE0MyAKTCAzMTQuNDY1NjI1IDE1OS4xOTExNDMgClEgMzE0LjQ2NTYyNSAxNTYuNTY4NTcxIDMxMS44OTIxODggMTU2LjU2ODU3MSAKTCAyMTQuMTAxNTYyIDE1Ni41Njg1NzEgClEgMjExLjUyODEyNSAxNTYuNTY4NTcxIDIxMS41MjgxMjUgMTU5LjE5MTE0MyAKTCAyMTEuNTI4MTI1IDE5NS45MDcxNDMgClEgMjExLjUyODEyNSAxOTguNTI5NzE0IDIxNC4xMDE1NjIgMTk4LjUyOTcxNCAKegoiIGNsaXAtcGF0aD0idXJsKCNwNzI0MzI4ZGExMSkiIHN0eWxlPSJmaWxsOiAjZjdmYWZjOyBzdHJva2U6ICM0YTU1Njg7IHN0cm9rZS13aWR0aDogMS41OyBzdHJva2UtbGluZWpvaW46IG1pdGVyIi8+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfMSI+CiAgICA8ZyBpZD0icGF0Y2hfNyI+CiAgICAgPHBhdGggZD0iTSAxMzUuOTgzMjQyIDEyMy41Mzg0ODEgCkwgMjA0LjcyMzAwOCAxMjMuNTM4NDgxIApMIDIwNC43MjMwMDggMTEzLjY3NzgxNyAKTCAxMzUuOTgzMjQyIDExMy42Nzc4MTcgCnoKIiBzdHlsZT0iZmlsbDogI2ZmZmZmZiIvPgogICAgPC9nPgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogOC41cHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBmaWxsOiAjYzUzMDMwIiB4PSIxNzAuMzUzMTI1IiB5PSIxMjAuOTg2NDg5IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCAxNzAuMzUzMTI1IDEyMC45ODY0ODkpIj5ibG9rdWrDrWPDrSBkdm9qaWNlPC90ZXh0PgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzIiPgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogMTBweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGUiIHg9IjY5Ljk4OTA2MiIgeT0iODAuNDg5MDg1IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCA2OS45ODkwNjIgODAuNDg5MDg1KSI+UzE8L3RleHQ+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfMyI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGU7IGZpbGw6ICM0YTU1NjgiIHg9IjY5Ljk4OTA2MiIgeT0iMTAzLjcwMjU3OSIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgNjkuOTg5MDYyIDEwMy43MDI1NzkpIj5LICZndDsgTjwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF80Ij4KICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDEwcHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlIiB4PSI2OS45ODkwNjIiIHk9IjEzOC4xODU2NTYiIHRyYW5zZm9ybT0icm90YXRlKC0wIDY5Ljk4OTA2MiAxMzguMTg1NjU2KSI+UzI8L3RleHQ+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfNSI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGU7IGZpbGw6ICM0YTU1NjgiIHg9IjY5Ljk4OTA2MiIgeT0iMTYxLjM5OTE1MSIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgNjkuOTg5MDYyIDE2MS4zOTkxNTEpIj5LICZndDsgTjwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF82Ij4KICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDEwcHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlIiB4PSI2OS45ODkwNjIiIHk9IjE5NS44ODIyMjgiIHRyYW5zZm9ybT0icm90YXRlKC0wIDY5Ljk4OTA2MiAxOTUuODgyMjI4KSI+UzM8L3RleHQ+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfNyI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGU7IGZpbGw6ICM0YTU1NjgiIHg9IjY5Ljk4OTA2MiIgeT0iMjE5LjA5NTcyMiIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgNjkuOTg5MDYyIDIxOS4wOTU3MjIpIj5OICZndDsgSzwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF84Ij4KICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDguNXB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjMxLjc5ODU1NSA5MC41NjQwMzUpIj5LYXJkaW9sb2dpZSAoSyk8L3RleHQ+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2FucyciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0Ny4xNDEwNTUgMTAxLjEwNjM1OSkiPjEgbcOtc3RvPC90ZXh0PgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzkiPgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogOC41cHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBmaWxsOiAjNGE1NTY4IiB4PSIyNjIuOTk2ODc1IiB5PSIxMjcuMzA1NzIyIiB0cmFuc2Zvcm09InJvdGF0ZSgtMCAyNjIuOTk2ODc1IDEyNy4zMDU3MjIpIj5TMiAmZ3Q7IFMxICZndDsgUzM8L3RleHQ+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfMTAiPgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogOC41cHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMzIuMTMzMjQyIDE3NC40ODYzMjEpIj5OZXVyb2xvZ2llIChOKTwvdGV4dD4KICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDguNXB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQ3LjEzNzA3IDE4NS4wMjg2NDUpIj4yIG3DrXN0YTwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF8xMSI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGU7IGZpbGw6ICM0YTU1NjgiIHg9IjI2Mi45OTY4NzUiIHk9IjIxMS4yMjgwMDgiIHRyYW5zZm9ybT0icm90YXRlKC0wIDI2Mi45OTY4NzUgMjExLjIyODAwOCkiPlMxICZndDsgUzMgJmd0OyBTMjwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF8xMiI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBzdGFydDsgZmlsbDogIzRhNTU2OCIgeD0iMjEuMDkzNzUiIHk9IjI0NS40OTE3NjgiIHRyYW5zZm9ybT0icm90YXRlKC0wIDIxLjA5Mzc1IDI0NS40OTE3NjgpIj5TMiBjaGNlIHJhZMWhaSBuYSBLIGEgSyBjaGNlIHJhZMWhaSBTMiBuZcW+IFMxLjwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF8xMyI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMXB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IHN0YXJ0IiB4PSIxMC44IiB5PSIxOS40NCIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgMTAuOCAxOS40NCkiPmEpIG5lc3RhYmlsbsOtIHJvemTEm2xlbsOtPC90ZXh0PgogICA8L2c+CiAgPC9nPgogIDxnIGlkPSJheGVzXzIiPgogICA8ZyBpZD0ibGluZTJkXzUiPgogICAgPHBhdGggZD0iTSA0MjUuNjI5Njg3IDc3Ljg5MTQyOSAKTCA1NTQuMzAxNTYyIDE3Ny41NDkxNDMgCiIgY2xpcC1wYXRoPSJ1cmwoI3BlMTI1NTc2ZjEwKSIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogIzJiNmNiMDsgc3Ryb2tlLXdpZHRoOiAyLjI7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgPC9nPgogICA8ZyBpZD0ibGluZTJkXzYiPgogICAgPHBhdGggZD0iTSA0MjUuNjI5Njg3IDEzNS41ODggCkwgNTU0LjMwMTU2MiA5My42MjY4NTcgCiIgY2xpcC1wYXRoPSJ1cmwoI3BlMTI1NTc2ZjEwKSIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogIzJiNmNiMDsgc3Ryb2tlLXdpZHRoOiAyLjI7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgPC9nPgogICA8ZyBpZD0ibGluZTJkXzciPgogICAgPHBhdGggZD0iTSA0MjUuNjI5Njg3IDE5My4yODQ1NzEgCkwgNTU0LjMwMTU2MiAxNzcuNTQ5MTQzIAoiIGNsaXAtcGF0aD0idXJsKCNwZTEyNTU3NmYxMCkiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6ICMyYjZjYjA7IHN0cm9rZS13aWR0aDogMi4yOyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgIDwvZz4KICAgPGcgaWQ9InBhdGNoXzgiPgogICAgPHBhdGggZD0iTSA0MTAuMTg5MDYyIDkzLjYyNjg1NyAKQyA0MTQuMjgzOTY0IDkzLjYyNjg1NyA0MTguMjExNyA5MS45Njg4NzMgNDIxLjEwNzIzMyA4OS4wMTgwNTcgCkMgNDI0LjAwMjc2NiA4Ni4wNjcyNDEgNDI1LjYyOTY4NyA4Mi4wNjQ1MTMgNDI1LjYyOTY4NyA3Ny44OTE0MjkgCkMgNDI1LjYyOTY4NyA3My43MTgzNDQgNDI0LjAwMjc2NiA2OS43MTU2MTcgNDIxLjEwNzIzMyA2Ni43NjQ4IApDIDQxOC4yMTE3IDYzLjgxMzk4NCA0MTQuMjgzOTY0IDYyLjE1NiA0MTAuMTg5MDYyIDYyLjE1NiAKQyA0MDYuMDk0MTYxIDYyLjE1NiA0MDIuMTY2NDI1IDYzLjgxMzk4NCAzOTkuMjcwODkyIDY2Ljc2NDggCkMgMzk2LjM3NTM1OSA2OS43MTU2MTcgMzk0Ljc0ODQzNyA3My43MTgzNDQgMzk0Ljc0ODQzNyA3Ny44OTE0MjkgCkMgMzk0Ljc0ODQzNyA4Mi4wNjQ1MTMgMzk2LjM3NTM1OSA4Ni4wNjcyNDEgMzk5LjI3MDg5MiA4OS4wMTgwNTcgCkMgNDAyLjE2NjQyNSA5MS45Njg4NzMgNDA2LjA5NDE2MSA5My42MjY4NTcgNDEwLjE4OTA2MiA5My42MjY4NTcgCnoKIiBjbGlwLXBhdGg9InVybCgjcGUxMjU1NzZmMTApIiBzdHlsZT0iZmlsbDogI2ViZjRmZjsgc3Ryb2tlOiAjMmI2Y2IwOyBzdHJva2Utd2lkdGg6IDEuNTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICA8L2c+CiAgIDxnIGlkPSJwYXRjaF85Ij4KICAgIDxwYXRoIGQ9Ik0gNDEwLjE4OTA2MiAxNTEuMzIzNDI5IApDIDQxNC4yODM5NjQgMTUxLjMyMzQyOSA0MTguMjExNyAxNDkuNjY1NDQ1IDQyMS4xMDcyMzMgMTQ2LjcxNDYyOCAKQyA0MjQuMDAyNzY2IDE0My43NjM4MTIgNDI1LjYyOTY4NyAxMzkuNzYxMDg0IDQyNS42Mjk2ODcgMTM1LjU4OCAKQyA0MjUuNjI5Njg3IDEzMS40MTQ5MTYgNDI0LjAwMjc2NiAxMjcuNDEyMTg4IDQyMS4xMDcyMzMgMTI0LjQ2MTM3MiAKQyA0MTguMjExNyAxMjEuNTEwNTU1IDQxNC4yODM5NjQgMTE5Ljg1MjU3MSA0MTAuMTg5MDYyIDExOS44NTI1NzEgCkMgNDA2LjA5NDE2MSAxMTkuODUyNTcxIDQwMi4xNjY0MjUgMTIxLjUxMDU1NSAzOTkuMjcwODkyIDEyNC40NjEzNzIgCkMgMzk2LjM3NTM1OSAxMjcuNDEyMTg4IDM5NC43NDg0MzcgMTMxLjQxNDkxNiAzOTQuNzQ4NDM3IDEzNS41ODggCkMgMzk0Ljc0ODQzNyAxMzkuNzYxMDg0IDM5Ni4zNzUzNTkgMTQzLjc2MzgxMiAzOTkuMjcwODkyIDE0Ni43MTQ2MjggCkMgNDAyLjE2NjQyNSAxNDkuNjY1NDQ1IDQwNi4wOTQxNjEgMTUxLjMyMzQyOSA0MTAuMTg5MDYyIDE1MS4zMjM0MjkgCnoKIiBjbGlwLXBhdGg9InVybCgjcGUxMjU1NzZmMTApIiBzdHlsZT0iZmlsbDogI2ViZjRmZjsgc3Ryb2tlOiAjMmI2Y2IwOyBzdHJva2Utd2lkdGg6IDEuNTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICA8L2c+CiAgIDxnIGlkPSJwYXRjaF8xMCI+CiAgICA8cGF0aCBkPSJNIDQxMC4xODkwNjIgMjA5LjAyIApDIDQxNC4yODM5NjQgMjA5LjAyIDQxOC4yMTE3IDIwNy4zNjIwMTYgNDIxLjEwNzIzMyAyMDQuNDExMiAKQyA0MjQuMDAyNzY2IDIwMS40NjAzODMgNDI1LjYyOTY4NyAxOTcuNDU3NjU2IDQyNS42Mjk2ODcgMTkzLjI4NDU3MSAKQyA0MjUuNjI5Njg3IDE4OS4xMTE0ODcgNDI0LjAwMjc2NiAxODUuMTA4NzU5IDQyMS4xMDcyMzMgMTgyLjE1Nzk0MyAKQyA0MTguMjExNyAxNzkuMjA3MTI3IDQxNC4yODM5NjQgMTc3LjU0OTE0MyA0MTAuMTg5MDYyIDE3Ny41NDkxNDMgCkMgNDA2LjA5NDE2MSAxNzcuNTQ5MTQzIDQwMi4xNjY0MjUgMTc5LjIwNzEyNyAzOTkuMjcwODkyIDE4Mi4xNTc5NDMgCkMgMzk2LjM3NTM1OSAxODUuMTA4NzU5IDM5NC43NDg0MzcgMTg5LjExMTQ4NyAzOTQuNzQ4NDM3IDE5My4yODQ1NzEgCkMgMzk0Ljc0ODQzNyAxOTcuNDU3NjU2IDM5Ni4zNzUzNTkgMjAxLjQ2MDM4MyAzOTkuMjcwODkyIDIwNC40MTEyIApDIDQwMi4xNjY0MjUgMjA3LjM2MjAxNiA0MDYuMDk0MTYxIDIwOS4wMiA0MTAuMTg5MDYyIDIwOS4wMiAKegoiIGNsaXAtcGF0aD0idXJsKCNwZTEyNTU3NmYxMCkiIHN0eWxlPSJmaWxsOiAjZWJmNGZmOyBzdHJva2U6ICMyYjZjYjA7IHN0cm9rZS13aWR0aDogMS41OyBzdHJva2UtbGluZWpvaW46IG1pdGVyIi8+CiAgIDwvZz4KICAgPGcgaWQ9InBhdGNoXzExIj4KICAgIDxwYXRoIGQ9Ik0gNTU0LjMwMTU2MiAxMTQuNjA3NDI5IApMIDY1Mi4wOTIxODcgMTE0LjYwNzQyOSAKUSA2NTQuNjY1NjI1IDExNC42MDc0MjkgNjU0LjY2NTYyNSAxMTEuOTg0ODU3IApMIDY1NC42NjU2MjUgNzUuMjY4ODU3IApRIDY1NC42NjU2MjUgNzIuNjQ2Mjg2IDY1Mi4wOTIxODcgNzIuNjQ2Mjg2IApMIDU1NC4zMDE1NjIgNzIuNjQ2Mjg2IApRIDU1MS43MjgxMjUgNzIuNjQ2Mjg2IDU1MS43MjgxMjUgNzUuMjY4ODU3IApMIDU1MS43MjgxMjUgMTExLjk4NDg1NyAKUSA1NTEuNzI4MTI1IDExNC42MDc0MjkgNTU0LjMwMTU2MiAxMTQuNjA3NDI5IAp6CiIgY2xpcC1wYXRoPSJ1cmwoI3BlMTI1NTc2ZjEwKSIgc3R5bGU9ImZpbGw6ICNmN2ZhZmM7IHN0cm9rZTogIzRhNTU2ODsgc3Ryb2tlLXdpZHRoOiAxLjU7IHN0cm9rZS1saW5lam9pbjogbWl0ZXIiLz4KICAgPC9nPgogICA8ZyBpZD0icGF0Y2hfMTIiPgogICAgPHBhdGggZD0iTSA1NTQuMzAxNTYyIDE5OC41Mjk3MTQgCkwgNjUyLjA5MjE4NyAxOTguNTI5NzE0IApRIDY1NC42NjU2MjUgMTk4LjUyOTcxNCA2NTQuNjY1NjI1IDE5NS45MDcxNDMgCkwgNjU0LjY2NTYyNSAxNTkuMTkxMTQzIApRIDY1NC42NjU2MjUgMTU2LjU2ODU3MSA2NTIuMDkyMTg3IDE1Ni41Njg1NzEgCkwgNTU0LjMwMTU2MiAxNTYuNTY4NTcxIApRIDU1MS43MjgxMjUgMTU2LjU2ODU3MSA1NTEuNzI4MTI1IDE1OS4xOTExNDMgCkwgNTUxLjcyODEyNSAxOTUuOTA3MTQzIApRIDU1MS43MjgxMjUgMTk4LjUyOTcxNCA1NTQuMzAxNTYyIDE5OC41Mjk3MTQgCnoKIiBjbGlwLXBhdGg9InVybCgjcGUxMjU1NzZmMTApIiBzdHlsZT0iZmlsbDogI2Y3ZmFmYzsgc3Ryb2tlOiAjNGE1NTY4OyBzdHJva2Utd2lkdGg6IDEuNTsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlciIvPgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzE0Ij4KICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDEwcHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlIiB4PSI0MTAuMTg5MDYyIiB5PSI4MC40ODkwODUiIHRyYW5zZm9ybT0icm90YXRlKC0wIDQxMC4xODkwNjIgODAuNDg5MDg1KSI+UzE8L3RleHQ+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfMTUiPgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogOC41cHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBmaWxsOiAjNGE1NTY4IiB4PSI0MTAuMTg5MDYyIiB5PSIxMDMuNzAyNTc5IiB0cmFuc2Zvcm09InJvdGF0ZSgtMCA0MTAuMTg5MDYyIDEwMy43MDI1NzkpIj5LICZndDsgTjwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF8xNiI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iNDEwLjE4OTA2MiIgeT0iMTM4LjE4NTY1NiIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgNDEwLjE4OTA2MiAxMzguMTg1NjU2KSI+UzI8L3RleHQ+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfMTciPgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogOC41cHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBmaWxsOiAjNGE1NTY4IiB4PSI0MTAuMTg5MDYyIiB5PSIxNjEuMzk5MTUxIiB0cmFuc2Zvcm09InJvdGF0ZSgtMCA0MTAuMTg5MDYyIDE2MS4zOTkxNTEpIj5LICZndDsgTjwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF8xOCI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiAxMHB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZSIgeD0iNDEwLjE4OTA2MiIgeT0iMTk1Ljg4MjIyOCIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgNDEwLjE4OTA2MiAxOTUuODgyMjI4KSI+UzM8L3RleHQ+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfMTkiPgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogOC41cHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBmaWxsOiAjNGE1NTY4IiB4PSI0MTAuMTg5MDYyIiB5PSIyMTkuMDk1NzIyIiB0cmFuc2Zvcm09InJvdGF0ZSgtMCA0MTAuMTg5MDYyIDIxOS4wOTU3MjIpIj5OICZndDsgSzwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF8yMCI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2FucyciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU3MS45OTg1NTUgOTAuNTY0MDM1KSI+S2FyZGlvbG9naWUgKEspPC90ZXh0PgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogOC41cHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1ODcuMzQxMDU1IDEwMS4xMDYzNTkpIj4xIG3DrXN0bzwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF8yMSI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2Fucyc7IHRleHQtYW5jaG9yOiBtaWRkbGU7IGZpbGw6ICM0YTU1NjgiIHg9IjYwMy4xOTY4NzUiIHk9IjEyNy4zMDU3MjIiIHRyYW5zZm9ybT0icm90YXRlKC0wIDYwMy4xOTY4NzUgMTI3LjMwNTcyMikiPlMyICZndDsgUzEgJmd0OyBTMzwvdGV4dD4KICAgPC9nPgogICA8ZyBpZD0idGV4dF8yMiI+CiAgICA8dGV4dCBzdHlsZT0iZm9udC1zaXplOiA4LjVweDsgZm9udC1mYW1pbHk6ICdEZWphVnUgU2FucyciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU3Mi4zMzMyNDIgMTc0LjQ4NjMyMSkiPk5ldXJvbG9naWUgKE4pPC90ZXh0PgogICAgPHRleHQgc3R5bGU9ImZvbnQtc2l6ZTogOC41cHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1ODcuMzM3MDcgMTg1LjAyODY0NSkiPjIgbcOtc3RhPC90ZXh0PgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzIzIj4KICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDguNXB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IG1pZGRsZTsgZmlsbDogIzRhNTU2OCIgeD0iNjAzLjE5Njg3NSIgeT0iMjExLjIyODAwOCIgdHJhbnNmb3JtPSJyb3RhdGUoLTAgNjAzLjE5Njg3NSAyMTEuMjI4MDA4KSI+UzEgJmd0OyBTMyAmZ3Q7IFMyPC90ZXh0PgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzI0Ij4KICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDguNXB4OyBmb250LWZhbWlseTogJ0RlamFWdSBTYW5zJzsgdGV4dC1hbmNob3I6IHN0YXJ0OyBmaWxsOiAjNGE1NTY4IiB4PSIzNjEuMjkzNzUiIHk9IjI0Ni4wMzc2MjgiIHRyYW5zZm9ybT0icm90YXRlKC0wIDM2MS4yOTM3NSAyNDYuMDM3NjI4KSI+xb3DoWRuw70gc3R1ZGVudCBhIHByYWNvdmnFoXTEmyBieSBzaSBzcG9sdSBuZXBvbGVwxaFpbGkuPC90ZXh0PgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzI1Ij4KICAgIDx0ZXh0IHN0eWxlPSJmb250LXNpemU6IDExcHg7IGZvbnQtZmFtaWx5OiAnRGVqYVZ1IFNhbnMnOyB0ZXh0LWFuY2hvcjogc3RhcnQiIHg9IjM1MSIgeT0iMTkuNDQiIHRyYW5zZm9ybT0icm90YXRlKC0wIDM1MSAxOS40NCkiPmIpIHN0YWJpbG7DrSByb3pkxJtsZW7DrTwvdGV4dD4KICAgPC9nPgogIDwvZz4KIDwvZz4KIDxkZWZzPgogIDxjbGlwUGF0aCBpZD0icDcyNDMyOGRhMTEiPgogICA8cmVjdCB4PSIxMC44IiB5PSIyNS40NCIgd2lkdGg9IjMyOS40IiBoZWlnaHQ9IjIyMC4yOTYiLz4KICA8L2NsaXBQYXRoPgogIDxjbGlwUGF0aCBpZD0icGUxMjU1NzZmMTAiPgogICA8cmVjdCB4PSIzNTEiIHk9IjI1LjQ0IiB3aWR0aD0iMzI5LjQiIGhlaWdodD0iMjIwLjI5NiIvPgogIDwvY2xpcFBhdGg+CiA8L2RlZnM+Cjwvc3ZnPgo=" alt="Malý příklad: tři studenti, dvě pracoviště. Pod studentem je jeho pořadí pracovišť, pod pracovištěm jeho pořadí studentů. Plná čára = přiřazení, přerušovaná = blokující dvojice." />
+<figcaption aria-hidden="true">Malý příklad: tři studenti, dvě
+pracoviště. Pod studentem je jeho pořadí pracovišť, pod pracovištěm jeho
+pořadí studentů. Plná čára = přiřazení, přerušovaná = blokující
+dvojice.</figcaption>
+</figure>
+<p><strong>Proč na tom záleží.</strong> Rozdělování amerických rezidentů
+se v 40. letech rozpadalo přesně takhle: nemocnice a studenti se
+domlouvali stále dřív mimo systém, až se smlouvy podepisovaly dva roky
+před promocí. Pomohl centrální systém, který vytváří stabilní rozdělení;
+dnes v USA (NRMP), Kanadě, Japonsku i Velké Británii běží na
+<strong>algoritmu odloženého přijetí</strong>, který v roce 1962 popsali
+David Gale a Lloyd Shapley. Za teorii stabilních párování a jejich
+nasazení v praxi dostali Lloyd Shapley a Alvin Roth v roce 2012 Nobelovu
+cenu za ekonomii.</p>
+<p><strong>Algoritmus odloženého přijetí</strong> (studenti žádají):
+každý dosud nepřijatý student požádá pracoviště, které je nejvýš na jeho
+seznamu a které ho ještě neodmítlo; každé pracoviště z držených a nových
+žádostí <strong>podrží</strong> nejlepších <span class="math inline">\(c_h\)</span> podle svého pořadí (zatím natrvalo
+nepřijme – proto „odložené“) a ostatní odmítne; opakuje se, dokud nikdo
+nový není odmítnut. Výsledek je vždy stabilní a ze všech stabilních
+rozdělení je <strong>nejlepší pro studenty</strong>: každý student
+dostane nejlepší pracoviště, jaké může mít v nějakém stabilním
+rozdělení. Když žádají pracoviště, vyjde stabilní rozdělení nejlepší pro
+pracoviště; obě se mohou, ale nemusí lišit.</p>
+<p><strong>Cena stability</strong> je rozdíl součtu pořadí studentů mezi
+nejlepším stabilním rozdělením a nejlepším rozdělením vůbec.</p>
+<h2 id="data">Data</h2>
+<p>Archiv <a href="data-M14.zip">data-M14.zip</a> obsahuje soubory JSON
+se stejnou strukturou (podrobnosti a způsob vzniku v
+<code>README.txt</code> v archivu):</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>soubor</th>
+<th>obsah</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hlavni.json</code></td>
+<td>hlavní instance: 30 studentů, 8 pracovišť, kapacity 3/4/4/4/4/4/5/5
+(33 míst)</td>
+</tr>
+<tr>
+<td><code>mala.json</code></td>
+<td>malá instance: 6 studentů, 3 pracoviště, kapacity 2/2/3 – na
+kontrolu úplným výčtem</td>
+</tr>
+<tr>
+<td><code>dalsi/s100.json</code> … <code>s129.json</code></td>
+<td>30 instancí se stejnými parametry jako hlavní, jiné seedy (hlavní je
+<code>s101</code>)</td>
+</tr>
+<tr>
+<td><code>dalsi/sken/beta{B}-gama{G}-s{N}.json</code></td>
+<td>instance 30 × 8 s různou shodou preferencí: <span class="math inline">\(B \in \{0;\ 0{,}75;\ 1{,}5;\ 3\}\)</span>, <span class="math inline">\(G \in \{0{,}3;\ 0{,}7;\ 0{,}95\}\)</span>, seedy
+100 až 111</td>
+</tr>
+</tbody>
+</table>
+<p>Struktura souboru:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>klíč</th>
+<th>typ</th>
+<th>význam</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>studenti</code></td>
+<td>seznam textů</td>
+<td>jména; <strong>student s indexem <span class="math inline">\(s\)</span> je <code>studenti[s]</code>, indexuje
+se od 0</strong> (<code>&quot;S01&quot;</code> je index 0)</td>
+</tr>
+<tr>
+<td><code>pracoviste</code></td>
+<td>seznam textů</td>
+<td>názvy; <strong>pracoviště <span class="math inline">\(h\)</span> je
+<code>pracoviste[h]</code>, od 0</strong></td>
+</tr>
+<tr>
+<td><code>kapacity</code></td>
+<td>seznam celých čísel</td>
+<td><code>kapacity[h]</code> = počet míst <span class="math inline">\(c_h\)</span></td>
+</tr>
+<tr>
+<td><code>pref_studentu</code></td>
+<td>seznam seznamů</td>
+<td><code>pref_studentu[s]</code> = indexy <strong>všech</strong>
+pracovišť od nejoblíbenějšího po nejméně oblíbené</td>
+</tr>
+<tr>
+<td><code>pref_pracovist</code></td>
+<td>seznam seznamů</td>
+<td><code>pref_pracovist[h]</code> = indexy <strong>všech</strong>
+studentů od nejžádanějšího po nejméně žádaného</td>
+</tr>
+<tr>
+<td><code>seed</code>, <code>beta</code>, <code>gama</code></td>
+<td>čísla</td>
+<td>jen informace o vzniku instance</td>
+</tr>
+</tbody>
+</table>
+<p>Pořadí se počítá od 1: je-li <code>pref_studentu[s][i] == h</code>,
+pak <span class="math inline">\(r_{sh} = i + 1\)</span>; je-li
+<code>pref_pracovist[h][i] == s</code>, pak <span class="math inline">\(p_{hs} = i + 1\)</span>.</p>
+<p>Parametr <code>beta</code> říká, jak moc se studenti shodují v tom,
+která pracoviště jsou atraktivní (0 = každý má vlastní vkus, 3 = skoro
+všichni chtějí totéž). Parametr <code>gama</code> říká, jak moc se
+shodují pracoviště v pořadí studentů (blízko 1 = všechna řadí hlavně
+podle prospěchu).</p>
+<h2 id="úkol">Úkol</h2>
+<h3 id="základní-úloha">Základní úloha</h3>
+<p>Výchozí bod je přiřazovací úloha: každý student na jedno pracoviště,
+kapacity dodrženy, co nejmenší součet pořadí studentů. Řešte ji jako
+MILP (<code>scipy.optimize.milp</code> nebo CVXPY s řešičem HiGHS) a
+podívejte se i na její LP relaxaci.</p>
+<h3 id="nový-požadavek">Nový požadavek</h3>
+<p>Děkan po telefonátu z kardiologie: „Chci rozdělení, které nikdo
+nebude mít důvod obcházet – žádná blokující dvojice. A ze všech takových
+to, které je pro studenty nejlepší.“</p>
+<p>Zapište stabilitu do MILP a výsledek ověřte algoritmem odloženého
+přijetí, který si naprogramujete sami bez řešiče.</p>
+<p>O rok později chtějí pracoviště víc pravomocí: <strong>každé
+pracoviště smí odmítnout svých <span class="math inline">\(k\)</span>
+posledních studentů</strong> (posledních <span class="math inline">\(k\)</span> prvků <code>pref_pracovist[h]</code>).
+Odmítnutý student tam nesmí jít a s tímto pracovištěm ani nemůže tvořit
+blokující dvojici. Jde pak ještě umístit všechny studenty – a jde to
+stabilně? Zkoumejte <span class="math inline">\(k = 1, \dots,
+5\)</span>.</p>
+<p><strong>Nápověda.</strong> Hledejte <em>stabilitní omezení</em> v
+celočíselném programování (<em>stable matching</em>, <em>integer
+programming</em>): na každou přijatelnou dvojici student–pracoviště
+stačí jedno lineární omezení, které vylučuje, aby dvojice byla
+blokující. Na malém příkladu si ověřte, že zakáže přesně blokující
+dvojice. Rozmyslete si také, jakou odpověď má model dát, kdyby se pro
+některé <span class="math inline">\(k\)</span> ukázalo, že úplné
+umístění není možné.</p>
+<h3 id="co-má-vaše-práce-ukázat">Co má vaše práce ukázat</h3>
+<ul>
+<li>Nejlepší rozdělení pro studenty a nejlepší stabilní rozdělení na
+hlavní instanci a jejich srovnání: cena stability, první volby, nejhorší
+pořadí, součet pořadí u pracovišť, kolik studentů se přesunulo. Kdo
+stabilitu zaplatil a kdo získal?</li>
+<li>Ruční rozbor jedné blokující dvojice z nestabilního rozdělení: kdo,
+kam, koho by pracoviště vyměnilo a jak to váš model vyloučí.</li>
+<li>Nezávislou kontrolu: vlastní funkci, která z přiřazení bez řešiče
+ověří kapacity a vypíše všechny blokující dvojice přímo podle definice;
+shodu MILP s odloženým přijetím; úplný výčet na
+<code>mala.json</code>.</li>
+<li>Výsledky s odmítáním pro <span class="math inline">\(k = 1, \dots,
+5\)</span>: kdo případně zůstane bez místa a proč. Je hlavní instance
+typická? Ověřte na <code>dalsi/s100</code> až <code>s129</code>.</li>
+<li>Vlastní experiment s jasnou otázkou, tabulkou nebo grafem a závěrem.
+Například: jak cena stability závisí na <code>beta</code> a
+<code>gama</code> (<code>dalsi/sken/</code>); dá se stabilita zapsat i
+jinou formulací se silnější LP relaxací; „spravedlivé“ stabilní
+rozdělení na instanci, kde jich je víc (např. <code>dalsi/s102</code>;
+zda jich je víc, poznáte porovnáním obou verzí odloženého přijetí).</li>
+</ul>
+<h2 id="otázky-k-zamyšlení">Otázky k zamyšlení</h2>
+<ul>
+<li>Proč vaše omezení zakazuje právě blokující dvojice, i když má
+pracoviště víc míst? Jak se liší LP relaxace se stabilitou a bez ní, a
+čím to je?</li>
+<li>Kolik stála stabilita a kdo ji zaplatil? Proč na ni koordinátor
+nemůže jen tak rezignovat?</li>
+<li>Může stabilita s odmítáním nechat někoho bez místa, i když volná
+místa existují? Stačilo by k odpovědi na „jde to všem stabilně?“ najít
+jedno libovolné stabilní rozdělení?</li>
+<li>Proč je shoda MILP s odloženým přijetím a s úplným výčtem
+přesvědčivá kontrola a proč by úplný výčet na hlavní instanci
+nešel?</li>
+</ul>
+<h2 id="co-odevzdáváte">Co odevzdáváte</h2>
+<p>Řešení patří do složky <strong><code>model-uloha/</code></strong>
+vašeho týmového repozitáře (šablona projektu). Archiv
+<code>data-M14.zip</code> obsahuje jedinou složku
+<code>data-M14/</code>; její <strong>obsah</strong> rozbalte přímo do
+<code>model-uloha/data/</code>, takže vznikne např.
+<code>model-uloha/data/README.txt</code> (ne
+<code>model-uloha/data/data-M14/README.txt</code>).</p>
+<ul>
+<li><strong>Kód</strong>, který jedním příkazem
+(<code>uv run python model-uloha/reseni.py</code>) přepočítá všechny
+výsledky, tabulky a grafy do <code>model-uloha/vystupy/</code>. Jak kód
+rozdělíte do funkcí a souborů, je na vás.</li>
+<li><strong><code>model-uloha/README.md</code></strong> podle šablony:
+model (proměnné, cíl, omezení, základní i upravený; jaké proměnné jsou
+celočíselné a proč), výsledky, interpretace a kontroly. Uveďte, co jste
+oproti zadání změnili a proč.</li>
+<li><strong>Testy</strong> (<code>uv run pytest model-uloha</code>),
+mezi nimi aspoň jeden, který odhalí záměrně pokažené řešení.</li>
+</ul>
+<p>Hodnotí se, co z výsledků vyčtete a jestli to umíte obhájit, ne shoda
+s nějakým referenčním číslem. U obhajoby počítejte s otázkou „co když“:
+malou změnou zadání (např. kardiologie dostane místo navíc, pracoviště
+odmítne jen jednoho konkrétního studenta), kterou musíte umět promítnout
+do modelu.</p>
+<h2 id="náměty-na-rozšíření">Náměty na rozšíření</h2>
+<ul>
+<li><strong>Kompromis místo všechno, nebo nic.</strong> Jak roste
+nejmenší součet pořadí studentů, když povolíte nejvýš <span class="math inline">\(B\)</span> blokujících dvojic, <span class="math inline">\(B = 0, 1, 2, \dots\)</span>? Kolik stojí první a
+kolik poslední odstraněná?</li>
+<li><strong>Krátké seznamy.</strong> Ve skutečných řízeních studenti
+často uvedou jen několik pracovišť. Kolik studentů zůstane neumístěných
+se stabilitou a bez ní, když seznam zkrátíte?</li>
+<li><strong>Páry.</strong> Dva studenti (partneři) chtějí na stáž do
+stejného města. Existuje pak ještě stabilní rozdělení? Proč to odložené
+přijetí neumí? (Stejný problém řeší americké NRMP.)</li>
+</ul>
+</body>
+</html>

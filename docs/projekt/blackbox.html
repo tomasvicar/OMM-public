@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="cs" xml:lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Black-box soutěž</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style>
+
+:root {
+--text: #1c1c1e; --tlum: #5c5c66; --akcent: #007f86; --akcent2: #c73e1d;
+--ram: #dcdce2; --pozadi: #ffffff; --box: #f4f7f8;
+}
+* { box-sizing: border-box; }
+body {
+margin: 0 auto; max-width: 900px; padding: 2.5rem 1.5rem 5rem;
+font: 17px/1.65 "Source Sans Pro", "Segoe UI", system-ui, sans-serif;
+color: var(--text); background: var(--pozadi);
+}
+header { border-bottom: 3px solid var(--akcent); padding-bottom: 1rem; margin-bottom: 2rem; }
+.stitek {
+display: inline-block; font-size: .78rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent); padding: .2rem .6rem; border-radius: 3px; margin-bottom: .7rem;
+}
+h1 { font-size: 2rem; line-height: 1.2; margin: .2rem 0 .5rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 .7rem; color: var(--akcent); }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 .4rem; }
+.perex { font-size: 1.1rem; color: var(--tlum); margin: 0; }
+figure { margin: 1.6rem 0; }
+img { max-width: 100%; height: auto; }
+figure img { width: 100%; border: 1px solid var(--ram); border-radius: 4px; background: #fff; }
+figcaption { font-size: .9rem; color: var(--tlum); margin-top: .5rem; }
+table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .95rem; }
+th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--ram); }
+th { background: var(--box); font-weight: 600; }
+td.cislo, th.cislo { text-align: right; font-variant-numeric: tabular-nums; }
+tr.neplati td { background: #fdf3f1; color: #7d3a29; } 
+.box {
+background: var(--box); border-left: 4px solid var(--akcent);
+padding: .9rem 1.1rem; margin: 1.4rem 0; border-radius: 0 4px 4px 0;
+}
+.box.varovani { border-left-color: var(--akcent2); background: #fdf3f1; }
+.box p:first-child { margin-top: 0; } .box p:last-child { margin-bottom: 0; }
+code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; font-variant-ligatures: none; }
+pre { background: var(--box); padding: .9rem 1.1rem; border-radius: 4px; overflow-x: auto; }
+.meta { display: flex; flex-wrap: wrap; gap: 1.4rem; font-size: .9rem; color: var(--tlum); margin-top: .8rem; }
+.meta b { color: var(--text); }
+a { color: var(--akcent); }
+ol.scenar { padding-left: 1.2rem; } ol.scenar li { margin: .5rem 0; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--ram); font-size: .85rem; color: var(--tlum); }
+@media print { body { max-width: none; } a { color: var(--text); } }
+
+.karty { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); margin-top: 1.6rem; }
+.karta {
+border: 1px solid var(--ram); border-radius: 6px; padding: 1.1rem 1.2rem 1.2rem;
+display: flex; flex-direction: column; background: #fff;
+}
+.karta .stitek { align-self: flex-start; } 
+.karta h3 { margin: .45rem 0 .35rem; font-size: 1.15rem; }
+.karta h3 a { text-decoration: none; }
+.karta p { margin: .3rem 0; font-size: .95rem; }
+.karta .cisla { margin-top: .7rem; font-size: .88rem; color: var(--tlum); }
+.karta .cisla b { color: var(--text); font-variant-numeric: tabular-nums; }
+.stitek.tlumeny { background: var(--tlum); }
+.stitek.cerveny { background: var(--akcent2); }
+
+.anatomie { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.anatomie .radek { display: grid; grid-template-columns: 215px 1fr; border-top: 1px solid var(--ram); }
+.anatomie .radek:first-child { border-top: none; }
+.anatomie .role {
+background: var(--box); padding: .85rem 1rem; font-weight: 700; line-height: 1.3;
+border-right: 1px solid var(--ram);
+}
+.anatomie .role span {
+display: block; margin-top: .2rem; font-weight: 400; font-size: .74rem; letter-spacing: .08em;
+text-transform: uppercase; color: var(--tlum);
+}
+.anatomie .popis { padding: .85rem 1.1rem; }
+.anatomie .popis p { margin: .3rem 0; }
+.anatomie .popis p:first-child { margin-top: 0; }
+.anatomie .popis ul { margin: .35rem 0; padding-left: 1.15rem; }
+.anatomie .popis li { margin: .22rem 0; }
+.anatomie .nenastavuje { font-size: .9rem; color: var(--tlum); margin-top: .5rem !important; }
+@media (max-width: 620px) { .anatomie .radek { grid-template-columns: 1fr; }
+.anatomie .role { border-right: none; border-bottom: 1px solid var(--ram); } }
+
+.hriste { border: 2px solid var(--akcent); border-radius: 6px; margin: 1.6rem 0; overflow: hidden; }
+.hriste .platno { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; padding: .6rem .6rem 0; }
+.hriste svg.siroky { grid-column: 1 / -1; }
+.hriste .platno.spodni { padding: .2rem .6rem .6rem; }
+.hriste svg { width: 100%; height: auto; display: block; background: #fff;
+border: 1px solid var(--ram); border-radius: 4px; }
+.hriste .ovladani { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.1rem;
+padding: .8rem 1rem; border-top: 1px solid var(--ram); margin-top: .6rem; background: var(--box); }
+.hriste .posuvnik { display: flex; align-items: center; gap: .6rem; flex: 1 1 300px; }
+.hriste .posuvnik input[type=range] { flex: 1; accent-color: var(--akcent); }
+.hriste .posuvnik > label { white-space: nowrap; }
+.hriste .hodnota { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 6.4rem; }
+.hriste button { font: inherit; font-size: .92rem; padding: .35rem .8rem; cursor: pointer;
+border: 1px solid var(--akcent); border-radius: 4px; background: #fff; color: var(--akcent); }
+.hriste button:hover { background: var(--akcent); color: #fff; }
+.hriste button.hlavni { background: var(--akcent); color: #fff; font-weight: 600; }
+.hriste button.hlavni:hover { filter: brightness(1.12); }
+.hriste button.tichy { border-color: var(--ram); color: var(--tlum); }
+.hriste button.tichy:hover { background: var(--ram); color: var(--text); }
+.hriste .rezim { display: flex; align-items: center; gap: .4rem; font-size: .9rem; color: var(--tlum); }
+.hriste .rezim input { accent-color: var(--akcent); }
+.hriste .vypis { padding: .7rem 1rem; border-top: 1px solid var(--ram); font-size: .93rem;
+display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; font-variant-numeric: tabular-nums; }
+.hriste .vypis b { color: var(--text); }
+.hriste .vypis .zelene { color: #1a7f37; }
+.hriste .vypis .cervene { color: #b42318; }
+.hriste details { border-top: 1px solid var(--ram); padding: .6rem 1rem; font-size: .93rem; }
+.hriste details summary { cursor: pointer; color: var(--akcent); }
+.hriste .parametry { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+gap: .35rem 1.4rem; margin-top: .6rem; }
+.hriste .parametry label { display: grid; grid-template-columns: minmax(0, 9.4rem) minmax(90px, 1fr) 4.6rem;
+align-items: center; gap: .5rem; font-size: .9rem; }
+.hriste .parametry label > span:first-child { line-height: 1.25; overflow-wrap: break-word; }
+.hriste .parametry input[type=range] { accent-color: var(--akcent); min-width: 0; }
+.hriste .parametry .cislo { text-align: right; font-variant-numeric: tabular-nums; }
+.odkaz-colab { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none;
+font-size: .9rem; border: 1px solid var(--ram); border-radius: 4px; padding: .3rem .7rem; background: var(--box); }
+.odkaz-colab:hover { border-color: var(--akcent); }
+@media (max-width: 720px) { .hriste .platno { grid-template-columns: 1fr; } }
+
+.pro-vyucujiciho {
+border-left: 4px solid var(--akcent2); background: #fdf6f4;
+padding: .2rem 1.1rem .9rem; margin: 1.6rem 0; border-radius: 0 4px 4px 0; position: relative;
+}
+.pro-vyucujiciho::before {
+content: "pro vyučujícího"; display: inline-block; margin: .9rem 0 0;
+font-size: .72rem; letter-spacing: .09em; text-transform: uppercase;
+color: #fff; background: var(--akcent2); padding: .12rem .5rem; border-radius: 3px;
+}
+.pro-vyucujiciho > h2:first-of-type { margin-top: .3rem; }
+.pro-vyucujiciho.vlozene {
+border: none; background: none; padding: 0; margin: 0; border-radius: 0;
+}
+.pro-vyucujiciho.vlozene::before { content: none; }
+.pro-vyucujiciho.vlozene, .pro-vyucujiciho.vlozene b { color: var(--akcent2); }
+body.bez-vyucujiciho .pro-vyucujiciho { display: none; }
+
+figure img, .hriste svg { cursor: zoom-in; }
+.hriste svg[data-lupa="ne"] { cursor: crosshair; } 
+#lupa { position: fixed; inset: 0; z-index: 100; display: none; place-items: center;
+background: rgba(18, 18, 22, .93); padding: 2.5vmin; cursor: zoom-out; }
+#lupa.otevrena { display: grid; }
+#lupa .obsah { display: grid; place-items: center; max-width: 96vw; max-height: 92vh; }
+#lupa img, #lupa svg { max-width: 96vw; max-height: 92vh; width: auto; height: auto;
+background: #fff; border-radius: 4px; box-shadow: 0 12px 44px rgba(0, 0, 0, .55); }
+#lupa .zavrit { position: fixed; top: .6rem; right: .9rem; font: inherit; font-size: 1.5rem;
+line-height: 1; padding: .25rem .6rem; cursor: pointer; color: #fff;
+background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .35);
+border-radius: 4px; }
+@media print { #lupa { display: none !important; } }
+
+body { overflow-wrap: break-word; }
+table { display: block; overflow-x: auto; max-width: 100%; }
+pre { overflow-x: auto; max-width: 100%; }
+code { overflow-wrap: anywhere; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 600px) { body { padding: 1.2rem 1rem 3rem; } }
+.zpet { font-size: .95rem; margin-bottom: 1rem; display: inline-block; }
+</style>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-chtml.js"></script>
+</head>
+<body>
+<a class="zpet" href="index.html">← princip projektu</a>
+<header id="title-block-header">
+<h1 class="title">Black-box soutěž – pravidla</h1>
+</header>
+<p>Společná část projektu pro všechny týmy (nejvýš 6 bodů). Řešení patří
+do složky <code>blackbox/</code> vašeho týmového repozitáře.</p>
+<h2 id="o-co-jde">O co jde</h2>
+<p>Dostanete tři funkce, o kterých nevíte nic kromě rozměru a mezí.
+Nevidíte jejich vzorec, nemáte gradient, jen se můžete zeptat: „jaká je
+hodnota v tomhle bodě?“ Každý takový dotaz stojí jedno
+<strong>vyhodnocení</strong> a vyhodnocení máte omezený počet. Úkolem je
+napsat řešič, který v tomto rozpočtu najde co nejmenší hodnotu.</p>
+<p>Tak vypadá spousta skutečných úloh: ladění parametrů simulace,
+nastavení přístroje, hyperparametry modelu. Každé vyhodnocení je drahé a
+o tvaru funkce nevíte nic předem. Proto se tomu říká optimalizace
+<strong>černé skříňky</strong> (<em>black-box optimization</em>).</p>
+<p>Funkce jsou zabalené ve zkompilovaném Python modulu
+<code>omm_blackbox</code>. Každá funkce je ve skutečnosti celá rodina:
+konkrétní <strong>instance</strong> vzniká ze seedu, takže stejný seed
+dá vždy stejnou funkci a jiný seed jinou funkci stejného charakteru. Pro
+vývoj máte veřejné seedy, vyhodnocuje se na tajných.</p>
+<h2 id="tři-funkce">Tři funkce</h2>
+<p>Všechny tři hledáte jako minimum na krabici <span class="math inline">\(\mathbf x \in [-5, 5]^n\)</span>. Minimum leží
+uvnitř mezí, ale jeho hodnota není nula a z hodnoty funkce nepoznáte,
+jak daleko od něj jste.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Funkce</th>
+<th>Rozměr <span class="math inline">\(n\)</span></th>
+<th>Co o ní prozradíme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>f2</code></td>
+<td>2</td>
+<td>Hodně lokálních minim. Snadno uvíznete v něčem, co vypadá jako dno,
+a není.</td>
+</tr>
+<tr>
+<td><code>f20</code></td>
+<td>20</td>
+<td>Špatně podmíněné, natočené údolí. Některými směry funkce prudce
+roste, jinými skoro vůbec, a tyto směry nejsou rovnoběžné s osami.</td>
+</tr>
+<tr>
+<td><code>f2000</code></td>
+<td>2000</td>
+<td>Je velká. Naslepo v ní nenajdete nic; vyplatí se nejdřív zjistit, na
+čem záleží.</td>
+</tr>
+</tbody>
+</table>
+<p>Víc toho neprozradíme. Zbytek je na vás: krajinu <code>f2</code> si
+můžete vykreslit, u ostatních musíte o tvaru usuzovat z experimentů.</p>
+<h2 id="rozpočty">Rozpočty</h2>
+<!-- ROZPOCTY: při změně upravit i sablona-repozitare/blackbox/spust_lokalne.py
+     (slovník ROZPOCTY), harness/konfigurace.toml a rust/src/funkce.rs. -->
+<table>
+<thead>
+<tr>
+<th>Funkce</th>
+<th>Rozpočet (vyhodnocení na jeden běh)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>f2</code></td>
+<td><strong>300</strong></td>
+</tr>
+<tr>
+<td><code>f20</code></td>
+<td><strong>4 000</strong></td>
+</tr>
+<tr>
+<td><code>f2000</code></td>
+<td><strong>20 000</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Na jednom běhu <code>solve</code> máte vždy celý rozpočet dané
+funkce. Jak ho rozdělíte mezi průzkum a zpřesňování, je hlavní část vaší
+strategie.</p>
+<h2 id="rozhraní">Rozhraní</h2>
+<h3 id="modul-omm_blackbox">Modul <code>omm_blackbox</code></h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> omm_blackbox <span class="im">import</span> Problem, BudgetExhausted</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> Problem(<span class="st">&quot;f20&quot;</span>, seed<span class="op">=</span><span class="dv">1</span>, budget<span class="op">=</span><span class="dv">4000</span>)   <span class="co"># instance ze seedu + rozpočet</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>f.name, f.dim                             <span class="co"># &quot;f20&quot;, 20</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>f.lower, f.upper                          <span class="co"># meze: numpy pole délky dim (-5 a 5)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>f.budget, f.evaluations                   <span class="co"># rozpočet a kolik je už spotřebováno</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y  <span class="op">=</span> f(x)          <span class="co"># x: pole délky dim -&gt; float, stojí 1 vyhodnocení</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ys <span class="op">=</span> f.batch(X)    <span class="co"># X: matice (k, dim) -&gt; pole (k,), stojí k vyhodnocení</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>f.best_x, f.best_y <span class="co"># nejlepší dosud vyhodnocený bod a jeho hodnota</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                   <span class="co"># (před prvním vyhodnocením None a inf)</span></span></code></pre></div>
+<p>Co je dobré vědět:</p>
+<ul>
+<li><strong>Rozpočet hlídá modul.</strong> Po jeho vyčerpání každé další
+volání vyhodí <code>BudgetExhausted</code>. Když se dávka
+<code>f.batch(X)</code> do zbytku rozpočtu nevejde, vyhodnotí se řádky,
+které se vejdou (započtou se i do <code>f.best_x</code>), a pak přijde
+<code>BudgetExhausted</code>. Hodnoty z té dávky už nedostanete,
+nejlepší bod se ale neztratí.</li>
+<li><strong>Neplatný vstup</strong> (bod mimo meze, NaN nebo nekonečno,
+špatný tvar) vyhodí <code>ValueError</code> a nic se nezapočítá. U
+<code>batch</code> platí všechno, nebo nic: jeden špatný řádek zahodí
+celou dávku. Body před vyhodnocením ořízněte do mezí, třeba
+<code>np.clip(x, f.lower, f.upper)</code>. Hranice <span class="math inline">\(\pm 5\)</span> je přípustná.</li>
+<li><code>f.batch(X)</code> je výrazně rychlejší než stejný počet volání
+<code>f(x)</code> v Pythonovém cyklu. U <code>f2000</code> na tom
+záleží.</li>
+<li>Objekt <code>Problem</code> nejde zkopírovat ani do něj nahlédnout
+(seed, počítadlo ani optimum nejsou zvenku dostupné). Nesnažte se,
+nevyplatí se to.</li>
+</ul>
+<h3 id="co-odevzdáváte-funkce-solve">Co odevzdáváte: funkce
+<code>solve</code></h3>
+<p>V souboru <code>blackbox/solve.py</code> musí být funkce</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve(f, rng_seed: <span class="bu">int</span>) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.asarray(f.best_x)   <span class="co"># vraťte bod, který jste vyhodnotili</span></span></code></pre></div>
+<p>Vyhodnocení ji zavolá pro každou funkci, instanci a seed algoritmu
+zvlášť. Argument <code>f</code> je objekt s rozhraním
+<code>Problem</code> popsaným výše (podle <code>f.name</code> nebo
+<code>f.dim</code> poznáte, o kterou funkci jde) a <code>rng_seed</code>
+je celé číslo, ze kterého máte brát veškerou náhodnost. Šablona obsahuje
+ukázkové náhodné hledání:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve(f, rng_seed: <span class="bu">int</span>) <span class="op">-&gt;</span> np.ndarray:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    rng <span class="op">=</span> np.random.default_rng(rng_seed)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    lower <span class="op">=</span> np.asarray(f.lower, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    upper <span class="op">=</span> np.asarray(f.upper, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> f.evaluations <span class="op">&lt;</span> f.budget:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="bu">min</span>(<span class="dv">100</span>, f.budget <span class="op">-</span> f.evaluations)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        X <span class="op">=</span> rng.uniform(lower, upper, size<span class="op">=</span>(n, f.dim))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        f.batch(X)                 <span class="co"># nejlepší bod si pamatuje sám objekt f</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.asarray(f.best_x)</span></code></pre></div>
+<p>To je zároveň jedna z referenčních strategií (<em>baseline</em>),
+kterou byste měli porazit. Funkce <code>solve</code> musí zůstat v
+<code>blackbox/solve.py</code> se stejnou signaturou; pomocné moduly ze
+složky <code>blackbox/</code> importovat smí.</p>
+<h2 id="instalace-modulu">Instalace modulu</h2>
+<p>Modul je zkompilovaný (Rust) a distribuuje se jako Python wheel pro
+všechny verze Pythonu od 3.9, pro Linux (x86_64, aarch64), Windows
+(64bit) a macOS (Apple Silicon i Intel). Wheely jsou ve vydání <a href="https://github.com/tomasvicar/OMM-public/releases/tag/blackbox-v0.1.0">blackbox-v0.1.0</a>.</p>
+<p>V šabloně repozitáře je závislost připravená v
+<code>pyproject.toml</code> pro všechny systémy; stačí spustit
+<code>uv sync</code>.</p>
+<p>Bez <code>uv</code>, například v Colabu (Linux x86_64):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="st">&quot;https://github.com/tomasvicar/OMM-public/releases/download/blackbox-v0.1.0/omm_blackbox-0.1.0-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl&quot;</span></span></code></pre></div>
+<p>Ověření, že modul funguje:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">&quot;from omm_blackbox import Problem; f = Problem(&#39;f2&#39;, seed=1); print(f.dim, f([0, 0]))&quot;</span></span></code></pre></div>
+<h2 id="jak-se-hodnotí">Jak se hodnotí</h2>
+<p><strong>Pevný rozpočet, co nejblíž optimu.</strong> Po skončení běhu
+se vezme nejlepší <strong>skutečně vyhodnocený</strong> bod a spočítá se
+jeho mezera k optimu <span class="math display">\[f(\mathbf
+x_\text{best}) - f(\mathbf x^*) \ge 0 .\]</span> Optimum <span class="math inline">\(f(\mathbf x^*)\)</span> zná jen vyhodnocovač.
+Menší mezera je lepší.</p>
+<p><strong>Zaokrouhlení a shody.</strong> Mezera se porovnává na
+logaritmické škále a zaokrouhleně, takže o pořadí nerozhodují rozdíly v
+posledních číslicích; mezera pod <span class="math inline">\(10^{-8}\)</span> se bere jako nulová. <strong>Když
+jste stejně dobří jako jiný tým, vyhrává rychlejší</strong>, tedy ten,
+kdo té hodnoty dosáhl menším počtem vyhodnocení. U <code>f2</code>, kde
+globální minimum najde víc týmů, tak rozhoduje, kdo ho najde dřív.</p>
+<p><strong>Průběžná kontrola a finále.</strong> Vyhodnocení proběhne
+dvakrát. Vždy naklonujeme repozitáře všech týmů, spustíme jejich
+<code>solve</code> na tajných seedech a zveřejníme žebříček (celkové
+pořadí, pořadí po funkcích, křivky konvergence, pády). Na každou funkci
+připadne několik tajných instancí a na každou instanci několik hodnot
+<code>rng_seed</code>. Vyhodnocuje se obsah vašeho repozitáře na hlavní
+větvi v okamžiku uzávěrky.</p>
+<table>
+<thead>
+<tr>
+<th>Kolo</th>
+<th>Uzávěrka</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Průběžná kontrola</strong></td>
+<td><strong>út 24. 11. 2026, 20:00</strong></td>
+</tr>
+<tr>
+<td><strong>Finále</strong></td>
+<td>oznámíme předem</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Finále</strong> běží na <strong>nových</strong> tajných
+seedech, které v průběžné kontrole nebyly; ladit řešič na průběžný
+žebříček se tedy nevyplatí, ladit na obecnou strategii ano.</p>
+<p><strong>Body (nejvýš 6).</strong> Body jsou <strong>jen za
+pořadí</strong> mezi týmy: v každém běhu se týmy seřadí (neplatný běh
+znamená v tom běhu poslední místo), pořadí se zprůměruje přes běhy každé
+funkce a pak přes všechny tři funkce se stejnou vahou. Tím vznikne
+<strong>výsledné pořadí</strong> týmů.</p>
+<ul>
+<li><strong>Finále:</strong> body se rozdají <strong>podle výsledného
+pořadí, rovnoměrně</strong>: první tým dostane 6 bodů, poslední 0 a
+ostatní lineárně mezi tím (při <span class="math inline">\(n\)</span>
+týmech je krok <span class="math inline">\(6/(n-1)\)</span>, třeba pro
+15 týmů 6; 5,57; 5,14; …; 0). Mají-li týmy stejné výsledné pořadí,
+rozdělí si průměr bodů za místa, která společně obsadily.</li>
+<li><strong>Průběžná kontrola:</strong> stejný výpočet na průběžných
+seedech; první <strong>tři</strong> týmy výsledného pořadí dostanou
+<strong>2 body</strong>. Dělí-li se víc týmů o 3. místo, dostanou je
+všechny. Za black box ale dohromady nezískáte víc než 6 bodů (finále + 2
+se ořízne na 6). Vyplatí se tedy mít funkční řešič už v polovině, ne až
+před finále.</li>
+</ul>
+<p>Stejným vyhodnocením projdou i dvě referenční strategie,
+<strong>náhodné hledání</strong> a jednoduchá <strong>(1+1)-ES</strong>.
+V žebříčku slouží jen pro srovnání (jak daleko jste od jednoduchého
+řešení); body za jejich porážku nejsou.</p>
+<p>Průběžná kontrola vám navíc ukáže, kde jste, a odhalí chyby, které se
+lokálně neprojevily (pády, překročený čas).</p>
+<h2 id="pravidla">Pravidla</h2>
+<ol type="1">
+<li><strong>Náhodnost jen z <code>rng_seed</code>.</strong> Používejte
+<code>np.random.default_rng(rng_seed)</code> (nebo generátory od něj
+odvozené). Žádné <code>np.random.seed()</code> bez argumentu, čas ani
+jiný zdroj náhody: stejný <code>rng_seed</code> na stejné instanci musí
+dát stejný výsledek.</li>
+<li><strong>Vrácený bod musí být vyhodnocený.</strong> Hodnotí se
+nejlepší bod, který skutečně prošel funkcí, ne to, co vrátíte.
+Vrátíte-li bod, který jste nevyhodnotili, je běh neplatný. Nejjednodušší
+je vrátit <code>f.best_x</code>.</li>
+<li><strong>Časový limit.</strong> Jeden běh <code>solve</code> smí
+trvat nejvýš 30 s u <code>f2</code>, 60 s u <code>f20</code> a 120 s u
+<code>f2000</code> (čas včetně vyhodnocení funkce, jedno jádro
+procesoru). Mezi vyhodnoceními tedy počítejte cokoli, ale rozumně
+rychle.</li>
+<li><strong>Žádná síť a žádné soubory zvenku.</strong> Řešič běží v
+izolovaném prostředí bez přístupu k internetu a s repozitářem jen pro
+čtení. Nestahujte nic, nečtěte předpočítané výsledky, nic si mezi běhy
+neukládejte.</li>
+<li><strong>Co se stane při chybě.</strong> Pokud <code>solve</code>
+spadne (výjimka), překročí časový limit nebo vrátí nevyhodnocený bod či
+bod špatného tvaru, je <strong>daný běh neplatný</strong> a při
+průměrování pořadí se započte jako poslední místo. Body se přidělují až
+podle výsledného pořadí ze všech běhů. Ostatní běhy se hodnotí normálně.
+Výjimka <code>BudgetExhausted</code>, která ze <code>solve</code> vyletí
+po vyčerpání rozpočtu, chyba <strong>není</strong>: běh platí a hodnotí
+se nejlepší vyhodnocený bod. Čistší je ale rozpočet hlídat sami přes
+<code>f.evaluations</code>.</li>
+<li><strong>Hrajte fér.</strong> Pokusy obejít počítadlo, zjistit seed
+nebo optimum, případně zasahovat do vyhodnocení, znamenají 0 bodů za
+black-box část.</li>
+</ol>
+<div class="callout-important">
+<p><strong>Logiku optimalizace musíte vytvořit sami.</strong></p>
+<p>Hotové optimalizační algoritmy nejsou povolené – například
+<code>scipy.optimize</code>, <code>cma</code>, <code>optuna</code>,
+<code>nevergrad</code> nebo <code>pyswarms</code>. Celou strategii
+(průzkum, lokální zpřesnění, restarty, dělení rozpočtu) napíšete
+vlastním kódem. Používat smíte obecné knihovny jako <code>numpy</code>
+(lineární algebra, náhodná čísla, práce s poli) a standardní knihovnu
+Pythonu.</p>
+<p>Vyhodnocovací prostředí obsahuje <code>numpy</code>. Pokud
+potřebujete jinou obecnou knihovnu, napište nám předem; přidáme ji,
+pokud neobsahuje hotový optimalizátor.</p>
+</div>
+<h2 id="jak-začít">Jak začít</h2>
+<ol type="1">
+<li><p><strong>Spusťte ukázku.</strong> Z kořene repozitáře:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python blackbox/spust_lokalne.py</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python blackbox/spust_lokalne.py <span class="at">--funkce</span> f20 <span class="at">--opakovani</span> 5</span></code></pre></div>
+<p>Skript pustí váš <code>solve</code> na veřejných vývojových seedech
+1–5, vypíše nejlepší hodnoty a mezeru k optimu (minima těchto pěti
+instancí jsou ve skriptu uvedená) a uloží graf konvergence do
+<code>blackbox/vystupy/konvergence.svg</code>. Kontroly rozpočtu,
+vráceného bodu reprodukovatelnosti a importů (jen knihovny vyhodnocovacího prostředí) spustíte přes
+<code>uv run pytest blackbox</code>.</p></li>
+<li><p><strong>Podívejte se na <code>f2</code>.</strong> Ve 2D si
+krajinu můžete vykreslit: vyhodnoťte jemnou mřížku na
+<code>Problem(&quot;f2&quot;, seed=1, budget=10_000)</code>, tedy s velkým
+rozpočtem, a nakreslete vrstevnice. Uvidíte, proč náhodné hledání a
+lokální sestup selhávají. Ve finále takový luxus nemáte, máte jen 300
+vyhodnocení.</p></li>
+<li><p><strong>Porovnávejte strategie, ne dojmy.</strong> Vezměte dvě
+varianty (například náhodné hledání proti (1+1)-ES s adaptací kroku,
+nebo různé dělení rozpočtu mezi průzkum a zpřesnění), pusťte je na
+několika vývojových seedech a několika <code>rng_seed</code> a
+porovnejte medián i nejhorší běh. Jeden šťastný běh nic
+neznamená.</p></li>
+<li><p><strong>Každá funkce chce něco jiného.</strong> Klidně v
+<code>solve</code> větvěte podle <code>f.name</code> a pro každou funkci
+použijte jinou strategii.</p></li>
+<li><p><strong>Zapište, co jste zjistili.</strong> Do
+<code>blackbox/README.md</code> patří stručný popis strategie pro každou
+funkci a aspoň jedno srovnání z vlastních experimentů, včetně toho, kde
+vaše strategie selhává. Na obhajobě se na to budeme ptát.</p></li>
+</ol>
+<p>Hodně štěstí – a ať vás lokální minima v <code>f2</code>
+nenachytají.</p>
+</body>
+</html>
